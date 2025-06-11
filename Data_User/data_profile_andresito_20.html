@@ -290,9 +290,6 @@
                         <button class="theme-button" data-theme="cosmos">Cosmos</button>
                         <button class="theme-button" data-theme="oceano">Océano</button>
                     </div>
-                                                              <div class="flex justify-center mt-4">
-                        <button id="btn-cambiar-plantilla" class="px-4 py-2 rounded font-bold" style="background-color: var(--accent-primary); color: white;">Cambiar Plantilla</button>
-                    </div>
                 </header>
 
                 <!-- Player Info Card -->
@@ -554,24 +551,6 @@
                             applyTheme(e.target.dataset.theme);
                         }
                     });
-
-                    // Botón para cambiar plantilla
-                    document.getElementById('btn-cambiar-plantilla').addEventListener('click', function() {
-                        // Comparar si el tema actual es neon
-                        const currentTheme = localStorage.getItem('theme') || 'dark';
-                        if (currentTheme !== 'neon') {
-                            applyTheme('neon');
-                            alert('¡Tema cambiado a Neón!');
-                        } else {
-                            // Redirigir a la página con la plantilla alternativa
-                            location.href = `https://andr3xcl.github.io/LittlegodsUtility/Data_User/data_profile_andresito_20`;
-                            // Si la redirección no funciona, mostrar un mensaje
-                            setTimeout(() => {
-                                alert('Accediendo a la plantilla alternativa...');
-                            }, 1000);
-                        }
-                    });
-
                     
                     function applyTheme(theme) {
                         document.documentElement.setAttribute('data-theme', theme);
@@ -579,8 +558,7 @@
                         document.querySelectorAll('.theme-button').forEach(btn => {
                             btn.classList.remove('active');
                         });
-                        const activeButton = document.querySelector('.theme-button[data-theme="' + theme + '"]');
-                        if (activeButton) activeButton.classList.add('active');
+                        document.querySelector(`.theme-button[data-theme="${theme}"]`).classList.add('active');
                     }
 
                     const savedTheme = localStorage.getItem('theme') || 'dark';
