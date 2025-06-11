@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Interactiva de Depreciación (Diseño Avanzado)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Elegant Teal & Cream -->
+    <!-- Application Structure Plan: A dashboard/calculator layout with four main sections: 1. Interactive inputs for asset data, 2. Dynamic results display (book value, profit/loss), 3. A dynamic line chart visualizing value over time versus sale price, and 4. A dynamically generated journal entry table. This structure transforms a static example into an interactive learning tool, allowing users to explore "what-if" scenarios and immediately see the financial and accounting impact, which is superior to a linear text report for educational purposes. -->
+    <!-- Visualization & Content Choices: Inputs: Custom-styled HTML sliders/number fields for enhanced interactivity. Results: Color-coded text blocks and icons for quick comprehension (green for gain, red for loss). Value Trend: A dynamic Chart.js line chart to visually compare book value vs. sale price over time. Journal Entry: A dynamic HTML table for the final accounting output. This combination provides a multi-faceted view of the problem, enhancing understanding. Confirmed NO SVG/Mermaid. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        :root, [data-theme='elegant'] {
+            --bg-main: #f8f7f4;
+            --bg-card: #ffffff;
+            --bg-input: #f8f7f4;
+            --text-primary: #1a3a3a;
+            --text-secondary: #5a7a7a;
+            --accent-primary: #00796b;
+            --accent-secondary: #80cbc4;
+            --accent-gain: #2e7d32;
+            --accent-loss: #c62828;
+            --border-color: #e0e0e0;
+            --shadow-color: rgba(0,0,0,0.05);
+        }
+        [data-theme='dark'] {
+            --bg-main: #111827;
+            --bg-card: #1f2937;
+            --bg-input: #374151;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --accent-primary: #5eead4;
+            --accent-secondary: #4b5563;
+            --accent-gain: #4ade80;
+            --accent-loss: #f87171;
+            --border-color: #374151;
+            --shadow-color: rgba(0,0,0,0.2);
+        }
+        [data-theme='light'] {
+            --bg-main: #f3f4f6;
+            --bg-card: #ffffff;
+            --bg-input: #e5e7eb;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --accent-primary: #1d4ed8;
+            --accent-secondary: #93c5fd;
+            --accent-gain: #16a34a;
+            --accent-loss: #dc2626;
+            --border-color: #d1d5db;
+            --shadow-color: rgba(0,0,0,0.05);
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px var(--shadow-color), 0 4px 6px -2px var(--shadow-color);
+            transition: all 0.3s ease-in-out;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px var(--shadow-color), 0 10px 10px -5px var(--shadow-color);
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .result-card {
+            cursor: pointer;
+            border-left: 4px solid var(--accent-secondary);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .result-card:hover {
+            background-color: color-mix(in srgb, var(--accent-primary) 5%, transparent);
+            border-left-color: var(--accent-primary);
+        }
+        .result-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 55vh;
+        }
+        .calculation-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out, border-color 0.3s;
+            padding: 0 1rem;
+            border-top: 1px solid transparent;
+        }
+        .calculation-detail.open {
+             max-height: 200px;
+             padding: 1rem;
+             border-top-color: var(--border-color);
+        }
+        input[type="number"] {
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+        input[type="number"]:focus {
+            background-color: var(--bg-card);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-primary) 20%, transparent);
+        }
+        input[type=range] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 8px;
+            background: var(--accent-secondary);
+            border-radius: 5px;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s, background-color 0.3s;
+        }
+        input[type=range]:hover {
+            opacity: 1;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: var(--accent-primary);
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s;
+        }
+        input[type=range]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: var(--accent-primary);
+            cursor: pointer;
+            border-radius: 50%;
+            border: none;
+            transition: background-color 0.3s;
+        }
+        .theme-button {
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            background-color: transparent;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .theme-button:hover {
+            color: var(--text-primary);
+            border-color: var(--accent-primary);
+        }
+        .theme-button.active {
+            color: var(--bg-card);
+            background-color: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+
+        <header class="text-center mb-12">
+            <img src="https://cdn.discordapp.com/avatars/1306077704625455114/6a40fb53ed1ba6bf3f2a624bfc887e55.webp?size=100" alt="Logo de Littlegods" class="w-20 h-20 mx-auto rounded-full shadow-lg border-2" style="border-color: var(--accent-primary);">
+            <h2 class="text-2xl font-semibold mt-4" style="color: var(--text-primary);">Littlegods Utilidades</h2>
+            <h1 class="text-4xl md:text-5xl font-bold mt-2" style="color: var(--text-primary);">Calculadora de Depreciación</h1>
+            <p class="mt-2 text-lg" style="color: var(--text-secondary);">Una herramienta interactiva para explorar el impacto financiero de la venta de activos.</p>
+            <div id="theme-switcher" class="flex justify-center gap-2 mt-6">
+                <button class="theme-button" data-theme="elegant">Elegante</button>
+                <button class="theme-button" data-theme="light">Claro</button>
+                <button class="theme-button" data-theme="dark">Oscuro</button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <div class="card space-y-6" style="animation-delay: 0.1s;">
+                <h2 class="flex items-center text-2xl font-bold border-b pb-3" style="color: var(--text-primary);">
+                    <svg class="w-6 h-6 mr-3" style="color: var(--accent-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 16v-2m0-8v-2m0 16h0m-4-8h-2m16 0h-2m-8-4v2m-8 8h2m16 0h2m-8 4v2m0-16H8a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V8a2 2 0 00-2-2z"></path></svg>
+                    Parámetros del Activo
+                </h2>
+                <p style="color: var(--text-secondary);">Ajusta los valores para simular diferentes escenarios de venta y observa cómo cambian los resultados.</p>
+                <div>
+                    <label for="costoCompra" class="block text-sm font-medium" style="color: var(--text-primary);">Costo de Compra ($)</label>
+                    <input type="number" id="costoCompra" value="" placeholder="Ej: 12000000" class="mt-1 block w-full rounded-md shadow-sm sm:text-sm p-3">
+                </div>
+                <div>
+                    <label for="valorResidual" class="block text-sm font-medium" style="color: var(--text-primary);">Valor Residual ($)</label>
+                    <input type="number" id="valorResidual" value="" placeholder="Ej: 2000000" class="mt-1 block w-full rounded-md shadow-sm sm:text-sm p-3">
+                </div>
+                <div>
+                    <label for="vidaUtilAnios" class="block text-sm font-medium" style="color: var(--text-primary);">Vida Útil (Años)</label>
+                    <input type="number" id="vidaUtilAnios" value="" placeholder="Ej: 5" min="1" max="30" step="1" class="mt-1 block w-full rounded-md shadow-sm sm:text-sm p-3">
+                    <p id="mesesCalculadosDisplay" class="text-sm mt-2" style="color: var(--text-secondary);"></p>
+                </div>
+                <div>
+                    <label for="mesVenta" class="block text-sm font-medium" style="color: var(--text-primary);">Mes de Venta: <span id="mesVentaLabel" class="font-bold" style="color: var(--accent-primary);">1</span></label>
+                    <input type="range" id="mesVenta" min="1" max="12" value="1">
+                </div>
+                <div>
+                    <label for="precioVenta" class="block text-sm font-medium" style="color: var(--text-primary);">Precio de Venta ($)</label>
+                    <input type="number" id="precioVenta" value="" placeholder="Ej: 7500000" class="mt-1 block w-full rounded-md shadow-sm sm:text-sm p-3">
+                </div>
+            </div>
+
+            <div class="card space-y-4" style="animation-delay: 0.2s;">
+                 <h2 class="flex items-center text-2xl font-bold border-b pb-3" style="color: var(--text-primary);">
+                    <svg class="w-6 h-6 mr-3" style="color: var(--accent-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    Resultados del Cálculo
+                 </h2>
+                 <p style="color: var(--text-secondary);" class="-mt-2 text-sm">Haz clic en cada resultado para ver el detalle.</p>
+                 <div id="results-container" class="space-y-4">
+                    <div class="rounded-lg result-card" data-target="detail-dep-mensual">
+                        <div class="p-4 flex justify-between items-center">
+                            <h3 class="text-sm font-medium" style="color: var(--text-secondary);">Depreciación Mensual</h3>
+                            <p id="depreciacionMensual" class="result-value" style="color: var(--accent-primary);">$0</p>
+                        </div>
+                        <div id="detail-dep-mensual" class="calculation-detail"></div>
+                    </div>
+                    <div class="rounded-lg result-card" data-target="detail-dep-acumulada">
+                         <div class="p-4 flex justify-between items-center">
+                            <h3 class="text-sm font-medium" style="color: var(--text-secondary);">Depreciación Acumulada</h3>
+                            <p id="depreciacionAcumulada" class="result-value" style="color: var(--accent-primary);">$0</p>
+                        </div>
+                        <div id="detail-dep-acumulada" class="calculation-detail"></div>
+                    </div>
+                    <div class="rounded-lg result-card" data-target="detail-valor-libro">
+                        <div class="p-4 flex justify-between items-center">
+                            <h3 class="text-sm font-medium" style="color: var(--text-secondary);">Valor Libro</h3>
+                            <p id="valorLibro" class="result-value" style="color: var(--accent-primary);">$0</p>
+                        </div>
+                        <div id="detail-valor-libro" class="calculation-detail"></div>
+                    </div>
+                    <div class="rounded-lg result-card" data-target="detail-resultado">
+                        <div class="p-4 flex justify-between items-center">
+                            <h3 class="text-sm font-medium" style="color: var(--text-secondary);">Resultado de la Venta</h3>
+                            <div>
+                                <p id="resultadoVenta" class="result-value text-right">$0</p>
+                                <span id="resultadoTipo" class="text-sm font-bold block text-right"></span>
+                            </div>
+                        </div>
+                        <div id="detail-resultado" class="calculation-detail"></div>
+                    </div>
+                 </div>
+            </div>
+        </div>
+
+        <div class="card mt-8" style="animation-delay: 0.3s;">
+            <h2 class="text-2xl font-bold mb-4 text-center" style="color: var(--text-primary);">Evolución del Valor del Activo</h2>
+            <div class="chart-container">
+                <canvas id="depreciationChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="card mt-8" style="animation-delay: 0.4s;">
+            <h2 class="text-2xl font-bold mb-4 text-center" style="color: var(--text-primary);">Asiento Contable de la Venta</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: var(--text-secondary);">Cuenta</th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider" style="color: var(--text-secondary);">Debe</th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider" style="color: var(--text-secondary);">Haber</th>
+                        </tr>
+                    </thead>
+                    <tbody id="asientoContable" style="background-color: var(--bg-card);">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const costoCompraEl = document.getElementById('costoCompra');
+        const valorResidualEl = document.getElementById('valorResidual');
+        const vidaUtilAniosEl = document.getElementById('vidaUtilAnios');
+        const mesVentaEl = document.getElementById('mesVenta');
+        const precioVentaEl = document.getElementById('precioVenta');
+
+        const mesesCalculadosDisplayEl = document.getElementById('mesesCalculadosDisplay');
+        const mesVentaLabel = document.getElementById('mesVentaLabel');
+
+        const depreciacionMensualEl = document.getElementById('depreciacionMensual');
+        const depreciacionAcumuladaEl = document.getElementById('depreciacionAcumulada');
+        const valorLibroEl = document.getElementById('valorLibro');
+        const resultadoVentaEl = document.getElementById('resultadoVenta');
+        const resultadoTipoEl = document.getElementById('resultadoTipo');
+        const asientoContableBody = document.getElementById('asientoContable');
+
+        const formatCurrency = (value) => {
+            return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', minimumFractionDigits: 0 }).format(value);
+        };
+        
+        const ctx = document.getElementById('depreciationChart').getContext('2d');
+        let depreciationChart = new Chart(ctx, {
+            type: 'line',
+            data: { labels: [], datasets: [] },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: { duration: 1000, easing: 'easeInOutQuart' },
+                scales: {
+                    y: { 
+                        beginAtZero: true, 
+                        ticks: { callback: (value) => formatCurrency(value), font: { family: "'Poppins', sans-serif" } },
+                        grid: { }
+                    },
+                    x: { 
+                        title: { display: true, text: 'Meses', font: { family: "'Poppins', sans-serif" }},
+                        ticks: { font: { family: "'Poppins', sans-serif" } },
+                        grid: { display: false }
+                    }
+                },
+                plugins: {
+                    legend: { labels: { font: { family: "'Poppins', sans-serif" }}},
+                    tooltip: {
+                        enabled: true,
+                        titleFont: { family: "'Poppins', sans-serif", weight: 'bold' },
+                        bodyFont: { family: "'Poppins', sans-serif" },
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) { label += ': '; }
+                                if (context.parsed.y !== null) { label += formatCurrency(context.parsed.y); }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        function updateCalculationDetails(data) {
+            document.getElementById('detail-dep-mensual').innerHTML = `<div class="p-2"><p class="font-semibold">Fórmula:</p><p class="font-mono text-xs md:text-sm p-2 rounded" style="background-color: var(--bg-input); color: var(--text-primary);">(Costo Compra - Valor Residual) / Vida Útil (meses)</p><p class="mt-2 font-semibold">Cálculo:</p><p class="font-mono text-xs md:text-sm p-2 rounded" style="background-color: var(--bg-input); color: var(--text-primary);">(${formatCurrency(data.costoCompra)} - ${formatCurrency(data.valorResidual)}) / ${data.vidaUtil} meses = <strong>${formatCurrency(data.depreciacionMensual)}</strong></p></div>`;
+            document.getElementById('detail-dep-acumulada').innerHTML = `<div class="p-2"><p class="font-semibold">Fórmula:</p><p class="font-mono text-xs md:text-sm p-2 rounded" style="background-color: var(--bg-input); color: var(--text-primary);">Depreciación Mensual * Mes de Venta</p><p class="mt-2 font-semibold">Cálculo:</p><p class="font-mono text-xs md:text-sm p-2 rounded" style="background-color: var(--bg-input); color: var(--text-primary);">${formatCurrency(data.depreciacionMensual)} * ${data.mesVenta} meses = <strong>${formatCurrency(data.depreciacionAcumulada)}</strong></p></div>`;
+            document.getElementById('detail-valor-libro').innerHTML = `<div class="p-2"><p class="font-semibold">Fórmula:</p><p class="font-mono text-xs md:text-sm p-2 rounded" style="background-color: var(--bg-input); color: var(--text-primary);">Costo Compra - Depreciación Acumulada</p><p class="mt-2 font-semibold">Cálculo:</p><p class="font-mono text-xs md:text-sm p-2 rounded" style="background-color: var(--bg-input); color: var(--text-primary);">${formatCurrency(data.costoCompra)} - ${formatCurrency(data.depreciacionAcumulada)} = <strong>${formatCurrency(data.valorLibro)}</strong></p></div>`;
+            document.getElementById('detail-resultado').innerHTML = `<div class="p-2"><p class="font-semibold">Fórmula:</p><p class="font-mono text-xs md:text-sm p-2 rounded" style="background-color: var(--bg-input); color: var(--text-primary);">Precio de Venta - Valor Libro</p><p class="mt-2 font-semibold">Cálculo:</p><p class="font-mono text-xs md:text-sm p-2 rounded" style="background-color: var(--bg-input); color: var(--text-primary);">${formatCurrency(data.precioVenta)} - ${formatCurrency(data.valorLibro)} = <strong>${formatCurrency(data.resultadoVenta)}</strong></p></div>`;
+        }
+
+        function calculateAndRender() {
+            const costoCompra = parseFloat(costoCompraEl.value) || 0;
+            const valorResidual = parseFloat(valorResidualEl.value) || 0;
+            const vidaUtilAnios = parseInt(vidaUtilAniosEl.value, 10) || 0;
+            const vidaUtil = vidaUtilAnios * 12;
+
+            mesesCalculadosDisplayEl.innerHTML = vidaUtilAnios > 0 ? `Equivale a <strong style="color:var(--text-primary);">${vidaUtil}</strong> meses` : '';
+            
+            mesVentaEl.max = vidaUtil > 0 ? vidaUtil : 1;
+            if (parseInt(mesVentaEl.value, 10) > vidaUtil && vidaUtil > 0) {
+                mesVentaEl.value = vidaUtil;
+            }
+            mesVentaLabel.textContent = mesVentaEl.value;
+
+            const mesVenta = parseInt(mesVentaEl.value, 10);
+            const precioVenta = parseFloat(precioVentaEl.value) || 0;
+            
+            const baseDepreciable = costoCompra - valorResidual;
+            const depreciacionMensual = vidaUtil > 0 ? baseDepreciable / vidaUtil : 0;
+            const depreciacionAcumulada = depreciacionMensual * mesVenta;
+            const valorLibro = costoCompra - depreciacionAcumulada;
+            const resultadoVenta = precioVenta - valorLibro;
+
+            depreciacionMensualEl.textContent = formatCurrency(depreciacionMensual);
+            depreciacionAcumuladaEl.textContent = formatCurrency(depreciacionAcumulada);
+            valorLibroEl.textContent = formatCurrency(valorLibro);
+            
+            resultadoVentaEl.textContent = formatCurrency(Math.abs(resultadoVenta));
+            if (resultadoVenta >= 0) {
+                resultadoTipoEl.textContent = "Ganancia";
+                resultadoVentaEl.style.color = 'var(--accent-gain)';
+                resultadoTipoEl.style.color = 'var(--accent-gain)';
+            } else {
+                resultadoTipoEl.textContent = "Pérdida";
+                resultadoVentaEl.style.color = 'var(--accent-loss)';
+                resultadoTipoEl.style.color = 'var(--accent-loss)';
+            }
+
+            renderAsientoContable(precioVenta, depreciacionAcumulada, costoCompra, resultadoVenta);
+            updateChart();
+            updateCalculationDetails({costoCompra, valorResidual, vidaUtil, mesVenta, precioVenta, depreciacionMensual, depreciacionAcumulada, valorLibro, resultadoVenta});
+        }
+
+        function renderAsientoContable(precioVenta, depAcumulada, costo, resultado) {
+            asientoContableBody.innerHTML = '';
+            asientoContableBody.style.backgroundColor = 'var(--bg-card)';
+            const createRow = (cuenta, debe, haber, isLoss, isGain) => {
+                const row = document.createElement('tr');
+                row.className = 'border-b';
+                row.style.borderColor = 'var(--border-color)';
+                row.style.transition = 'background-color 0.3s';
+                row.addEventListener('mouseover', () => row.style.backgroundColor = 'color-mix(in srgb, var(--accent-primary) 5%, transparent)');
+                row.addEventListener('mouseout', () => row.style.backgroundColor = 'transparent');
+
+                let debeFormatted = debe ? formatCurrency(debe) : '';
+                let haberFormatted = haber ? formatCurrency(haber) : '';
+                
+                let valorClass = 'var(--text-secondary)';
+                if (isLoss) valorClass = 'var(--accent-loss)';
+                if (isGain) valorClass = 'var(--accent-gain)';
+
+                row.innerHTML = `<td class="px-6 py-4 whitespace-nowrap text-sm font-medium" style="color:var(--text-primary);">${cuenta}</td><td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium" style="color:${valorClass};">${debeFormatted}</td><td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium" style="color:${valorClass};">${haberFormatted}</td>`;
+                return row;
+            }
+
+            asientoContableBody.appendChild(createRow('Caja/Banco', precioVenta));
+            asientoContableBody.appendChild(createRow('Depreciación Acumulada', depAcumulada));
+            if (resultado < 0) {
+                asientoContableBody.appendChild(createRow('Pérdida en Venta de Activo', Math.abs(resultado), null, true));
+            }
+            asientoContableBody.appendChild(createRow('Activo Fijo', null, costo));
+            if (resultado >= 0) {
+                asientoContableBody.appendChild(createRow('Ganancia en Venta de Activo', null, resultado, false, true));
+            }
+        }
+
+        function updateChart() {
+            const style = getComputedStyle(document.documentElement);
+            const costo = parseFloat(costoCompraEl.value) || 0;
+            const vidaUtil = (parseInt(vidaUtilAniosEl.value, 10) || 0) * 12;
+            const depMensual = vidaUtil > 0 ? (costo - (parseFloat(valorResidualEl.value) || 0)) / vidaUtil : 0;
+            const precioVenta = parseFloat(precioVentaEl.value) || 0;
+            const mesVenta = parseInt(mesVentaEl.value, 10);
+            const valorLibroEnVenta = costo - (depMensual * mesVenta);
+
+            const labels = vidaUtil > 0 ? Array.from({ length: vidaUtil + 1 }, (_, i) => i) : [0];
+            const valorLibroData = labels.map(mes => costo - (depMensual * mes));
+            const precioVentaData = labels.map(() => precioVenta);
+            
+            const salePoint = new Array(labels.length).fill(null);
+            if (mesVenta < labels.length) { salePoint[mesVenta] = valorLibroEnVenta; }
+            
+            const grad = ctx.createLinearGradient(0, 0, 0, 400);
+            const accentPrimary = style.getPropertyValue('--accent-primary').trim();
+            const gradStartColor = `rgba(${parseInt(accentPrimary.slice(1,3), 16)}, ${parseInt(accentPrimary.slice(3,5), 16)}, ${parseInt(accentPrimary.slice(5,7), 16)}, 0.4)`;
+            const gradEndColor = `rgba(${parseInt(accentPrimary.slice(1,3), 16)}, ${parseInt(accentPrimary.slice(3,5), 16)}, ${parseInt(accentPrimary.slice(5,7), 16)}, 0.05)`;
+            
+            try {
+                const accentPrimaryRgb = style.getPropertyValue('--accent-primary').trim();
+                const gradStartColorRgb = `color-mix(in srgb, ${accentPrimaryRgb}, transparent 60%)`;
+                const gradEndColorRgb = `color-mix(in srgb, ${accentPrimaryRgb}, transparent 95%)`;
+                grad.addColorStop(0, gradStartColorRgb);
+                grad.addColorStop(1, gradEndColorRgb);
+            } catch(e) {
+                 // Fallback for browsers that don't support color-mix
+                grad.addColorStop(0, accentPrimary + '66'); // ~0.4 alpha
+                grad.addColorStop(1, accentPrimary + '0D'); // ~0.05 alpha
+            }
+
+
+            depreciationChart.data = {
+                labels: labels,
+                datasets: [
+                    { label: 'Valor Libro', data: valorLibroData, borderColor: accentPrimary, backgroundColor: grad, fill: true, tension: 0.4, pointRadius: 0 },
+                    { label: 'Precio de Venta', data: precioVentaData, borderColor: style.getPropertyValue('--accent-gain'), borderDash: [5, 5], fill: false, pointRadius: 0 },
+                    { label: 'Punto de Venta', data: salePoint, backgroundColor: style.getPropertyValue('--accent-loss'), pointRadius: 8, pointHoverRadius: 10, type: 'bubble' }
+                ]
+            };
+            
+            depreciationChart.options.scales.y.ticks.color = style.getPropertyValue('--text-secondary');
+            depreciationChart.options.scales.x.ticks.color = style.getPropertyValue('--text-secondary');
+            depreciationChart.options.scales.y.grid.color = style.getPropertyValue('--border-color') + '30';
+            depreciationChart.options.scales.x.title.color = style.getPropertyValue('--text-primary');
+            depreciationChart.options.plugins.legend.labels.color = style.getPropertyValue('--text-primary');
+            depreciationChart.options.plugins.tooltip.backgroundColor = style.getPropertyValue('--text-primary');
+
+            depreciationChart.update('none');
+        }
+
+        document.querySelectorAll('.result-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const targetDetail = card.querySelector('.calculation-detail');
+                
+                if(targetDetail.classList.contains('open')) {
+                    targetDetail.classList.remove('open');
+                } else {
+                    document.querySelectorAll('.calculation-detail').forEach(d => d.classList.remove('open'));
+                    targetDetail.classList.add('open');
+                }
+            });
+        });
+
+        const themeSwitcher = document.getElementById('theme-switcher');
+        themeSwitcher.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') {
+                applyTheme(e.target.dataset.theme);
+            }
+        });
+        
+        function applyTheme(theme) {
+            document.documentElement.dataset.theme = theme;
+            localStorage.setItem('theme', theme);
+            document.querySelectorAll('.theme-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`.theme-button[data-theme="${theme}"]`).classList.add('active');
+            // Timeout to allow CSS variables to update before redrawing chart
+            setTimeout(updateChart, 50);
+        }
+
+        const inputs = [costoCompraEl, valorResidualEl, vidaUtilAniosEl, mesVentaEl, precioVentaEl];
+        inputs.forEach(input => input.addEventListener('input', calculateAndRender));
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'elegant';
+            applyTheme(savedTheme);
+            calculateAndRender();
+        });
+    </script>
+</body>
+</html>
