@@ -10,198 +10,221 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
     <style>
-        /* Variables de Temas */
-        :root, .theme-love {
-            --bg-color: #fdf8f5; --text-color: #4a233a; --text-muted-color: #5e4d59;
-            --primary-color: #e73c7e; --card-bg: white; --card-shadow: rgba(0, 0, 0, 0.1);
-            --footer-bg: #4a233a; --footer-text: white;
-        }
-        .theme-light {
-            --bg-color: #ffffff; --text-color: #2c3e50; --text-muted-color: #7f8c8d;
-            --primary-color: #3498db; --card-bg: #f8f9fa; --card-shadow: rgba(0, 0, 0, 0.08);
-            --footer-bg: #2c3e50; --footer-text: white;
-        }
-        .theme-dark {
-            --bg-color: #121212; --text-color: #e0e0e0; --text-muted-color: #a0a0a0;
-            --primary-color: #bb86fc; --card-bg: #1e1e1e; --card-shadow: rgba(255, 255, 255, 0.05);
-            --footer-bg: #1e1e1e; --footer-text: #e0e0e0;
-        }
-        .theme-modern {
-            --bg-color: #eef0f2; --text-color: #333333; --text-muted-color: #666666;
-            --primary-color: #4a90e2; --card-bg: #ffffff; --card-shadow: rgba(0, 0, 0, 0.07);
-            --footer-bg: #333333; --footer-text: #eef0f2;
-        }
-        
         /* Estilos Base */
-        body {
-            font-family: 'Montserrat', sans-serif; 
-            background-color: var(--bg-color);
-            color: var(--text-color); 
-            transition: background-color 0.5s, color 0.5s; 
-            overflow-x: hidden;
+        html, body {
             margin: 0;
             padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Montserrat', sans-serif; 
         }
-        .font-dancing { font-family: 'Dancing Script', cursive; }
-        .font-playfair { font-family: 'Playfair Display', serif; }
         
-        /* Banner Principal */
-        .banner-container { 
-            height: 100vh; 
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); 
-            background-size: 400% 400%; 
-            animation: gradientBG 15s ease infinite; 
-            position: relative; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            text-align: center; 
-            color: white; 
-            padding: 1rem;
+        /* Contenedor Principal */
+        .story-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background-color: #fdf8f5;
+        }
+
+        /* Estilo de cada "Página" de la historia */
+        .page {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            box-sizing: border-box;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s;
+        }
+        .page.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Página 1: Banner */
+        #page-1 {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: white;
         }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
-        .content-box { 
-            background: rgba(255, 255, 255, 0.15); 
-            backdrop-filter: blur(10px); 
-            border-radius: 20px; 
-            border: 1px solid rgba(255, 255, 255, 0.2); 
-            animation: fadeInScale 1.5s ease-out; 
-            padding: 2rem;
+        .start-button {
+            margin-top: 2rem;
+            padding: 0.8rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #e73c7e;
+            background-color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
-        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
-        .heart { position: absolute; color: rgba(255, 255, 255, 0.5); animation: floatUp 10s infinite linear; bottom: -50px; }
-        @keyframes floatUp { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-120vh); opacity: 0; } }
+        .start-button:hover {
+            transform: scale(1.05);
+        }
 
-        /* Estilos Generales de Secciones */
-        section { padding: 5rem 1rem; text-align: center; }
-        .scroll-reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s ease-out, transform 1s ease-out; will-change: opacity, transform; }
-        .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
-        h2 { color: var(--text-color); font-family: 'Playfair Display', serif; font-size: 2.25rem; line-height: 2.5rem; margin-bottom: 1rem; }
-        .text-muted { color: var(--text-muted-color); font-size: 1.125rem; line-height: 1.75rem; margin-bottom: 2rem; }
-        .card { background-color: var(--card-bg); box-shadow: 0 5px 15px var(--card-shadow); transition: background-color 0.5s, box-shadow 0.5s; border-radius: 1rem; padding: 1.5rem; }
-        .card:hover { transform: translateY(-0.5rem); transition: transform 0.3s; }
-        .primary-text { color: var(--primary-color); }
-
-        /* Contador */
-        #dayCounter { font-family: 'Playfair Display', serif; font-size: 4.5rem; font-weight: 700; margin: 1rem 0; color: var(--primary-color); }
-        .uppercase-text { text-transform: uppercase; letter-spacing: 0.1em; font-size: 1.125rem; line-height: 1.75rem; }
+        /* Estilos de Títulos y Textos */
+        h1 { font-family: 'Dancing Script', cursive; font-size: 3rem; margin: 0; text-shadow: 2px 2px 8px rgba(0,0,0,0.3); }
+        h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 1rem; color: #4a233a; }
+        p { color: #5e4d59; font-size: 1.1rem; line-height: 1.6; max-width: 600px; }
+        
+        /* Contador de Días */
+        .counter-box { background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        #dayCounter { font-family: 'Playfair Display', serif; font-size: 5rem; font-weight: 700; color: #e73c7e; margin: 1rem 0; }
         
         /* Recordatorios */
-        .reminders-grid { display: grid; max-width: 64rem; margin: auto; gap: 2rem; }
-        .reminder-card-icon { font-size: 3rem; margin-bottom: 1rem; }
-        .reminder-card-title { font-weight: 700; font-size: 1.25rem; line-height: 1.75rem; margin-bottom: 0.5rem; }
+        .reminders-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; width: 100%; max-width: 900px; margin-top: 2rem; }
+        .reminder-card { background: white; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 5px 20px rgba(0,0,0,0.08); transition: transform 0.3s; }
+        .reminder-card:hover { transform: translateY(-10px); }
+        .reminder-card div { font-size: 2.5rem; }
+        .reminder-card h3 { font-size: 1.2rem; margin: 0.5rem 0; color: #4a233a; }
 
-        /* Álbum de fotos */
-        .photo-album-container { position: relative; width: 300px; height: 350px; margin: 2rem auto; perspective: 1000px; }
-        .polaroid-card { position: absolute; width: 100%; height: 100%; background-color: white; border-radius: 8px; padding: 16px; padding-bottom: 70px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); cursor: pointer; transition: transform 0.6s ease, opacity 0.6s ease; display: flex; flex-direction: column; align-items: center; }
-        .polaroid-card img { width: 100%; height: 100%; object-fit: cover; border: 1px solid #eee; }
-        .polaroid-card .caption { position: absolute; bottom: 15px; font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: #555; }
-        .polaroid-card.fly-out { transform: translate(200%, -50%) rotate(30deg) !important; opacity: 0; }
-
-        /* Osito IA */
-        #ai-bear-container { position: fixed; top: 50%; left: 50%; z-index: 1000; display: flex; align-items: center; justify-content: center; flex-direction: column; pointer-events: none; }
-        #ai-bear-icon { width: 80px; height: auto; cursor: pointer; transition: transform 0.3s ease; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2)); pointer-events: auto; }
-        #ai-bear-icon:hover { transform: scale(1.1); }
-        #ai-chat-bubble { background-color: var(--card-bg); padding: 15px; border-radius: 20px; box-shadow: 0 4px 15px var(--card-shadow); width: 240px; opacity: 0; transform: translate(-50%, 10px); transition: opacity 0.4s ease, transform 0.4s ease; pointer-events: none; position: absolute; bottom: 100%; left: 50%; margin-bottom: 10px; color: var(--text-color); }
-        #ai-chat-bubble.show { opacity: 1; transform: translate(-50%, 0); }
-        .info-button { display: inline-flex; justify-content: center; align-items: center; width: 24px; height: 24px; border-radius: 50%; background-color: var(--primary-color); opacity: 0.5; color: white; font-weight: bold; border: none; cursor: pointer; margin-left: 10px; transition: all 0.3s; animation: pulse-info 3s infinite ease-in-out; }
-        .info-button:hover { opacity: 1; transform: scale(1.1); }
-        @keyframes pulse-info { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-        .trail-heart { position: fixed; color: var(--primary-color); opacity: 0.7; font-size: 20px; pointer-events: none; z-index: 999; animation: fadeOutTrail 1.5s linear forwards; }
-        @keyframes fadeOutTrail { to { transform: translateY(-50px) scale(0.5); opacity: 0; } }
-
-        /* Música */
-        #music-section .vinyl-container { position: relative; width: 250px; height: 250px; margin: auto; }
-        #music-section .vinyl { width: 100%; height: 100%; background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMSEhUQEBIWFRUVFhAVFhYWFRUXGBgWFRUXFhUVFRUYHSggGBolGxcVITEhJSkrLjEvFx8zODMsNyguMSsBCgoKDg0OGhAQGi0dHR0tLS0tLS0tLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tLSstLystLS0rLS0tLf/AABEIAKgBLAMBIgACEQEDEQH/xAAcAAABBAMBAAAAAAAAAAAAAAAAAQQFBgIDBwj/xABJEAACAQMCAwQHBQUGBQALAAABAgMABBESIQUTMQYiQVEHFFJhcZGSIzKBodFCU5Sx0iQzQ3OCwRVisrPTFhc0RISToqPC4fD/xAAZAQADAQEBAAAAAAAAAAAAAAAAAQIDBAX/xAAoEQEBAAIBBAMAAgEFAQAAAAAAAQIRAxIhMVEEE0EUMqEjQmGR4SL/2gAMAwEAAhEDEQA/AOegDzHzpdI8x869Meqp7C/Sv6Uvqqewv0r+lb/ZPTj+i+3mfSPMUoUeYr0v6qnsL9K/pR6qnsL9K/pR9k9D+PfbzOVHmKy0DzFelvVU9hfpX9KPVU9hfpX9KPtnov499vNWkeY+dZBB5ivSfqqewv0j9KPVU9hfpX9Kf2z0P499/wCHm4IPMU5t4x5ivRPqqewv0r+lKLZPYX6R+lVOaT8TfjW/7v8AH/qP7JwAWkH+XH/IVLmKncCgKAABtWzFYZZbu3Xhh04yI8RUvKp9io7jfFI4Iyz+R289ulE73UGWsZuqp24uVWJo+YEZgfHGfcD+VcX4nEp6beRyN/fjqKs3bW9ZnB1HDAMATnAPgPdVJnO9d1kxx6Xmy3PLqN28q1PHW3HnQRXPXRDcrSYracUgFTpW2srWcMmn4UjGsSaXgeUiCCM0mB5j5077J9ppLGXWih0bAkjYAhgPIn7rDJwa9BcDvLe7hS4gVCjj2VypH3lYeDA7U7l/wMeLf685YHmPnS4HmPnXpv1VPYT6V/Sk9VT2F+lf0pdc9H9F9vMhA8x86TA8x869Oeqp7CfSv6Ueqp7CfSv6Udc9D6L7eZMDzHzpcDzHzr036qnsJ9K/pR6qnsL9K/pR9k9D6L7cX9FsQN6PdG/81rtgh2rbZQKGyFUbeCgU/wBNLLk2vj4unfdGcmtfI3qXxRpqepfQjXhGKrHH7QFDV6IrVJGPIfKrw5Omo5OHqim8PtgEHwpveWw1fhV5WMeQ+QoMY8h8hV/f33pl/G7a2Z0VhJMqkBmALHCgkDJwTgZ6nAJ/CiOZWCsrAht1IIIYYzlSOu2+1YOpnRRUVxPjaQLNJKyRpFjLu5HVFYbBDvlgABuT8aAkoZlcZRgwBZSVII1KSrLkeIIII8xWyqZ2Gv39V5rQiJJHj5UbMQ+jTHEJJML952Bcnybx6mW4Xxd2aSN0UaWl0sZH74DnVpBj6KGQZGR3seBoCdFFVns12t9c1FYlQBIZEJlJLJLr0nTywVxo943wCcHC8M7VJeNKlpJH9iwR2IlIJOdkJRQeh3yfhgjIFlrIVBGKUnJu3+AMIH4f2bP5msokmU5F0W9z8or/APRArfnQFoi6Cs6hbfjQDrBJJb84rqCCUq7DfLCIqWA28z4099cPkn1t/RSUdTShVLHooJP4DNcX9I/EnMxRicqMnfYE/sge7ausXt0ShGE8P226AjP7FcS7fzFriY+0+dicYAO24Hjj5V0/G82uP5fiRGS3LT27EjJi0AnyBJAqvSirl2JsDPbXiKO9pUj4gEr+eaqchxgnfqMfP9a0uW2PT061+mRFFZSr0PQVpfY4zn31nWsYPWGqsjWBFRVENFFFTVEro/oV40Y7p7Rj3J1LKPKVBnI+KA/SK5xVg7AOV4jalevNHU4GCrA5IB8M0jnl6UpKa+tnyT62/oo9bPkn1t/46lsdUUxn4gVAOlDlkX77ftMFz/d+/NZ+tnyT62/ooM8opp62fJPrb/x0vrZ8k+tv6KCSNp1p7UPa3Zz0Tp7bf0VsveMpChkmeGNBgF5JtCgnYAsyAUjiUpKYx8Q1AMvLZWAIIkYggjIIITcEVl64fJPrb+igzysHpt64fJPrb+isGvD5J9bf+OiFTwUhphPxAojPpQ6VZsa23wM4/u6fmmENxOx5yBdRRgyOjrjUrKeoz5jUp9zGo6TgD/4dwVwSVBVmXGp2VGUOMr3lQ4xlEA2O9TlFBGHDOHtEzlpNerRj740hQdu9IwxvtgA4ABLYzVZ7XWTyvldJEcrOFZ20ib1VBbyPGB3kR99vEqTsCautQ/FeFC7hurZpHjEjINcZwwxHC2x/DBHiCRQFa4fZSyCe2kuTJD9kFeV0DK4kZ2CaY1Vho5RyVIDHx3Am7m2YtDypVRY9m/tMjMUBjOjdd9QTSSfBiRvgiasLXlLp1Fj3csc76VVB1JPRRuSSTmnIoCg9hEkRpjKioSlt3ubIoY5lZlGVBXTqH2Y7qkkqTqOLJw8qsaBSgyqk4uHG5AySAvWpa5uBGjSNnSisxwCThRk4A67CtNjxGKQDluP2gF6Hu7HC+I942oDRzR7S/wATJ/TSiUe0v8TJ/TUjmlFMKva2Vr6+1wiRm5xiST1iQlU5UYQEkYVjgYAwSNVTfEm1RSKsoQlGAdbl9SkjAZcqRkdRmpW0tlQuyqA0jB3PizBFjBP+lEH4UnErhEjLStpXKqW8BrYKCT4DJG9SpXuz/BY7SJYhKZivMPNmunaQ8wguMhBgHSuw8hnJ3qhekvhelhIukhiejl99jkkjO+/yrsMF0j/cdW8e6wP8qi+1nBfW4GjH3hgr8R4fImteHPpy7+Kx+Rx9eHbzHHewl/NDqSCMNrYF2PgAMAfz+dYdtOzfLk9YjX7KTvso/ZbPfA93j86x4fb3McklpEeW7k41DxRS3j5jy91Xm+t8IkEh1FVGrON2O5/Stea3Bn8XjnNNOST8PkJJVTyyWA6kHG2RWdv2ckO5jLr/AMpGoe8DxrqFnw9EGnw8s7H4inUoVF2A3rmy5LXfh8PGeXG7zg8p2VWOPaQqwHkfA1FXFs6HS6kGuwXT6qrHHuGB0yBuN6WPJvynl+J0zeKgKuTU/wAK7LyzxGYY0gsM+IKjOceI8Ki4bZtRAG4Jq9rdjh1np1ajKAyISDhiO9jyXOKrK38ZfH48crbn4jnEyFWKnqCQfiDg1bvRRacziCOcYiSSTdim+NA7wB3735VUHYkknqSSfidzXWvQNa/+1zf5EYP1s3/4/KnWU8uj80e0v8TJ/TRzR7S/xMn9NSeaM1LVCXz5UYZT9pAdriQ9JUJ/ZpxzR7S/xMn9NSeaKAjOaPaX+Jk/poEo9pf4mT+mpPNGaAZ2soz95f4mT+mnEoRxpflsPJp3I+RWndp1p5SpxFK4AwCgA2AFxJgD3d2l5o9pf4mT+mpSkoUjOaPaX+Jk/prBpR7S/wATJ/TUtWDmiFUJfvmKQAqSUkAAuJCfunYDTv8ACpqlFIaZGNFFFBCm9p9+b/MX/sxU4pta/fm/zF/7MVAOqKSloDXcwCRGjbOl1ZTg4OGGDg+GxplbcFhSQSqG1DO5diMkMCSucZwx8PAeQqRooApSudjuDsR7qSshQR3axhVCqAABgAbAfAUXVuJF0tnGUbY4IKMGUj4EA1lF0rOktHWXB0ibVGSo7vdBIBVYxEisM94BR4+OKkaKKDRHFOBxyyR3GMPEwYEftYzsfmd/fVC4pf5nZBE7MdROMADfx1EfKupGqz2imjt43eQZydsDcnGxJ8qvfVNX8ThejPeM8qrZLJpJcY3OBnfFY3ZJpm3aWLIDZXUQBkYznpinsxzWFmnpY5bNClNLtNjUgajuISgA0oed7KZxVdDEocMfEe6oa+Z3XmSMWJ2yxydvCn/GLjU21HELVkgTK9csT8eldMeLl3t14V4V2f0EH+zXI8ecny5Yx/I1xmuyeggjkXI8ebH8tG3+9Knj5dQpKWipakoopaASlFFFAb7TrTymlp1NO6VOCkpTSUGKwes6waiFQKQ0opDTBjRRRQQpta/fm/zF/wCzFTmm1r9+b/MX/sxUA5pajuCcSM6FmTlkH7urUdDqHiJ8mKMpK+ByN+tPoZAwyOmWH4qxU/mDQGdFFKKAKUUlKKCPYugrOsIegrOksUUUUAhqA7Y8DF1CAH5bIQwfGcAHJyviPjU+aRh4GnLq7Kzc04pb8LhWYmPVJpODLIdTMR4g9APICpibpU92nEcIACgYJ6DFULinHlG2aWctrp4uXGYd+2khcXAA61TuO8a1Eoh+JpvxLjTSZVcgU1srBnOSOtPHDXeufm+Rc/8A5wO+znBjO+p/uDc+be4e6p7tfbZj7o6flUnwS1CIBWfFI8qRUXPeTbHgk47P2uRyRkGr56F+J8q+MJPdnjZf9ad9fy1j8ah7zg2X2G3jWqKzlsp47lCPs3RwScdD0PxGR+Nbbl7OHpyx72eHpOkqr9me3tpfScmIukmAQkgC6tssEIJDEeVWnFRZprLL4JRS4oxQZKKXFGKA32nU07ppadad0qcFJS0lBg1g1ZmsTRCpKRqyrFqYMaKKKCNuKXywQy3D/dijkkb4IpYge/aqpx7iMlujIirJcyuqjWr8tSLeN5ppHBwsSDJIAJxgeOamu28Bk4feIvU21xgDxIjJA/HGKgu0zwm0mvpgWjRUY6QzFo57eFHTQGXKsHBzlcaQc4FAMezVzDBZM0VyLmRXikuH5b6mZ3VcbsAF0rpUbbKAN6mrUiB8yPgXBJVXgnARmkQRx41kBmabBPidI8q3cF4cGeS5yGL8tVP2i4QDnAEZJ1B5Xzk7EYwMHMpJw0MysyqWTOklpDpJ6kb7HbrQFS7BSzNzOe5c8u2YkpO4LMZQzRqW+4dIIdcK3QAaTVksJzICXj5bKxUjkyuNvEMrbjf3HOR4Uz7OdlfVDIVcHmCIYBlVRy9XexrPfbUSxGASMhRvmaSyI2AUbk7NINyck9epJJ/GgGHE7xYU1HRqJCorRyR6m3JUMzYzpDHH/Ka3CZRHzXGgBdbarebujGTqw2Nq2XnDDIuhtOMoTkyHIBBI3PiNs+RNaOKKNEiPndGBx6ydiCPvL0+dAaY+1djgf2qL/wCTP+tPeHcXt7glYJkkKjJCwT7Dpn71V9+E8OEyWus88nIi9av9ZXDd4KZM42O/uqVtOHxWzO9vFKzcmVtGu7Yvo0kKnObAJ6eHUUlQx7R9rDZylXgRogqsXIljOT4ASARnbH+ID7uhrZw/tpbSqHYPGDndraV1GPOSGR0H4tTnhfF3Fq13xGEWQZySkk0j6VCqoZ2AAXJB2Pups/B7GaI3At4nLrMyTJFLqKlnKsJUGcHr1pGlpL8c8QKFbbvERyakJBZdcerOCoJz8Nt81tsZ2fUHj0FGKkcqVgfFSCG8VKnBG2rHhThOHEyc7bJQKN5AQCdTZOc79zY9NPvrctkR0CjJJ2aTqdyevWmSF47wqOcRxvkBnIJWGZWxy3PXO+4FUOf0aq0kic+ZNOCpaAuGVuhOCCpyGGCP2c+NdOu7ZtcPT+8b9uT9zL76W4siMkBckgk6pN8DAzvvsBVTKxGWGN8uJ33Yp7ZsyHWv7JCsuR7wwyPhW+CMeWMV0S/vImuVsHKl3jkYYZiVZcEL3j1K6j+FU7jNlymIx8afJLZs+C4y6OLM7UlzuKa2Utbru4VULucKoJJrDTv32R7lF1PIQqgEkmqLxvirXD56IuyL7vM+80cb4u07bbID3V/3PvqNFdGGGu9ebzc3V2nhnBKyMroSrKQykbEEbgiujcH9KzDC3dujeckYOr8YywBPwI+Fc3rA1VkrHHKzw73Z9r7O5CiG4QOXhGhopVf+8XIxrwds9CanDMwm5Rj7pXUH5UvgSGBTVkYym++dXhivNOKs/Zvtzc2jDJM0eNOiR3yFHQI4OU38Nx7qm4tJye3d3wAScAAEkmCbAA6knVTPhN7z0LhVAz3Ssckiup7yOrK24KFG/wBWN8ZrDszxiK/hE0BHk6F5NSN7LDV+fQ08t7PkRqpweuSom3ZiWY6EJ0gkk48OlQ1NT2htI3aOS4jVl2ZTBPkHyPerdB2ms3ZUS5jLMVVQIZ9yxwoG/iSKhruysE1XN45jDvICz3F9EpYOQAAHCg4HQDwPvp5B2ftUWKRVl1A2zg82/YZ1IRsWKn4UqqHvabiz2saSJEsmpwpDR3MYC6WJbUqv5DqAN9yPGG4X6QLeYsDG66CAxSLnjPuEErPt71FTNpe3Ml3LG9m8UEAbTcNLIea2wxHENyNyc58PfTZVsL9pG0QXQj5ak6JJdL5fbODg9KDPLjjUQiWaNkfW2lFaOWItpJMoXWd2VFkbT46CNutb/WW5iRmLAdNWrlSZBGdasmrOB3BqGRlxWFjwhGi5UahY0l1aTzh0bXgazsCcfhkfCTazOdWFzgjOqTODgkZz7h8qCNL8YikIOCEkIIgmBBCncHVt8amDUZxK2bky9P7uT9uT2T76kjTJB8T4qsBUOrHXqxp0n7pUEYJBJ7wwACTSf8btwNTSouwO5Hipfw2+6rH4AmnT2yl0kIOpNYU6mAAfGrKg4PQdQelMB2ctt/s23GD9rN00NH7fsMw/E0E3X92jRyojB30sgUHcs2pFX8WDDPQaW8jScItRGrQjcJyo/iFt4V/2rG8sI0hmKDQSjtqySQy6pFYZzghyX28ST1NLwO65qGbGOZyXx5a7eFsfnQEgFAGAMAeApaDRQBS0lLQBUB2g4DNczwvHeSwQoTzooyw5wyMLqDAKMAg4Hj8MT4paAwteB2wma7EKCd1CtLjvlQAoGrr0AGfcKYdm+z08E001zeyXGtm5SHUEijJJ0gFjqP3Rk+z8an4OlbKSoZ8W4VDdR8m5iWWMlW0sMjKnINQ3aXs1LcCCO1u3s4o+7IkII1xgALGgDBUAGR0Ph5Yqy0UBgq4AAzsANySdvMnc/GsjSMa5L6Ru376vVLQ6U6PIDhn/AOVD+yvv6n+d4YXK9mfJyTCd1p7X9s4rbTysTSRsxKg4Vfs3TvMPHLDYeXhXObjt3e3WQZtAJxpiAT5H7351DSXoyqno2F/2qHtAeaVU4xq3+G1ds4sMLNd3nZc2fJLvs3NxJxepNG5DI6lW+G2/nkdfiavl3xNrgBmXBH/8R8K5pdFUmHsgxn8ARn+RrpluVYEiuXnyu3ofDwljTwy3LOR7qrXbwSqEUgiIk7+Bcfsn8NwPj5VeeFRfaqffiqX6TeNSm4e0DryFKEKoG5wDlz1JDZ22FZ8eMvdr8jO4zo9qTWQFYCtq1rHHSNSYoNbdNMmlxWFZmkAqTiW7MdoZrCcTwHyDofuyJndW/wBj4Gu+XEx4lYiSxuTA0oUpKNWqMgjWrKrDvDvL12O/lXmzNdB9EXaj1a49UlbEVwQFz0Sbop9wbZfjpqbOzTDLV063YdlYGgigvB64Yjr1z98tIclnwxIAOT3enxrZxfs5PPeRTi9kit0Cl7eMuOY6nIJfX3V2XYDwPnmpq18ac1m3hHUEEHcHYj3GoKbszHHaSWvDtNmXyVeNSNLnbWQpBY423PgPKp6ig0X2c4W9tAsMs73EgyXlkJyzE5OASdIGwA93id6kWrKsWpwqbcU/uZf8uX/oNOKb8U/uZf8ALl/6DTigGFFJRQSF7czFOHXjL1FtcYx1GYyMj4ZzTWW7lt3SCKJmV5I4iywtIsem2jwX0uuF26+GKnb+0WaKSGQZSRHjYf8AK6lT+RqFntpnWRdQidyoaTkvIwxFGheLB05JDY1dPEHpQbDgHaF7hTq0KymRGAVjlkneHKqTnQSmxz1JHUU+sOKNIXXJ1xswYCCTYa3Cftb5C1HT8J5dqLe0UKU5eg8mXOQ6sXZmDZPUk4JO/iaJbd43i5MSsW180+rzIp1NFzJWIP3sKxA3zsOmSAMOyvaaW71alVPs7eVVEchbTKZB3xnGxjIyDvg7DAzl2ouL/Mcdlq7wmLssaKVxo0HVKWwN26I34eMf2M4VNCZeegAcQEHkPlpPtDKXCsdTbqC+RqwNhg5meIhu9yBHzRFNoDwT6dfc068ZIGcUEovE7GaOMzcWv9CBgjavWpQSyghVjQxxk4J/wz4+Aq5cL4xFDb2yc5VVo4kiLQlNQEeRhcgA6RnGB8Kj+G2j4gS/5MszTxM2LdwgOoKAuoAbLtnA6mpPhNr9vc3DRNKqzvbJGq7ANMOZJpOx0rjceTAUj0lLftAhLRiZdaY1Ly21LkBhka/JlP4it83Gwis7yBVUFmYxNgKBkknV0xUBw+AwtfIzxqYfVlR5YyyKrPIQx8yylRt4isETmW0zNNCjetEc3QwQjkLsoG+N8+WxoNY4eNBwCkisD0IjYg/iHrC67QJHjmTKmSFBaNgCxBOMl/IH5VF3CKLj1ZgDHLFCoZI91kOdMisBgZOMj4VqJVnuI0X7OC1uo1DIcs6kB5GOO8cggY9/nQDHt32zSNDarMOc+jUgRlKxMe8SxJAyBjHXeuO8auuYVkzuSwP4Hb8jXY7CGORuGuyI2u7uwxKDvBbS4wDq3IBA6+QqEueCQi04pfWwVre4tleIEAmGZWlE8Q9nDEdPgNgK2w5enHp05uThuWfVtyiS6JKnyxTky6ZXI/a3HwO9SHY60EouAbaKYpC7xmTmZM5xyoF0OoYuFkIXqSDv4VNcTt4hDaE8lQ81gsupHCxrJZxazLupIGovs/huc5qpy90fTubUi9bJDeYx+f8A+6vfZm41wI2dwNJ/07fyxTpYLd50JhihcQ3REPMiL/ZWzxxswDsHVlGQFAYFCSWG9QPYO3nlZ4LePmEKJMBkXCnAJy5A6kVnneqbdHD/AKeUntabzji2qGQ41dFHv8/wrl3EeIc+UufEn49fH31euydil9xZ4btNaW0c7iA4w8kLInLONm7zMfI6fLNMX7Q3PGJI+HC3tYi8o0aItDRBQxZGfJIAAJOACdGPHFEy1OkuWdeXX/0phrLVV2T0d81kNpfRzxm4NrLIInQwyhc/cZvtF8NQI6jGRnGxPRxGeWf+JxaZLh7PPq82RdKSBEFzuDpbvkqBjxzT64j66o8K6mArKRwTpFXK27BBFVrm/jgL3U1mg5MkmqVHaMYKkbNpJycAZGam37Hztw+Dhg0CYcUnQvvp0i3lfXnGcacHHvAp9cL6q5eR4Vi5xtXVOAejiJLyBLqYTRTCcBeXJE5kjUnSVDEqMZcNnB0kbEjMFwX0ZtdRC4jvE5cjyrA/JkxIIyVLyZIMKlgV3DHbNTc4c4slDDVtU+Rx7x1HvBrpvFeyzXdtwu1EqRXCWt8URhkSvG8eqIODsduu4wCfCqT2g7PtZLb82T7WeITNDoKtCrfcEhJ+8d9sDGk0sb3GWFj0B2f7RLJBbzPKim4RdIKHvOEzIqnVuQQ3yqf5z+f/ANl/6q5/6LRzeHQBv2Hk/wAGR86JGKjUpx1Kn8MVeNI8h/DzfrU3y2xvYW/EhIWEcisUYq4WNiVYbEMNWxrbJcsoLMcAAkkwvgAbknvU1jtwGZtiWK/+7zbADAUb+eo/6jWviUOqJwuoNpJHLhlV8jcBWY4BJGN/Okpo4n2st7eBbqa5RYWKhXETsGLDIChGJJwCdhtg1JLcMwDA5BAIPJfodx+1UX/wyNuUk0aS6VdsvayN9plcuAehyW3HTNNOIR3jXcQhMKWygNNqt5zK5JbuKuMAYA31A7nrigm647TQSPcWUc4aeOGVpIxDJlVAAOWzpBBZds536VZjVcXh8YjmaOJBJJzwzLayKznU4XU3j+PSrETTBjRRRQBRRRQBRRRSANQnAey1tZtLJAra5m1SO7s7NuSAST03PzqbpcUwYvG6sWjIBOOqhsYzgjPQ7mmD8OZlCM5wpkbbu5aRtTMxHUkkn8amyKNNAMYLOXdtSnUsaNqQNlYy2jOep7x3o/4OSrIxGln5hAUAa9ITIx0GB0qbtl7tbtNI0N/wwlg5PeGjBwNtH3dqQcOKnWjYfLknA31nLAjyJqaIqKv7wqWClBpRpGZyQoRepJANAc39JXEbuzuLW5SVCE53Kj5YCIxQI5IB7xIc+WK5vZdqLiGCe0RhybknmKVzgtsxQ57pIx8hXS/SZw2a7HdaMC2tZrwnUxV4sZ+zIXr3PHFc6XsZctw88UBTlDLaMtzSgk5ZkC4xpByevQZrWXHUc+Uy6rpAtO6jlh2Ch+YFDEAPgAOB4NgDfrUlecdeeIQygfejOvfUdECwDOScnCgk+ZNTCejm8dbORTGUvFUrIC+Iy0fMUTd3IyBjIyM7eWdfDuwE7oJJbm2t1eaS3h5zsDNIjlDoAU4UspAJ391HVNjoy0ZX3HkeZ5jZxrK2rLpNdIcsukkKsuBkE7dN6iRPodG8gMj3Yx/Knt7wK4F76gU/tBdItIO2s4wdXskENnyqV4t6P54lLxTW9yUmjt5UhkJaOaRgiKwYDPeZVz5np1wWydi1ll3v4gYuISQXHrEDmORWLKy9R4eOxBBIwdiDVkuvSLfz6NRhRo3WUPHCquXUEamJJ8GYHGMhiOhpOKej6aGOZxcW0r2qq1zFFIzSRKRksQVGQBkn4HGayl7BXEbzxNLCFitRdtNl+WYTnGk6c6jpbbH7J3pTpOzOTsb3fpGvmeNwYYxFKZgkcIRHlII5koBy5wT4jz8BTO37W3WFXKYju2vh3P8AHbVnO/3O8e7+dP8AiPo8lgh5813armEThC0uoqVJAHcxk4x1608f0ZXITC3Fs0nI9Z5QaQOYz4jKY93XrSmlXrOW9JDR2cYi5T3RurmeVZICyLzGd1eMnowY7YORmoeLtnfHRiUa1uGug+kaua6sjZ8NGlmGnGMVUFOd/OpO2GEZ/IHHx6CqwxlrPPPKRLXPbe5FzFcxLbxNbmQoIoFRCZBiQuBu2rJ8ffsaWHt7dKpTl2rKZJJUV7ZGWB5M6zbgnuZJJwc7k+dVaio7VcysW7s32lU3Nib+TRBYCRouVG2tiSCEOjzYDPQYBHjUJ2g4zJeXMt3L96VicZzpUbIg9yqAPwz41GGlp60LlbNPQHoQuQ3Dwo6xyzKfxIcfkwro2a416ALrPrUPkYZB+IZT/wBK12TFKtMPBC1BNLiikpA9quBteIiLKIyjFslGfIIIxhZEI8PE/Cqv/wCrqTOfW08P8Cbw/wDia6IawNBGfA7E28EcBbWUBBYAqDlidlLMR18SaeMaM1iTQDWitPrcf7xPqX9aPW4/3ifUv60jbqK0+tx/vE+pf1o9bj/eJ9S/rQG6itPrcf7xPqX9aPWo/wB4n1L+tAbqM1p9aj/eJ9S/rR63H+8T6l/WgN1FafWo/wB4n1L+tHrUf7xPqX9aAkLU7VvzTO0kU9GB+BBp1t5/nTKFJqKu4nDM6bExumrI7ucEPuCDjHSpTbzHzqtekjiQt+HXDg4Zk5a775lOjb4Ak/hRJsW6m3I7rtyWe/Z9UvrME1pExYDQjBgjYx03LYHmacRek6FVW29QBtVtfVCC55xQrpPe+5g7fs5z41RYYvsnbyK4/DrUfJ1rXPGOfDkvh0jgfpYe29VjWEtDDbRW8sZYd94x3ZozjuH3HOQfcCGVr28t2SOO+smm9XuJri2ZJtBBeUyhJBjcAkbjyG3nQTSmstRp11ZP/SqWTiX/ABTSolEyyhN9OlVCBM9caAFJ95O1SfF+2FrrM1nw9YrlriO5eaV+aVdJBKUh2BVWYb7jYkY32pML6SDWUzZYmq7WJmVlXvi3pAgaO7NtZGK4v05dxI0xdApBV+WmBuQTvtuc79KbX3b9pOFDhvKIl0RQvcah3oYnLImMZ6EA7+LedUilFQrrrpPFvSPBc23qz29yP7OIMLc6YyQuAzRgb7/kAKzvfSpzUktnhkFvJaJb6VkCukq6gZkYDoVYAqfYHvrmiGkNPtoddZR0/vW0xqnn3j/tTa1jyQPMijiE2pz5DYfhWvjGsb3yjQKKxFKDWW2jLNLmsaUU9h1D0BSf2ydfOAH5SL+td2rgPoHlAv5QTjNu+PwkjrvmseY+YorTDwyorHWPMfOjWPMfOkvYNazStIPMfMVpedfaX5imVrZmsSaw56+0v1CtbXKe2v1CjRbeUcDyHyo0jyHyooq3KUKPIfKl0DyHyoooIugeQ+VLoHkPlRRTICIeQ+VZiEeQ+VJRTkKtqWw8h8qeW9kPIfKiitcMZtlnldOtej2ALDsMbmrgaKKOX+zTh/qVK5l6bOIYWC2HiXlb8BpX+bfKlorNrXM4pMR6fa1/nt/tUYTSUVOd8DD9ITQDS0VjtqQ0A0UUAlFFFAGaySiinPJU8hbSC3kPzPSmRNFFXn+Jx/StSCiiovlRc0tJRRAsHYW65d/bsehfQf8AWpUfmRXf1aloro4/6sOT+zBjWWaKKtBjeLVY4lFvRRW3Gx5DF02qJuYu90oorVz1/9k='); background-size: cover; border-radius: 50%; box-shadow: 0 0 20px var(--card-shadow); display: flex; justify-content: center; align-items: center; }
-        #music-section .vinyl.playing { animation: spin 4s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        #music-section .play-pause-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; background-color: rgba(255, 255, 255, 0.8); border: none; border-radius: 50%; cursor: pointer; color: var(--primary-color); font-size: 2rem; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(2px); }
-        
         /* Carta */
-        .envelope-container { position: relative; cursor: pointer; width: 200px; height: 125px; margin: 2rem auto; transition: transform 0.3s; }
-        .envelope-container:hover { transform: translateY(-5px) scale(1.05); }
-        .envelope { position: absolute; width: 100%; height: 100%; background-color: #ffdde1; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .envelope-flap { position: absolute; top: 0; left: 0; width: 100%; height: 60%; background-color: #f7cac9; border-radius: 6px 6px 0 0; transform-origin: bottom; transition: transform 0.5s ease-in-out; clip-path: polygon(0 0, 100% 0, 50% 100%); }
-        .envelope-seal { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); width: 30px; height: 30px; background-color: var(--primary-color); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 1rem; }
+        .envelope-container { position: relative; cursor: pointer; width: 200px; height: 125px; transition: transform 0.3s; }
+        .envelope-container:hover { transform: scale(1.1); }
+        .envelope { width: 100%; height: 100%; background-color: #ffdde1; border-radius: 6px; }
+        .envelope-flap { position: absolute; top: 0; left: 0; width: 100%; height: 60%; background-color: #f7cac9; transform-origin: bottom; transition: transform 0.5s ease-in-out; clip-path: polygon(0 0, 100% 0, 50% 100%); }
         .envelope-container.open .envelope-flap { transform: rotateX(180deg); }
-        #letter-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.5s; overflow: hidden; }
+        #letter-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.5s; }
         #letter-modal.show { opacity: 1; pointer-events: auto; }
-        .letter-paper { position: relative; z-index: 2001; background: #fffcf2; color: #5c3c32; padding: 40px; max-width: 90%; width: 600px; max-height: 80vh; overflow-y: auto; border-radius: 5px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transform: scale(0.8); transition: transform 0.5s; font-family: 'Dancing Script', cursive; font-size: 1.5rem; line-height: 2.5rem; }
+        .letter-paper { position: relative; background: #fffcf2; color: #5c3c32; padding: 40px; max-width: 90%; width: 600px; max-height: 80vh; overflow-y: auto; border-radius: 5px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transform: scale(0.8); transition: transform 0.5s; font-family: 'Dancing Script', cursive; font-size: 1.5rem; line-height: 2.5rem; }
         #letter-modal.show .letter-paper { transform: scale(1); }
-        .letter-close-btn { position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 2rem; cursor: pointer; z-index: 2002; }
+        .letter-close-btn { position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 2rem; cursor: pointer; }
         .letter-heart { position: absolute; font-size: 20px; pointer-events: none; animation: letterHeartFloat 6s linear; }
         @keyframes letterHeartFloat { 0% { transform: translateY(100vh) scale(0.5); opacity: 1; } 100% { transform: translateY(-100px) scale(1.5); opacity: 0; } }
+        
+        /* Música */
+        #music-section .vinyl { width: 200px; height: 200px; background-image: url('https://i.ytimg.com/vi/syFNMj8vBL0/maxresdefault.jpg'); background-size: cover; border-radius: 50%; box-shadow: 0 0 20px rgba(0,0,0,0.2); }
+        #music-section .vinyl.playing { animation: spin 4s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        #play-pause-btn { margin-top: 1.5rem; background: #e73c7e; color: white; border: none; width: 60px; height: 60px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; }
+
+        /* Galería */
+        #gallery-container { width: 100%; max-width: 400px; height: 500px; position: relative; }
+        .gallery-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 1rem; box-shadow: 0 5px 20px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.8s; }
+        .gallery-img.active { opacity: 1; }
+
+        /* Controles de Navegación */
+        .nav-controls { position: absolute; bottom: 20px; width: 100%; display: flex; justify-content: space-between; padding: 0 20px; box-sizing: border-box; }
+        .nav-button { background: rgba(0,0,0,0.3); color: white; border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 2rem; cursor: pointer; }
+        
+        /* Osito Piña */
+        .pina-guide { position: absolute; bottom: 20px; left: 20px; display: flex; align-items: flex-end; }
+        .pina-guide img { width: 80px; animation: bobbing 3s infinite ease-in-out; }
+        .pina-guide .bubble { background: white; color: #4a233a; padding: 1rem; border-radius: 1rem; margin-left: 1rem; max-width: 250px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        @keyframes bobbing { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
         /* Footer */
-        .footer { background-color: var(--footer-bg); color: var(--footer-text); transition: background-color 0.5s, color 0.5s; padding: 3rem 1rem; text-align: center; }
-        
-        /* Selector de Temas con Iconos */
-        #theme-switcher { position: fixed; top: 20px; right: 20px; z-index: 1001; background: var(--card-bg); border-radius: 50px; padding: 5px; box-shadow: 0 2px 10px var(--card-shadow); display: flex; gap: 8px; }
-        .theme-button { width: 36px; height: 36px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: all 0.2s; display: flex; justify-content: center; align-items: center; background-color: transparent; color: var(--text-muted-color); }
-        .theme-button:hover { transform: scale(1.1); color: var(--primary-color); }
-        .theme-button.active { border-color: var(--primary-color); color: var(--primary-color); background-color: rgba(0,0,0,0.05); }
-        .theme-button svg { width: 1.25rem; height: 1.25rem; }
+        .footer { text-align: center; }
+        .footer img { height: 2rem; width: 2rem; border-radius: 50%; margin-right: 0.5rem; }
 
-        /* Media Queries para responsividad */
-        @media (min-width: 768px) {
-            .content-box { padding: 3rem; }
-            h1.font-dancing { font-size: 4.5rem; }
-            h2.font-playfair { font-size: 2.25rem; }
-            .reminders-grid { grid-template-columns: repeat(3, 1fr); }
-            #dayCounter { font-size: 5.5rem; }
-        }
     </style>
 </head>
-<body class="theme-love">
-    
-    <audio id="our-song-audio" loop> <source src="https://github.com/andr3xcl/music-test-app/blob/main/JAEHYUN%20%EC%9E%AC%ED%98%84%20'Completely'%20(Official%20Audio).mp3?raw=true" type="audio/mpeg"> </audio>
-    <audio id="letter-open-sound"> <source src="https://cdn.pixabay.com/download/audio/2022/02/22/audio_c343949f2b.mp3" type="audio/mpeg"></audio>
+<body>
 
-    <div id="theme-switcher">
-        <button class="theme-button" data-theme="love" title="Tema Amor"><svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg></button>
-        <button class="theme-button" data-theme="light" title="Tema Claro"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M12 12a5 5 0 005-5H7a5 5 0 005 5z"></path></svg></button>
-        <button class="theme-button" data-theme="dark" title="Tema Oscuro"><svg fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg></button>
-        <button class="theme-button" data-theme="modern" title="Tema Moderno"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg></button>
+    <div class="story-container">
+        <!-- Página 1: Bienvenida -->
+        <div id="page-1" class="page active">
+            <h1>Una Historia para Iris</h1>
+            <p>He creado este pequeño mundo solo para ti, para recordarte cuánto significas para mí.</p>
+            <button class="start-button" onclick="goToPage(1)">Comenzar Viaje</button>
+        </div>
+
+        <!-- Página 2: Contador de Días -->
+        <div id="page-2" class="page">
+            <div class="pina-guide">
+                <img src="https://media.discordapp.net/attachments/993701736055312384/1382605822550474762/bot_image.png?ex=684bc383&is=684a7203&hm=88ff6b27289b0ea06256a93f33007d8b1db7bffc9d7e662a9b7e3d0573e89c35&=&format=webp&quality=lossless&width=605&height=744" alt="Piña">
+                <div class="bubble">Aquí mi papá cuenta los días felices que lleva con mi mamá. ¡Son un montón!</div>
+            </div>
+            <div class="counter-box">
+                <h2 class="font-playfair">El Día que Nuestro Viaje Comenzó</h2>
+                <p>1 de Febrero de 2025</p>
+                <p class="uppercase-text primary-text">Han pasado</p>
+                <div id="dayCounter">0</div>
+                <p class="uppercase-text primary-text">días maravillosos a tu lado</p>
+            </div>
+        </div>
+        
+        <!-- Página 3: Pequeños Recordatorios -->
+        <div id="page-3" class="page">
+            <h2>Pequeños Recordatorios</h2>
+            <div class="reminders-grid">
+                <div class="card reminder-card"><div>🏆</div><h3>Lo orgulloso que estoy</h3><p>De la mujer increíble en la que te conviertes cada día.</p></div>
+                <div class="card reminder-card"><div>💋</div><h3>Tus Besos</h3><p>Son mi adicción favorita y la cura para cualquier mal día.</p></div>
+                <div class="card reminder-card"><div>🍲</div><h3>Tu Comida</h3><p>Cada plato que preparas está lleno de amor para mi y eso te hace muy especial mi amorcito.</p></div>
+                <div class="card reminder-card"><div>🌌</div><h3>Tu Mundo</h3><p>Amo perderme en tu universo de kdramas, k-pop</p></div>
+                <div class="card reminder-card"><div>📸</div><h3>Tus Fotos</h3><p>Amo cuando posas para mi en las fotos, eres SimplyLovely.</p></div>
+                <div class="card reminder-card"><div>❤️</div><h3>Tú</h3><p>Amo cada parte de ti. Eres la obra de arte más perfecta que existe.</p></div>
+            </div>
+        </div>
+
+        <!-- Página 4: La Carta -->
+        <div id="page-4" class="page">
+            <div class="pina-guide">
+                <img src="https://media.discordapp.net/attachments/993701736055312384/1382605822550474762/bot_image.png?ex=684bc383&is=684a7203&hm=88ff6b27289b0ea06256a93f33007d8b1db7bffc9d7e662a9b7e3d0573e89c35&=&format=webp&quality=lossless&width=605&height=744" alt="Piña">
+                <div class="bubble">¡Ooh! ¡Esto es una carta secreta de papá para mamá! Haz clic en el sobre.</div>
+            </div>
+            <h2 class="font-playfair">Una Carta Para Ti</h2>
+            <p>Hay algo importante que quiero decirte...</p>
+            <div id="envelope-container" class="envelope-container">
+                <div class="envelope"></div><div class="envelope-flap"></div><div class="envelope-seal">💌</div>
+            </div>
+        </div>
+
+        <!-- Página 5: Nuestra Canción -->
+        <div id="page-5" class="page" style="background-color: #4a233a; color: white;">
+            <div class="pina-guide">
+                <img src="https://media.discordapp.net/attachments/993701736055312384/1382605822550474762/bot_image.png?ex=684bc383&is=684a7203&hm=88ff6b27289b0ea06256a93f33007d8b1db7bffc9d7e662a9b7e3d0573e89c35&=&format=webp&quality=lossless&width=605&height=744" alt="Piña">
+                <div class="bubble">¡Esta es la canción de mis papás! Haz clic en el botón para escucharla.</div>
+            </div>
+            <h2 class="font-playfair" style="color: white;">Nuestra Canción</h2>
+            <p style="color: #fdf8f5;">La melodía que le pone sonido a nuestra historia.</p>
+            <div id="music-section">
+                <div class="vinyl-container"><div id="vinyl" class="vinyl"></div></div>
+                <button id="play-pause-btn">▶</button>
+                <div style="margin-top: 1rem;"><p style="font-weight: 700; font-size: 1.25rem;">Completely</p><p>JAEHYUN</p></div>
+            </div>
+        </div>
+
+        <!-- Página 6: Galería de Fotos -->
+        <div id="page-6" class="page">
+            <h2 class="font-playfair">Nuestro Álbum</h2>
+            <p>Haz clic en la foto para ver la siguiente.</p>
+            <div id="gallery-container"></div>
+        </div>
+        
+        <!-- Página 7: Final -->
+        <div id="page-7" class="page">
+            <h1 class="font-dancing">Y esto es solo el comienzo...</h1>
+            <p>Gracias por cada momento. Te amo.</p>
+            <div class="footer" style="display: flex; align-items: center; justify-content: center; margin-top: 2rem; opacity: 0.7;">
+                <img src="https://cdn.discordapp.com/avatars/1306077704625455114/6a40fb53ed1ba6bf3f2a624bfc887e55.webp?size=100" alt="Logo">
+                <p style="font-size: 0.75rem;">Littlegods SimplyLovely</p>
+            </div>
+        </div>
+        
+        <!-- Controles de Navegación -->
+        <div class="nav-controls">
+            <button id="prev-button" class="nav-button" onclick="prevPage()">&#10094;</button>
+            <button id="next-button" class="nav-button" onclick="nextPage()">&#10095;</button>
+        </div>
     </div>
 
-    <section id="banner" class="banner-container">
-        <div class="content-box">
-            <h1 class="font-dancing" style="font-size: 3rem; font-weight: 700; margin-bottom: 1rem; text-shadow: 2px 2px 10px rgba(0,0,0,0.3);"> Para la mujer que ilumina mis días </h1>
-            <h2 style="font-size: 1.875rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 2rem; text-shadow: 1px 1px 5px rgba(0,0,0,0.2);">Mi amada Iris😍 </h2>
-            <p style="font-size: 1.125rem; animation: pulse 2s infinite;">Desliza para ver más</p>
-        </div>
-    </section>
-
-    <section class="scroll-reveal">
-        <h2 class="font-playfair">El Día que Nuestro Viaje Comenzó <button class="info-button" data-section="counter">?</button></h2>
-        <p class="text-muted">1 de Febrero de 2025</p>
-        <div class="card" style="max-width: 42rem; margin-left: auto; margin-right: auto;">
-            <p class="uppercase-text primary-text">Han pasado</p>
-            <div id="dayCounter">0</div>
-            <p class="uppercase-text primary-text">días maravillosos a tu lado</p>
-        </div>
-    </section>
-
-    <section class="scroll-reveal" style="background-color: var(--card-bg);">
-        <h2 class="font-playfair" style="margin-bottom: 3rem;">Pequeños Recordatorios <button class="info-button" data-section="reminders">?</button></h2>
-        <div class="reminders-grid">
-            <div class="card reminder-card"><div class="reminder-card-icon">🏆</div> <h3 class="reminder-card-title">Lo orgulloso que estoy</h3> <p class="text-muted">De la mujer increíble en la que te conviertes cada día.</p></div>
-            <div class="card reminder-card"><div class="reminder-card-icon">💋</div> <h3 class="reminder-card-title">Tus Besos</h3> <p class="text-muted">Son mi adicción favorita y la cura para cualquier mal día.</p></div>
-            <div class="card reminder-card"><div class="reminder-card-icon">🍲</div> <h3 class="reminder-card-title">Tu Comida</h3> <p class="text-muted">Tu comidita la mejor que he probado.</p></div>
-            <div class="card reminder-card"><div class="reminder-card-icon">🌌</div> <h3 class="reminder-card-title">Tu Mundo</h3> <p class="text-muted">Amo perderme en tu universo de kdramas, k-pop</p></div>
-            <div class="card reminder-card"><div class="reminder-card-icon">📸</div> <h3 class="reminder-card-title">Tus Fotos</h3> <p class="text-muted">Admiro la forma cuando posas para las fotos para mi.</p></div>
-            <div class="card reminder-card"><div class="reminder-card-icon">❤️</div> <h3 class="reminder-card-title">Tú</h3> <p class="text-muted">Amo cada parte de ti. Eres la obra de arte más perfecta que existe.</p></div>
-        </div>
-    </section>
-    
-    <section id="letter-section" class="scroll-reveal">
-        <h2 class="font-playfair">Una Carta Para Ti <button class="info-button" data-section="letter">?</button></h2>
-        <p class="text-muted">Hay algo importante que quiero decirte...</p>
-        <div id="envelope-container" class="envelope-container">
-            <div class="envelope"></div><div class="envelope-flap"></div><div class="envelope-seal">💌</div>
-        </div>
-    </section>
+    <!-- Modal de la Carta -->
     <div id="letter-modal">
         <button id="letter-close-btn" class="letter-close-btn">&times;</button>
         <div class="letter-paper">
@@ -215,128 +238,115 @@
         </div>
     </div>
 
-    <section id="music-section" class="scroll-reveal" style="background-color: var(--card-bg);">
-        <h2 class="font-playfair">Nuestra Canción <button class="info-button" data-section="music">?</button></h2>
-        <p class="text-muted">La melodía que le pone sonido a nuestra historia.</p>
-        <div class="vinyl-container"><div id="vinyl" class="vinyl"></div><button id="play-pause-btn" class="play-pause-btn">▶</button></div>
-        <div style="margin-top: 1rem; text-align: center;"><p style="font-weight: 700; font-size: 1.25rem;">Completely</p><p class="text-muted" style="font-size: 1.125rem;">JAEHYUN</p></div>
-    </section>
-
-    <section class="scroll-reveal">
-        <h2 class="font-playfair">Nuestro Álbum de Recuerdos <button class="info-button" data-section="album">?</button></h2>
-        <p class="text-muted">Haz clic en la foto para ver la siguiente.</p>
-        <div id="photoAlbumContainer" class="photo-album-container"></div>
-    </section>
-
-    <footer class="footer">
-        <p class="font-dancing" style="font-size: 2.25rem; margin-bottom: 0.5rem;">Y esto es solo el comienzo...</p>
-        <p style="font-size: 1.125rem;">Gracias por cada momento. Te amo.</p>
-        <div style="margin-top: 2rem; opacity: 0.7; display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
-            <img src="https://cdn.discordapp.com/avatars/1306077704625455114/6a40fb53ed1ba6bf3f2a624bfc887e55.webp?size=100" alt="Littlegods SimplyLovely Logo" style="height: 2rem; width: 2rem; border-radius: 9999px;">
-            <p style="font-size: 0.75rem; color: var(--text-muted-color)">Littlegods SimplyLovely</p>
-        </div>
-    </footer>
-
-    <div id="ai-bear-container">
-        <div id="ai-chat-bubble"><p>¡Hola! Soy Piña.</p></div>
-        <img src="https://media.discordapp.net/attachments/993701736055312384/1382605822550474762/bot_image.png?ex=684bc383&is=684a7203&hm=88ff6b27289b0ea06256a93f33007d8b1db7bffc9d7e662a9b7e3d0573e89c35&=&format=webp&quality=lossless&width=605&height=744" alt="Asistente Piña" id="ai-bear-icon">
-    </div>
+    <audio id="our-song-audio" loop> <source src="https://github.com/andr3xcl/music-test-app/blob/main/JAEHYUN%20%EC%9E%AC%ED%98%84%20'Completely'%20(Official%20Audio).mp3?raw=true" type="audio/mpeg"> </audio>
+    <audio id="letter-open-sound"> <source src="https://cdn.pixabay.com/download/audio/2022/02/22/audio_c343949f2b.mp3" type="audio/mpeg"></audio>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const themeButtons = document.querySelectorAll('.theme-button');
-            const savedTheme = localStorage.getItem('theme') || 'love';
-            document.body.className = 'theme-' + savedTheme;
-            document.querySelector(`.theme-button[data-theme="${savedTheme}"]`).classList.add('active');
-            themeButtons.forEach(button => { button.addEventListener('click', () => { const theme = button.dataset.theme; document.body.className = 'theme-' + theme; localStorage.setItem('theme', theme); themeButtons.forEach(btn => btn.classList.remove('active')); button.classList.add('active'); }); });
-            
-            const banner = document.getElementById('banner');
-            if (banner) { const heartCount = 20; for (let i = 0; i < heartCount; i++) { const heart = document.createElement('div'); heart.classList.add('heart'); heart.innerHTML = '❤'; heart.style.left = `${Math.random() * 100}vw`; heart.style.animationDuration = `${Math.random() * 5 + 5}s`; heart.style.animationDelay = `${Math.random() * 5}s`; heart.style.fontSize = `${Math.random() * 15 + 10}px`; banner.appendChild(heart); } }
-            
-            function animateCounter() {
-                const counterElement = document.getElementById('dayCounter'); if (!counterElement || counterElement.dataset.animated) return; counterElement.dataset.animated = 'true';
-                const startDate = new Date('2025-02-01T00:00:00'); const now = new Date(); const diffTime = Math.max(now - startDate, 0); const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                if (diffDays === 0) { counterElement.textContent = 0; return; }
-                let currentCount = 0; const duration = 2000; const stepTime = Math.max(1, Math.floor(duration / diffDays));
-                const timer = setInterval(() => { currentCount++; counterElement.textContent = currentCount; if (currentCount >= diffDays) { clearInterval(timer); counterElement.textContent = diffDays; } }, stepTime);
-            }
-            
-            const photoAlbumContainer = document.getElementById('photoAlbumContainer');
-            const imageUrls = [ 'https://media.discordapp.net/attachments/993701736055312384/1382601969092264038/IMG-20250523-WA0020.jpg?ex=684bbfec&is=684a6e6c&hm=20f3e6bc97bd3abc59da99fc29bbce17883a8a48f70fef88d7a6a48c937148e2&=&format=webp&width=558&height=744', 'https://media.discordapp.net/attachments/993701736055312384/1382601970887426099/IMG-20250523-WA0011.jpg?ex=684bbfed&is=684a6e6d&hm=50880ee8e487e4ba241a382c215b544799379df5509fa4a3e685f4199c5ecb3a&=&format=webp&width=418&height=744', 'https://cdn.discordapp.com/attachments/993701736055312384/1382601968760918107/IMG-20250515-WA0016.jpg?ex=684bbfec&is=684a6e6c&hm=814379592ccc7728790521c220058257d80e9513f51c5fdcc6da7e5b1405da48&', 'https://media.discordapp.net/attachments/993701736055312384/1382600080128872568/IMG_20250321_174544_212.webp?ex=684bbe2a&is=684a6caa&hm=2317b85c38854126edf0ca32e162bbcc63515decd0e249c3b27c2b82422a49bf&=&format=webp&width=418&height=743', 'https://media.discordapp.net/attachments/993701736055312384/1382600082523820062/IMG_20250318_151818_149.webp?ex=684bbe2b&is=684a6cab&hm=963ebc882bd72e434cea3dc19b1814adb12f1c752abd88c756a445e009a4ad11&=&format=webp&width=418&height=744', 'https://media.discordapp.net/attachments/993701736055312384/1382600081546547311/IMG_20250311_150101_534.webp?ex=684bbe2a&is=684a6caa&hm=d1b2ff4b9e9253ba21013bb7b28dcd63ba8f24dbb14139af680b2d36a060b357&=&format=webp&width=418&height=744', 'https://media.discordapp.net/attachments/993701736055312384/1382600080493904024/IMG_20250321_174324_407.webp?ex=684bbe2a&is=684a6caa&hm=3f994963d906f46b63aabeb391e315071d688909fb75857e88729e3b7ce12f25&=&format=webp&width=418&height=743', 'https://media.discordapp.net/attachments/993701736055312384/1382600081219518514/IMG_20250311_150139_643.webp?ex=684bbe2a&is=684a6caa&hm=769a6b1419713ddac0816c1eeea7ba44a8712f66fb77cb2c8fa41f7959d11e93&=&format=webp&width=418&height=744', 'https://media.discordapp.net/attachments/993701736055312384/1382600081819308072/IMG_20250215_014308_118.webp?ex=684bbe2a&is=684a6caa&hm=cc6fd0e0f6ac08bc465305aff38e401085722a58c5356cade8333d95aae054c5&=&format=webp&width=418&height=744', 'https://media.discordapp.net/attachments/993701736055312384/1382600079696728075/IMG-20250429-WA0007.jpg?ex=684bbe2a&is=684a6caa&hm=ade68c50b8a4ee560a9c0d1a260ff7b2f708daf54a907861726164358279635c&=&format=webp&width=418&height=743', 'https://media.discordapp.net/attachments/993701736055312384/1382600080841900083/IMG_20250321_174112_798.webp?ex=684bbe2a&is=684a6caa&hm=b3f4a13aa5eb1f779af88b96fc8d70cb534b0d028069577f99b349eb7c194af2&=&format=webp&width=418&height=744' ];
-            function createPhotoStack() { photoAlbumContainer.innerHTML = ''; imageUrls.forEach((url, index) => { const card = document.createElement('div'); card.classList.add('polaroid-card'); const img = document.createElement('img'); img.src = url; img.alt = 'Recuerdo de nosotros'; const caption = document.createElement('div'); caption.classList.add('caption'); caption.textContent = 'Nosotros ♡'; card.appendChild(img); card.appendChild(caption); card.style.transform = `rotate(${Math.random() * 8 - 4}deg) translate(${Math.random() * 10 - 5}px, ${Math.random() * 10 - 5}px)`; card.style.zIndex = imageUrls.length - index; photoAlbumContainer.appendChild(card); }); }
-            let isAnimating = false; photoAlbumContainer.addEventListener('click', () => { if (isAnimating) return; const topCard = photoAlbumContainer.querySelector('.polaroid-card:last-child'); if (!topCard) return; isAnimating = true; topCard.classList.add('fly-out'); setTimeout(() => { topCard.classList.remove('fly-out'); topCard.style.zIndex = 0; photoAlbumContainer.prepend(topCard); const cards = photoAlbumContainer.querySelectorAll('.polaroid-card'); cards.forEach((card, index) => { card.style.zIndex = index + 1; }); isAnimating = false; }, 600); });
-            createPhotoStack();
-            
-            const bearContainer = document.getElementById('ai-bear-container'); const aiBearIcon = document.getElementById('ai-bear-icon'); const aiChatBubble = document.getElementById('ai-chat-bubble'); const infoButtons = document.querySelectorAll('.info-button');
-            let bubbleTimeout; let lastTrailTime = 0; const trailInterval = 100;
-            const explanations = {
-                welcome: "¡Hola! Soy Piña. Mi papá hizo esta página para mi mamá. ¡Hasta puedes cambiar los colores con los botones de arriba a la derecha!",
-                counter: "¡Aquí mi papá cuenta los días felices que lleva con mi mamá desde que se vieron! ¡Son un montón!",
-                reminders: "Estas son algunas de las cosas que mi papá me contó que ama de mi mamá. ¡A mí también me gustan!",
-                letter: "¡Ooh! ¡Esto es una carta secreta de papá para mamá! Haz clic en el sobre para leerla, ¡es muy romántica!",
-                music: "¡Esta es la canción de mis papás! Papá la puso para que suene mientras ven sus recuerdos. ¡Es muy bonita!",
-                album: "¡Miren! ¡Son ustedes! Este es el álbum de fotos de mis papás. ¡Hagan clic para ver todos sus recuerdos bonitos!"
-            };
-            function showBubble(text) { clearTimeout(bubbleTimeout); aiChatBubble.querySelector('p').textContent = text; aiChatBubble.classList.add('show'); bubbleTimeout = setTimeout(() => { aiChatBubble.classList.remove('show'); }, 8000); }
-            aiBearIcon.addEventListener('click', (e) => { e.stopPropagation(); showBubble(explanations.welcome); });
-            infoButtons.forEach(button => { button.addEventListener('click', (e) => { e.stopPropagation(); const section = e.target.dataset.section; if (explanations[section]) { showBubble(explanations[section]); } }); });
-            let angle = 0;
-            function flyBear() { const speed = 0.01; const flightRadiusX = (window.innerWidth / 2) * 0.7; const flightRadiusY = (window.innerHeight / 2) * 0.6; const centerX = window.innerWidth / 2; const centerY = window.innerHeight / 2; angle += speed; const x = centerX + Math.cos(angle) * flightRadiusX; const y = centerY + Math.sin(angle * 2) * flightRadiusY; bearContainer.style.left = `${x - 40}px`; bearContainer.style.top = `${y - 40}px`; const now = Date.now(); if (now - lastTrailTime > trailInterval) { lastTrailTime = now; const trail = document.createElement('div'); trail.innerHTML = '♥'; trail.classList.add('trail-heart'); trail.style.left = `${x}px`; trail.style.top = `${y}px`; document.body.appendChild(trail); setTimeout(() => { trail.remove(); }, 1500); } requestAnimationFrame(flyBear); }
-            setTimeout(() => { showBubble(explanations.welcome); }, 2000); flyBear();
-            
-            const audio = document.getElementById('our-song-audio'); const playPauseBtn = document.getElementById('play-pause-btn'); const vinyl = document.getElementById('vinyl');
-            playPauseBtn.addEventListener('click', () => { if (audio.paused) { audio.play(); } else { audio.pause(); } });
-            audio.addEventListener('play', () => { playPauseBtn.innerHTML = '❚❚'; vinyl.classList.add('playing'); });
-            audio.addEventListener('pause', () => { playPauseBtn.innerHTML = '▶'; vinyl.classList.remove('playing'); });
-            
-            const envelope = document.getElementById('envelope-container'); const letterModal = document.getElementById('letter-modal'); const closeLetterBtn = document.getElementById('letter-close-btn');
-            const letterSound = document.getElementById('letter-open-sound');
-            let heartInterval;
-            
-            envelope.addEventListener('click', () => {
-                letterSound.play(); 
-                envelope.classList.add('open'); 
-                setTimeout(() => {
-                    letterModal.classList.add('show');
-                    if (!heartInterval) {
-                        heartInterval = setInterval(createLetterHeart, 300);
-                    }
-                }, 500); 
-            });
+        // --- Variables Globales ---
+        const pages = document.querySelectorAll('.page');
+        let currentPage = 0;
 
-            closeLetterBtn.addEventListener('click', () => { 
-                letterModal.classList.remove('show'); 
-                clearInterval(heartInterval);
-                heartInterval = null;
-                document.querySelectorAll('.letter-heart').forEach(h => h.remove());
-                setTimeout(() => { envelope.classList.remove('open'); }, 500); 
-            });
-
-            function createLetterHeart() {
-                const heart = document.createElement('div');
-                heart.classList.add('letter-heart');
-                const heartPatterns = ['❤️', '💖', '💗', '💓', '💕', '✨', '🌸'];
-                heart.innerHTML = heartPatterns[Math.floor(Math.random() * heartPatterns.length)];
-                heart.style.left = `${Math.random() * 100}vw`;
-                heart.style.fontSize = `${Math.random() * 20 + 15}px`;
-                heart.style.animationDuration = `${Math.random() * 3 + 4}s`;
-                heart.style.opacity = Math.random() * 0.5 + 0.5;
-                letterModal.appendChild(heart);
-                setTimeout(() => { heart.remove(); }, 7000);
-            }
+        // --- Navegación entre Páginas ---
+        function goToPage(pageIndex) {
+            if (pageIndex < 0 || pageIndex >= pages.length) return;
+            pages[currentPage].classList.remove('active');
+            currentPage = pageIndex;
+            pages[currentPage].classList.add('active');
             
-            const allScrollSections = document.querySelectorAll('.scroll-reveal');
-            const sectionObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        if (entry.target.querySelector('#dayCounter')) { animateCounter(); }
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.2 });
-            allScrollSections.forEach(section => { sectionObserver.observe(section); });
+            // Lógica específica de cada página al mostrarse
+            if (currentPage === 1) animateCounter();
+            if (currentPage === 5) initGallery();
+        }
+        function nextPage() { goToPage(currentPage + 1); }
+        function prevPage() { goToPage(currentPage - 1); }
+
+        // --- Animación del Contador de Días ---
+        function animateCounter() {
+            const counterElement = document.getElementById('dayCounter');
+            if (!counterElement || counterElement.dataset.animated) return;
+            counterElement.dataset.animated = 'true';
+            const startDate = new Date('2025-02-01T00:00:00');
+            const now = new Date();
+            const diffTime = Math.max(now - startDate, 0);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            if (diffDays === 0) { counterElement.textContent = 0; return; }
+            let currentCount = 0;
+            const duration = 2000;
+            const stepTime = Math.max(1, Math.floor(duration / diffDays));
+            const timer = setInterval(() => {
+                currentCount++;
+                counterElement.textContent = currentCount;
+                if (currentCount >= diffDays) { clearInterval(timer); counterElement.textContent = diffDays; }
+            }, stepTime);
+        }
+
+        // --- Lógica de la Carta ---
+        const envelope = document.getElementById('envelope-container');
+        const letterModal = document.getElementById('letter-modal');
+        const closeLetterBtn = document.getElementById('letter-close-btn');
+        const letterSound = document.getElementById('letter-open-sound');
+        let heartInterval;
+        envelope.addEventListener('click', () => {
+            letterSound.play();
+            envelope.classList.add('open');
+            setTimeout(() => {
+                letterModal.classList.add('show');
+                if (!heartInterval) { heartInterval = setInterval(createLetterHeart, 300); }
+            }, 500);
         });
+        closeLetterBtn.addEventListener('click', () => {
+            letterModal.classList.remove('show');
+            clearInterval(heartInterval);
+            heartInterval = null;
+            document.querySelectorAll('.letter-heart').forEach(h => h.remove());
+            setTimeout(() => { envelope.classList.remove('open'); }, 500);
+        });
+        function createLetterHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('letter-heart');
+            const heartPatterns = ['❤️', '💖', '💗', '💓', '💕', '✨', '🌸'];
+            heart.innerHTML = heartPatterns[Math.floor(Math.random() * heartPatterns.length)];
+            heart.style.left = `${Math.random() * 100}vw`;
+            heart.style.fontSize = `${Math.random() * 20 + 15}px`;
+            heart.style.animationDuration = `${Math.random() * 3 + 4}s`;
+            heart.style.opacity = Math.random() * 0.5 + 0.5;
+            letterModal.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 7000);
+        }
+
+        // --- Lógica del Reproductor de Música ---
+        const audio = document.getElementById('our-song-audio');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const vinyl = document.getElementById('vinyl');
+        playPauseBtn.addEventListener('click', () => {
+            if (audio.paused) { audio.play(); } else { audio.pause(); }
+        });
+        audio.addEventListener('play', () => { playPauseBtn.innerHTML = '❚❚'; vinyl.classList.add('playing'); });
+        audio.addEventListener('pause', () => { playPauseBtn.innerHTML = '▶'; vinyl.classList.remove('playing'); });
+
+        // --- Lógica de la Galería ---
+        const galleryContainer = document.getElementById('gallery-container');
+        const imageUrls = [ 'https://media.discordapp.net/attachments/993701736055312384/1382601969092264038/IMG-20250523-WA0020.jpg?ex=684bbfec&is=684a6e6c&hm=20f3e6bc97bd3abc59da99fc29bbce17883a8a48f70fef88d7a6a48c937148e2&=&format=webp&width=558&height=744', 'https://media.discordapp.net/attachments/993701736055312384/1382601970887426099/IMG-20250523-WA0011.jpg?ex=684bbfed&is=684a6e6d&hm=50880ee8e487e4ba241a382c215b544799379df5509fa4a3e685f4199c5ecb3a&=&format=webp&width=418&height=744', 'https://cdn.discordapp.com/attachments/993701736055312384/1382601968760918107/IMG-20250515-WA0016.jpg?ex=684bbfec&is=684a6e6c&hm=814379592ccc7728790521c220058257d80e9513f51c5fdcc6da7e5b1405da48&', 'https://media.discordapp.net/attachments/993701736055312384/1382600080128872568/IMG_20250321_174544_212.webp?ex=684bbe2a&is=684a6caa&hm=2317b85c38854126edf0ca32e162bbcc63515decd0e249c3b27c2b82422a49bf&=&format=webp&width=418&height=743', 'https://media.discordapp.net/attachments/993701736055312384/1382600082523820062/IMG_20250318_151818_149.webp?ex=684bbe2b&is=684a6cab&hm=963ebc882bd72e434cea3dc19b1814adb12f1c752abd88c756a445e009a4ad11&=&format=webp&width=418&height=744', 'https://media.discordapp.net/attachments/993701736055312384/1382600081546547311/IMG_20250311_150101_534.webp?ex=684bbe2a&is=684a6caa&hm=d1b2ff4b9e9253ba21013bb7b28dcd63ba8f24dbb14139af680b2d36a060b357&=&format=webp&width=418&height=744' ];
+        let currentImageIndex = 0;
+        
+        function initGallery() {
+            if (galleryContainer.children.length > 0) return; // Ya inicializada
+            imageUrls.forEach((url, index) => {
+                const img = document.createElement('img');
+                img.src = url;
+                img.classList.add('gallery-img');
+                if (index === 0) img.classList.add('active');
+                galleryContainer.appendChild(img);
+            });
+            galleryContainer.addEventListener('click', showNextImage);
+        }
+        function showNextImage() {
+            const images = galleryContainer.querySelectorAll('.gallery-img');
+            images[currentImageIndex].classList.remove('active');
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            images[currentImageIndex].classList.add('active');
+        }
+
     </script>
 
 </body>
