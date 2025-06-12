@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra Historia</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Estilos personalizados y variables de temas */
+        :root, .theme-love {
+            --bg-color: #fdf8f5; --text-color: #4a233a; --text-muted-color: #5e4d59;
+            --primary-color: #e73c7e; --card-bg: white; --card-shadow: rgba(0, 0, 0, 0.1);
+            --footer-bg: #4a233a; --footer-text: white;
+        }
+        .theme-light {
+            --bg-color: #ffffff; --text-color: #2c3e50; --text-muted-color: #7f8c8d;
+            --primary-color: #3498db; --card-bg: #f8f9fa; --card-shadow: rgba(0, 0, 0, 0.08);
+            --footer-bg: #2c3e50; --footer-text: white;
+        }
+        .theme-dark {
+            --bg-color: #121212; --text-color: #e0e0e0; --text-muted-color: #a0a0a0;
+            --primary-color: #bb86fc; --card-bg: #1e1e1e; --card-shadow: rgba(255, 255, 255, 0.05);
+            --footer-bg: #1e1e1e; --footer-text: #e0e0e0;
+        }
+        .theme-modern {
+            --bg-color: #eef0f2; --text-color: #333333; --text-muted-color: #666666;
+            --primary-color: #4a90e2; --card-bg: #ffffff; --card-shadow: rgba(0, 0, 0, 0.07);
+            --footer-bg: #333333; --footer-text: #eef0f2;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif; background-color: var(--bg-color);
+            color: var(--text-color); transition: background-color 0.5s, color 0.5s; overflow-x: hidden;
+        }
+        .font-dancing { font-family: 'Dancing Script', cursive; }
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .banner-container { height: 100vh; background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); background-size: 400% 400%; animation: gradientBG 15s ease infinite; position: relative; }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .content-box { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.2); animation: fadeInScale 1.5s ease-out; }
+        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        .heart { position: absolute; color: rgba(255, 255, 255, 0.5); animation: floatUp 10s infinite linear; bottom: -50px; }
+        @keyframes floatUp { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-120vh); opacity: 0; } }
+        .scroll-reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s ease-out, transform 1s ease-out; will-change: opacity, transform; }
+        .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
+        h2 { color: var(--text-color); } .text-muted { color: var(--text-muted-color); } .card { background-color: var(--card-bg); box-shadow: 0 5px 15px var(--card-shadow); transition: background-color 0.5s, box-shadow 0.5s; } .primary-text { color: var(--primary-color); }
+        .photo-album-container { position: relative; width: 300px; height: 350px; margin: 2rem auto; perspective: 1000px; }
+        .polaroid-card { position: absolute; width: 100%; height: 100%; background-color: white; border-radius: 8px; padding: 16px; padding-bottom: 70px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); cursor: pointer; transition: transform 0.6s ease, opacity 0.6s ease; display: flex; flex-direction: column; align-items: center; }
+        .polaroid-card img { width: 100%; height: 100%; object-fit: cover; border: 1px solid #eee; }
+        .polaroid-card .caption { position: absolute; bottom: 15px; font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: #555; }
+        .polaroid-card.fly-out { transform: translate(200%, -50%) rotate(30deg) !important; opacity: 0; }
+        #ai-bear-container { position: fixed; top: 50%; left: 50%; z-index: 1000; display: flex; align-items: center; justify-content: center; flex-direction: column; pointer-events: none; }
+        #ai-bear-icon { width: 80px; height: auto; cursor: pointer; transition: transform 0.3s ease; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2)); pointer-events: auto; }
+        #ai-bear-icon:hover { transform: scale(1.1); }
+        #ai-chat-bubble { background-color: var(--card-bg); padding: 15px; border-radius: 20px; box-shadow: 0 4px 15px var(--card-shadow); width: 240px; opacity: 0; transform: translate(-50%, 10px); transition: opacity 0.4s ease, transform 0.4s ease; pointer-events: none; position: absolute; bottom: 100%; left: 50%; margin-bottom: 10px; color: var(--text-color); }
+        #ai-chat-bubble.show { opacity: 1; transform: translate(-50%, 0); }
+        .info-button { display: inline-flex; justify-content: center; align-items: center; width: 24px; height: 24px; border-radius: 50%; background-color: var(--primary-color); opacity: 0.5; color: white; font-weight: bold; border: none; cursor: pointer; margin-left: 10px; transition: all 0.3s; animation: pulse-info 3s infinite ease-in-out; }
+        .info-button:hover { opacity: 1; transform: scale(1.1); }
+        @keyframes pulse-info { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        .trail-heart { position: fixed; color: var(--primary-color); opacity: 0.7; font-size: 20px; pointer-events: none; z-index: 999; animation: fadeOutTrail 1.5s linear forwards; }
+        @keyframes fadeOutTrail { to { transform: translateY(-50px) scale(0.5); opacity: 0; } }
+        #music-section .vinyl-container { position: relative; width: 250px; height: 250px; }
+        #music-section .vinyl { width: 100%; height: 100%; background-image: url('https://i.ytimg.com/vi/syFNMj8vBL0/maxresdefault.jpg'); background-size: cover; border-radius: 50%; box-shadow: 0 0 20px var(--card-shadow); display: flex; justify-content: center; align-items: center; }
+        #music-section .vinyl.playing { animation: spin 4s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        #music-section .play-pause-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; background-color: rgba(255, 255, 255, 0.8); border: none; border-radius: 50%; cursor: pointer; color: var(--primary-color); font-size: 2rem; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(2px); }
+        .footer { background-color: var(--footer-bg); color: var(--footer-text); transition: background-color 0.5s, color 0.5s; }
+        
+        #theme-switcher { position: fixed; top: 20px; right: 20px; z-index: 1001; background: var(--card-bg); border-radius: 50px; padding: 5px; box-shadow: 0 2px 10px var(--card-shadow); display: flex; gap: 8px; }
+        .theme-button {
+            width: 36px; height: 36px;
+            border-radius: 50%; border: 2px solid transparent; cursor: pointer;
+            transition: all 0.2s; display: flex; justify-content: center; align-items: center;
+            background-color: transparent; color: var(--text-muted-color);
+        }
+        .theme-button:hover { transform: scale(1.1); color: var(--primary-color); }
+        .theme-button.active { border-color: var(--primary-color); color: var(--primary-color); background-color: rgba(0,0,0,0.05); }
+
+        .envelope-container { position: relative; cursor: pointer; width: 200px; height: 125px; margin: 2rem auto; transition: transform 0.3s; }
+        .envelope-container:hover { transform: translateY(-5px) scale(1.05); }
+        .envelope { position: absolute; width: 100%; height: 100%; background-color: #ffdde1; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .envelope-flap { position: absolute; top: 0; left: 0; width: 100%; height: 60%; background-color: #f7cac9; border-radius: 6px 6px 0 0; transform-origin: bottom; transition: transform 0.5s ease-in-out; clip-path: polygon(0 0, 100% 0, 50% 100%); }
+        .envelope-seal { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); width: 30px; height: 30px; background-color: var(--primary-color); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 1rem; }
+        .envelope-container.open .envelope-flap { transform: rotateX(180deg); }
+        #letter-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.5s; overflow: hidden; }
+        #letter-modal.show { opacity: 1; pointer-events: auto; }
+        .letter-paper { position: relative; z-index: 2001; background: #fffcf2; color: #5c3c32; padding: 40px; max-width: 90%; width: 600px; max-height: 80vh; overflow-y: auto; border-radius: 5px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transform: scale(0.8); transition: transform 0.5s; font-family: 'Dancing Script', cursive; font-size: 1.5rem; line-height: 2.5rem; }
+        #letter-modal.show .letter-paper { transform: scale(1); }
+        .letter-close-btn { position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 2rem; cursor: pointer; z-index: 2002; }
+        
+        /* NUEVO: Estilo para corazones flotantes en la carta */
+        .letter-heart {
+            position: absolute;
+            font-size: 20px;
+            pointer-events: none;
+            animation: letterHeartFloat 6s linear;
+        }
+        @keyframes letterHeartFloat {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+    </style>
+</head>
+<body class="theme-love">
+    
+    <audio id="our-song-audio" loop> <source src="https://github.com/andr3xcl/music-test-app/blob/main/JAEHYUN%20%EC%9E%AC%ED%98%84%20'Completely'%20(Official%20Audio).mp3?raw=true" type="audio/mpeg"> </audio>
+    <audio id="letter-open-sound"> <source src="https://cdn.pixabay.com/download/audio/2022/02/22/audio_c343949f2b.mp3" type="audio/mpeg"></audio>
+
+    <div id="theme-switcher">
+        <button class="theme-button" data-theme="love" title="Tema Amor"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg></button>
+        <button class="theme-button" data-theme="light" title="Tema Claro"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M12 12a5 5 0 005-5H7a5 5 0 005 5z"></path></svg></button>
+        <button class="theme-button" data-theme="dark" title="Tema Oscuro"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg></button>
+        <button class="theme-button" data-theme="modern" title="Tema Moderno"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg></button>
+    </div>
+
+    <section id="banner" class="banner-container flex justify-center items-center text-center text-white p-4">
+        <div class="content-box p-8 md:p-12">
+            <h1 class="font-dancing text-5xl md:text-7xl font-bold mb-4" style="text-shadow: 2px 2px 10px rgba(0,0,0,0.3);"> Para la mujer que ilumina mis días </h1>
+            <h2 class="text-3xl md:text-4xl font-semibold mt-6 mb-8" style="text-shadow: 1px 1px 5px rgba(0,0,0,0.2);">Mi amada Iris😍 </h2>
+            <p class="text-lg md:text-xl animate-pulse">Desliza para ver más</p>
+        </div>
+    </section>
+
+    <section class="py-20 px-4 text-center scroll-reveal">
+        <h2 class="font-playfair text-4xl md:text-5xl mb-4">El Día que Nuestro Viaje Comenzó <button class="info-button" data-section="counter">?</button></h2>
+        <p class="text-xl text-muted mb-8">1 de Febrero de 2025</p>
+        <div class="card rounded-2xl shadow-xl p-8 max-w-2xl mx-auto">
+            <p class="text-lg uppercase tracking-widest primary-text">Han pasado</p>
+            <div id="dayCounter" class="font-playfair text-7xl md:text-9xl font-bold my-4 primary-text">0</div>
+            <p class="text-lg uppercase tracking-widest primary-text">días maravillosos a tu lado</p>
+        </div>
+    </section>
+
+    <section class="py-20 px-4 text-center scroll-reveal" style="background-color: var(--card-bg); transition: background-color 0.5s;">
+        <h2 class="font-playfair text-4xl md:text-5xl mb-12">Pequeños Recordatorios <button class="info-button" data-section="reminders">?</button></h2>
+        <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-8">
+            <div class="card p-6 rounded-xl transform hover:-translate-y-2 transition-transform duration-300">
+                <div class="text-5xl mb-4">🏆</div> <h3 class="font-bold text-xl mb-2">Lo orgulloso que estoy</h3> <p class="text-muted">De la mujer increíble en la que te conviertes cada día.</p>
+            </div>
+            <div class="card p-6 rounded-xl transform hover:-translate-y-2 transition-transform duration-300">
+                <div class="text-5xl mb-4">💋</div> <h3 class="font-bold text-xl mb-2">Tus Besos</h3> <p class="text-muted">Son mi adicción favorita y la cura para cualquier mal día.</p>
+            </div>
+            <div class="card p-6 rounded-xl transform hover:-translate-y-2 transition-transform duration-300">
+                <div class="text-5xl mb-4">🍲</div> <h3 class="font-bold text-xl mb-2">Tu Comida</h3> <p class="text-muted">Tu comidita la mejor que he probado.</p>
+            </div>
+            <div class="card p-6 rounded-xl transform hover:-translate-y-2 transition-transform duration-300">
+                <div class="text-5xl mb-4">🌌</div> <h3 class="font-bold text-xl mb-2">Tu Mundo</h3> <p class="text-muted">Amo perderme en tu universo de kdramas, k-pop</p>
+            </div>
+            <div class="card p-6 rounded-xl transform hover:-translate-y-2 transition-transform duration-300">
+                <div class="text-5xl mb-4">📸</div> <h3 class="font-bold text-xl mb-2">Tus Fotos</h3> <p class="text-muted">Admiro la forma cuando posas para las fotos para mi.</p>
+            </div>
+            <div class="card p-6 rounded-xl transform hover:-translate-y-2 transition-transform duration-300">
+                <div class="text-5xl mb-4">❤️</div> <h3 class="font-bold text-xl mb-2">Tú</h3> <p class="text-muted">Amo cada parte de ti. Eres la obra de arte más perfecta que existe.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="letter-section" class="py-20 px-4 text-center scroll-reveal">
+        <h2 class="font-playfair text-4xl md:text-5xl mb-4">Una Carta Para Ti <button class="info-button" data-section="letter">?</button></h2>
+        <p class="text-lg text-muted mb-8">Hay algo importante que quiero decirte...</p>
+        <div id="envelope-container" class="envelope-container">
+            <div class="envelope"></div>
+            <div class="envelope-flap"></div>
+            <div class="envelope-seal">💌</div>
+        </div>
+    </section>
+    <div id="letter-modal">
+        <button id="letter-close-btn" class="letter-close-btn">&times;</button>
+        <div class="letter-paper">
+            <p>Mi querida Iris,</p><br>
+            <p>A veces, cuando te miro, siento que estoy buscando a alguien que ya forma parte de mí, como Taki buscaba a Mitsuha sin conocer su rostro, guiado solo por el lazo invisible del destino. Antes de ti, mi mundo era un lienzo en blanco; ahora, cada día contigo es una obra maestra bañada por la luz, como el cielo despejado después de la tormenta en <i>El Tiempo Contigo</i>.</p>
+            <p>Pienso en Kirito, quien en Asuna encontró su propósito, su fuerza, su todo. Así como él, yo también he encontrado en ti mi realidad y mi sueño. Mi vida te pertenece. Haz conmigo lo que quieras… solo déjame permanecer a tu lado.</p>
+            <p>Tú eres mi Aincrad, el mundo donde quiero quedarme para siempre, porque a tu lado no hay miedo, solo valentía. Por ti enfrentaría cada jefe final, cada obstáculo, cada sombra. Porque contigo, me siento invencible.</p>
+            <p>Como dice nuestra canción: desde que llegaste, llenaste mi mundo de luz. Me completaste. <b>Completely.</b> Ya no concibo un mañana sin ti, sin tu risa que alegra mis días, sin tus abrazos que sanan mi alma.</p>
+            <p>No importa cuántos hilos del destino debamos seguir… sé con certeza que todos me llevarían a ti. Siempre.</p><br>
+            <p>Con todo mi amor,<br>Tu Andresito.</p>
+        </div>
+    </div>
+
+
+    <section id="music-section" class="py-20 px-4 text-center scroll-reveal" style="background-color: var(--card-bg); transition: background-color 0.5s;">
+        <h2 class="font-playfair text-4xl md:text-5xl mb-4">Nuestra Canción <button class="info-button" data-section="music">?</button></h2>
+        <p class="text-lg text-muted mb-8">La melodía que le pone sonido a nuestra historia.</p>
+        <div class="flex flex-col items-center">
+            <div class="vinyl-container">
+                <div id="vinyl" class="vinyl"></div>
+                <button id="play-pause-btn" class="play-pause-btn">▶</button>
+            </div>
+            <div class="mt-4 text-center">
+                <p class="font-bold text-xl">Completely</p>
+                <p class="text-lg text-muted">JAEHYUN</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 px-4 text-center scroll-reveal">
+        <h2 class="font-playfair text-4xl md:text-5xl mb-4">Nuestro Álbum de Recuerdos <button class="info-button" data-section="album">?</button></h2>
+        <p class="text-lg text-muted mb-8">Haz clic en la foto para ver la siguiente.</p>
+        <div id="photoAlbumContainer" class="photo-album-container"></div>
+    </section>
+
+    <footer class="footer text-center py-12 px-4">
+        <p class="font-dancing text-4xl mb-2">Y esto es solo el comienzo...</p>
+        <p class="text-lg">Gracias por cada momento. Te amo.</p>
+        <div class="mt-8 opacity-70 flex justify-center items-center gap-2">
+            <img src="https://cdn.discordapp.com/avatars/1306077704625455114/6a40fb53ed1ba6bf3f2a624bfc887e55.webp?size=100" alt="Littlegods SimplyLovely Logo" class="h-8 w-8 rounded-full">
+            <p class="text-xs" style="color: var(--text-muted-color)">Littlegods SimplyLovely</p>
+        </div>
+    </footer>
+
+    <div id="ai-bear-container">
+        <div id="ai-chat-bubble"><p>¡Hola! Soy Piña.</p></div>
+        <img src="https://media.discordapp.net/attachments/993701736055312384/1382605822550474762/bot_image.png?ex=684bc383&is=684a7203&hm=88ff6b27289b0ea06256a93f33007d8b1db7bffc9d7e662a9b7e3d0573e89c35&=&format=webp&quality=lossless&width=605&height=744" alt="Asistente Piña" id="ai-bear-icon">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- LÓGICA DE TEMAS ---
+            const themeButtons = document.querySelectorAll('.theme-button');
+            const savedTheme = localStorage.getItem('theme') || 'love';
+            document.body.className = 'theme-' + savedTheme;
+            document.querySelector(`.theme-button[data-theme="${savedTheme}"]`).classList.add('active');
+            themeButtons.forEach(button => { button.addEventListener('click', () => { const theme = button.dataset.theme; document.body.className = 'theme-' + theme; localStorage.setItem('theme', theme); themeButtons.forEach(btn => btn.classList.remove('active')); button.classList.add('active'); }); });
+
+            // --- LÓGICA GENERAL ---
+            const banner = document.getElementById('banner');
+            if (banner) { const heartCount = 20; for (let i = 0; i < heartCount; i++) { const heart = document.createElement('div'); heart.classList.add('heart'); heart.innerHTML = '❤'; heart.style.left = `${Math.random() * 100}vw`; heart.style.animationDuration = `${Math.random() * 5 + 5}s`; heart.style.animationDelay = `${Math.random() * 5}s`; heart.style.fontSize = `${Math.random() * 15 + 10}px`; banner.appendChild(heart); } }
+            
+            function animateCounter() {
+                const counterElement = document.getElementById('dayCounter'); if (!counterElement || counterElement.dataset.animated) return; counterElement.dataset.animated = 'true';
+                const startDate = new Date('2025-02-01T00:00:00'); const now = new Date(); const diffTime = Math.max(now - startDate, 0); const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                if (diffDays === 0) { counterElement.textContent = 0; return; }
+                let currentCount = 0; const duration = 2000; const stepTime = Math.max(1, Math.floor(duration / diffDays));
+                const timer = setInterval(() => { currentCount++; counterElement.textContent = currentCount; if (currentCount >= diffDays) { clearInterval(timer); counterElement.textContent = diffDays; } }, stepTime);
+            }
+            
+            const photoAlbumContainer = document.getElementById('photoAlbumContainer');
+            const imageUrls = [ 'https://media.discordapp.net/attachments/993701736055312384/1382601969092264038/IMG-20250523-WA0020.jpg?ex=684bbfec&is=684a6e6c&hm=20f3e6bc97bd3abc59da99fc29bbce17883a8a48f70fef88d7a6a48c937148e2&=&format=webp&width=558&height=744', 'https://media.discordapp.net/attachments/993701736055312384/1382601970887426099/IMG-20250523-WA0011.jpg?ex=684bbfed&is=684a6e6d&hm=50880ee8e487e4ba241a382c215b544799379df5509fa4a3e685f4199c5ecb3a&=&format=webp&width=418&height=744', 'https://cdn.discordapp.com/attachments/993701736055312384/1382601968760918107/IMG-20250515-WA0016.jpg?ex=684bbfec&is=684a6e6c&hm=814379592ccc7728790521c220058257d80e9513f51c5fdcc6da7e5b1405da48&', 'https://media.discordapp.net/attachments/993701736055312384/1382600080128872568/IMG_20250321_174544_212.webp?ex=684bbe2a&is=684a6caa&hm=2317b85c38854126edf0ca32e162bbcc63515decd0e249c3b27c2b82422a49bf&=&format=webp&width=418&height=743', 'https://media.discordapp.net/attachments/993701736055312384/1382600082523820062/IMG_20250318_151818_149.webp?ex=684bbe2b&is=684a6cab&hm=963ebc882bd72e434cea3dc19b1814adb12f1c752abd88c756a445e009a4ad11&=&format=webp&width=418&height=744', 'https://media.discordapp.net/attachments/993701736055312384/1382600081546547311/IMG_20250311_150101_534.webp?ex=684bbe2a&is=684a6caa&hm=d1b2ff4b9e9253ba21013bb7b28dcd63ba8f24dbb14139af680b2d36a060b357&=&format=webp&width=418&height=744', 'https://media.discordapp.net/attachments/993701736055312384/1382600080493904024/IMG_20250321_174324_407.webp?ex=684bbe2a&is=684a6caa&hm=3f994963d906f46b63aabeb391e315071d688909fb75857e88729e3b7ce12f25&=&format=webp&width=418&height=743', 'https://media.discordapp.net/attachments/993701736055312384/1382600081219518514/IMG_20250311_150139_643.webp?ex=684bbe2a&is=684a6caa&hm=769a6b1419713ddac0816c1eeea7ba44a8712f66fb77cb2c8fa41f7959d11e93&=&format=webp&width=418&height=744', 'https://media.discordapp.net/attachments/993701736055312384/1382600081819308072/IMG_20250215_014308_118.webp?ex=684bbe2a&is=684a6caa&hm=cc6fd0e0f6ac08bc465305aff38e401085722a58c5356cade8333d95aae054c5&=&format=webp&width=418&height=744', 'https://media.discordapp.net/attachments/993701736055312384/1382600079696728075/IMG-20250429-WA0007.jpg?ex=684bbe2a&is=684a6caa&hm=ade68c50b8a4ee560a9c0d1a260ff7b2f708daf54a907861726164358279635c&=&format=webp&width=418&height=743', 'https://media.discordapp.net/attachments/993701736055312384/1382600080841900083/IMG_20250321_174112_798.webp?ex=684bbe2a&is=684a6caa&hm=b3f4a13aa5eb1f779af88b96fc8d70cb534b0d028069577f99b349eb7c194af2&=&format=webp&width=418&height=744' ];
+            function createPhotoStack() { photoAlbumContainer.innerHTML = ''; imageUrls.forEach((url, index) => { const card = document.createElement('div'); card.classList.add('polaroid-card'); const img = document.createElement('img'); img.src = url; img.alt = 'Recuerdo de nosotros'; const caption = document.createElement('div'); caption.classList.add('caption'); caption.textContent = 'Nosotros ♡'; card.appendChild(img); card.appendChild(caption); card.style.transform = `rotate(${Math.random() * 8 - 4}deg) translate(${Math.random() * 10 - 5}px, ${Math.random() * 10 - 5}px)`; card.style.zIndex = imageUrls.length - index; photoAlbumContainer.appendChild(card); }); }
+            let isAnimating = false; photoAlbumContainer.addEventListener('click', () => { if (isAnimating) return; const topCard = photoAlbumContainer.querySelector('.polaroid-card:last-child'); if (!topCard) return; isAnimating = true; topCard.classList.add('fly-out'); setTimeout(() => { topCard.classList.remove('fly-out'); topCard.style.zIndex = 0; photoAlbumContainer.prepend(topCard); const cards = photoAlbumContainer.querySelectorAll('.polaroid-card'); cards.forEach((card, index) => { card.style.zIndex = index + 1; }); isAnimating = false; }, 600); });
+            createPhotoStack();
+            
+            // --- LÓGICA DEL ASISTENTE PIÑA ---
+            const bearContainer = document.getElementById('ai-bear-container'); const aiBearIcon = document.getElementById('ai-bear-icon'); const aiChatBubble = document.getElementById('ai-chat-bubble'); const infoButtons = document.querySelectorAll('.info-button');
+            let bubbleTimeout; let lastTrailTime = 0; const trailInterval = 100;
+            const explanations = {
+                welcome: "¡Hola! Soy Piña. Mi papá hizo esta página para mi mamá. ¡Hasta puedes cambiar los colores con los botones de arriba a la derecha!",
+                counter: "¡Aquí mi papá cuenta los días felices que lleva con mi mamá desde que se vieron! ¡Son un montón!",
+                reminders: "Estas son algunas de las cosas que mi papá me contó que ama de mi mamá. ¡A mí también me gustan!",
+                letter: "¡Ooh! ¡Esto es una carta secreta de papá para mamá! Haz clic en el sobre para leerla, ¡es muy romántica!",
+                music: "¡Esta es la canción de mis papás! Papá la puso para que suene mientras ven sus recuerdos. ¡Es muy bonita!",
+                album: "¡Miren! ¡Son ustedes! Este es el álbum de fotos de mis papás. ¡Hagan clic para ver todos sus recuerdos bonitos!"
+            };
+            function showBubble(text) { clearTimeout(bubbleTimeout); aiChatBubble.querySelector('p').textContent = text; aiChatBubble.classList.add('show'); bubbleTimeout = setTimeout(() => { aiChatBubble.classList.remove('show'); }, 8000); }
+            aiBearIcon.addEventListener('click', (e) => { e.stopPropagation(); showBubble(explanations.welcome); });
+            infoButtons.forEach(button => { button.addEventListener('click', (e) => { e.stopPropagation(); const section = e.target.dataset.section; if (explanations[section]) { showBubble(explanations[section]); } }); });
+            let angle = 0;
+            function flyBear() { const speed = 0.01; const flightRadiusX = (window.innerWidth / 2) * 0.7; const flightRadiusY = (window.innerHeight / 2) * 0.6; const centerX = window.innerWidth / 2; const centerY = window.innerHeight / 2; angle += speed; const x = centerX + Math.cos(angle) * flightRadiusX; const y = centerY + Math.sin(angle * 2) * flightRadiusY; bearContainer.style.left = `${x - 40}px`; bearContainer.style.top = `${y - 40}px`; const now = Date.now(); if (now - lastTrailTime > trailInterval) { lastTrailTime = now; const trail = document.createElement('div'); trail.innerHTML = '♥'; trail.classList.add('trail-heart'); trail.style.left = `${x}px`; trail.style.top = `${y}px`; document.body.appendChild(trail); setTimeout(() => { trail.remove(); }, 1500); } requestAnimationFrame(flyBear); }
+            setTimeout(() => { showBubble(explanations.welcome); }, 2000); flyBear();
+            
+            // --- LÓGICA DEL REPRODUCTOR DE AUDIO ---
+            const audio = document.getElementById('our-song-audio'); const playPauseBtn = document.getElementById('play-pause-btn'); const vinyl = document.getElementById('vinyl');
+            playPauseBtn.addEventListener('click', () => { if (audio.paused) { audio.play(); } else { audio.pause(); } });
+            audio.addEventListener('play', () => { playPauseBtn.innerHTML = '❚❚'; vinyl.classList.add('playing'); });
+            audio.addEventListener('pause', () => { playPauseBtn.innerHTML = '▶'; vinyl.classList.remove('playing'); });
+            
+            // --- LÓGICA DE LA CARTA ---
+            const envelope = document.getElementById('envelope-container'); const letterModal = document.getElementById('letter-modal'); const closeLetterBtn = document.getElementById('letter-close-btn');
+            const letterSound = document.getElementById('letter-open-sound');
+            let heartInterval;
+            
+            envelope.addEventListener('click', () => {
+                letterSound.play(); 
+                envelope.classList.add('open'); 
+                setTimeout(() => {
+                    letterModal.classList.add('show');
+                    if (!heartInterval) {
+                        heartInterval = setInterval(createLetterHeart, 300);
+                    }
+                }, 500); 
+            });
+
+            closeLetterBtn.addEventListener('click', () => { 
+                letterModal.classList.remove('show'); 
+                clearInterval(heartInterval);
+                heartInterval = null;
+                document.querySelectorAll('.letter-heart').forEach(h => h.remove());
+                setTimeout(() => { envelope.classList.remove('open'); }, 500); 
+            });
+
+            function createLetterHeart() {
+                const heart = document.createElement('div');
+                heart.classList.add('letter-heart');
+                const heartPatterns = ['❤️', '💖', '💗', '💓', '💕', '✨', '🌸'];
+                heart.innerHTML = heartPatterns[Math.floor(Math.random() * heartPatterns.length)];
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.fontSize = `${Math.random() * 20 + 15}px`;
+                heart.style.animationDuration = `${Math.random() * 3 + 4}s`;
+                heart.style.opacity = Math.random() * 0.5 + 0.5;
+                letterModal.appendChild(heart);
+                setTimeout(() => { heart.remove(); }, 7000);
+            }
+            
+            // --- LÓGICA DE OBSERVACIÓN DE SECCIONES ---
+            const allScrollSections = document.querySelectorAll('.scroll-reveal');
+            const sectionObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        if (entry.target.querySelector('#dayCounter')) { animateCounter(); }
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+            allScrollSections.forEach(section => { sectionObserver.observe(section); });
+        });
+    </script>
+
+</body>
+</html>
