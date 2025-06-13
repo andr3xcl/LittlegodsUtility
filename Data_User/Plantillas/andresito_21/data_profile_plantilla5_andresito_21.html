@@ -1,0 +1,287 @@
+
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Status del Cazador - andresito_21</title>
+            <script src="https://cdn.tailwindcss.com"></script>
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+            <style>
+                @keyframes color-cycle {
+                    0%, 100% { 
+                        border-color: rgba(157, 78, 221, 0.5); 
+                        box-shadow: 0 0 25px rgba(157, 78, 221, 0.3);
+                    }
+                    50% { 
+                        border-color: rgba(0, 191, 255, 0.5);
+                        box-shadow: 0 0 25px rgba(0, 191, 255, 0.3);
+                    }
+                }
+                @keyframes text-glow {
+                    0%, 100% { text-shadow: 0 0 4px var(--accent-glow); }
+                    50% { text-shadow: 0 0 10px var(--accent-glow); }
+                }
+                :root {
+                    --bg-main: #01000b;
+                    --bg-panel: rgba(10, 2, 32, 0.85);
+                    --border-color: rgba(157, 78, 221, 0.5);
+                    --shadow-color: rgba(157, 78, 221, 0.3);
+                    --text-primary: #e2e2ff;
+                    --text-secondary: #a0a0d6;
+                    --accent-glow: #9d4edd;
+                    --accent-green: #89fc00;
+                    --accent-red: #ff5a5f;
+                    --accent-blue: #00bfff;
+                    --hover-bg: rgba(157, 78, 221, 0.1);
+                }
+                body {
+                    font-family: 'Roboto Mono', monospace;
+                    background-color: var(--bg-main);
+                    color: var(--text-secondary);
+                }
+                .status-frame {
+                    border: 2px solid var(--border-color);
+                    background-color: var(--bg-panel);
+                    backdrop-filter: blur(10px);
+                    padding: 0.5rem;
+                    animation: color-cycle 8s ease-in-out infinite alternate;
+                    position: relative;
+                    overflow: hidden;
+                }
+                .status-panel {
+                    border: 1px solid var(--border-color);
+                    padding: 2rem;
+                }
+                h1, h2, h3, h4 {
+                    font-family: 'Orbitron', sans-serif;
+                    text-transform: uppercase;
+                    color: var(--text-primary);
+                }
+                .stat-label {
+                    font-weight: 500;
+                    font-size: 1.25rem;
+                }
+                .stat-value {
+                    font-weight: 700;
+                    color: var(--text-primary);
+                }
+                .tab-button {
+                    padding: 0.5rem 1rem;
+                    font-weight: 700;
+                    color: var(--text-secondary);
+                    background: transparent;
+                    border: 1px solid var(--border-color);
+                    transition: all 0.3s ease;
+                }
+                .tab-button.active, .tab-button:hover {
+                    color: var(--text-primary);
+                    background-color: var(--accent-glow);
+                    color: #01000b;
+                    box-shadow: 0 0 15px var(--accent-glow);
+                    transform: translateY(-2px);
+                }
+                .tab-panel { display: none; }
+                .tab-panel.active { display: block; animation: panelFadeIn 0.5s; }
+                @keyframes panelFadeIn { from { opacity: 0; } to { opacity: 1; } }
+                .stat-row {
+                    transition: background-color 0.2s ease, transform 0.2s ease;
+                }
+                .stat-row:hover {
+                    background-color: var(--hover-bg);
+                    transform: scale(1.03);
+                }
+                .interactive-block {
+                    transition: transform 0.3s ease, background-color 0.3s ease;
+                    border-radius: 0.25rem;
+                }
+                .interactive-block:hover {
+                    transform: translateY(-5px);
+                    background-color: var(--hover-bg);
+                }
+                .particle-container {
+                    position: relative;
+                }
+                .content-to-reveal {
+                    opacity: 1; /* Content is visible but under the overlay */
+                }
+                .particle-overlay {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    display: grid;
+                    z-index: 100;
+                    pointer-events: none; /* Allows clicks to go through to content below if needed */
+                }
+                .particle {
+                    background-color: var(--bg-main);
+                    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+                }
+                .particle.is-vanishing {
+                    opacity: 0;
+                    transform: scale(0) rotate(180deg);
+                }
+            </style>
+        </head>
+        <body class="p-4 md:p-8">
+            <div id="main-container" class="max-w-5xl mx-auto space-y-8 particle-container">
+                <div id="particle-overlay" class="particle-overlay"></div>
+                <div class="content-to-reveal">
+                    <div class="status-frame">
+                        <div class="status-panel">
+                            <div class="text-center border-b-2 pb-4" style="border-color: var(--border-color);">
+                                <h3 class="text-2xl tracking-widest">Bienvenido al Sistema</h3>
+                            </div>
+                            
+                            <div class="flex items-center gap-8 py-6 border-b-2" style="border-color: var(--border-color);">
+                                <img src="https://cdn.discordapp.com/avatars/1306077704625455114/6a40fb53ed1ba6bf3f2a624bfc887e55.webp?size=100" alt="Avatar" class="w-24 h-24 rounded-md border-2" style="border-color: var(--accent-glow);"/>
+                                <div>
+                                    <p class="text-lg">NOMBRE</p>
+                                    <p class="text-2xl font-bold">andresito_21</p>
+                                    <p class="text-lg mt-2">TÍTULO</p>
+                                    <p class="text-xl font-bold text-gray-400">Leyenda</p>
+                                </div>
+                                <div class="ml-auto text-right">
+                                    <p class="text-sm">RANGO</p>
+                                    <p class="text-7xl font-bold" style="color: var(--accent-glow); animation: text-glow 3s ease-in-out infinite;">60</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-6 border-b-2 pb-6" style="border-color: var(--border-color);">
+                                <div class="flex items-center gap-3 p-2 interactive-block">
+                                    <span class="stat-label">▶ KILLS:</span>
+                                    <span class="stat-value">51</span>
+                                </div>
+                                <div class="flex items-center gap-3 p-2 interactive-block">
+                                    <span class="stat-label">❤ DOWNS:</span>
+                                    <span class="stat-value">384</span>
+                                </div>
+                                <div class="flex items-center gap-3 p-2 interactive-block">
+                                    <span class="stat-label">🎯 HEADSHOTS:</span>
+                                    <span class="stat-value">0</span>
+                                </div>
+                                <div class="flex items-center gap-3 p-2 interactive-block">
+                                    <span class="stat-label">✚ REVIVES:</span>
+                                    <span class="stat-value">0</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 pt-6">
+                                <div>
+                                    <h4 class="text-lg mb-2">RECURSOS</h4>
+                                    <ul class="space-y-1 text-sm">
+                                        <li class="flex justify-between p-1 rounded interactive-block"><span>Banco:</span> <span class="font-bold text-green-400">1000</span></li>
+                                        <li class="flex justify-between p-1 rounded interactive-block"><span>Coins:</span> <span class="font-bold text-yellow-400">99984199</span></li>
+                                        <li class="flex justify-between p-1 rounded interactive-block"><span>Mana:</span> <span class="font-bold text-purple-400">190</span></li>
+                                        <li class="flex justify-between p-1 rounded interactive-block"><span>Score Ganado:</span> <span class="font-bold text-green-400">166115</span></li>
+                                        <li class="flex justify-between p-1 rounded interactive-block"><span>Score Perdido:</span> <span class="font-bold text-red-400">78000</span></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg mb-2">EQUIPO</h4>
+                                    <ul class="space-y-1 text-sm">
+                                        <li class="flex items-center gap-2 p-1 rounded interactive-block"><span class="font-bold" style="color:var(--accent-glow)">Shield: Comprado</span></li>
+                                        <li class="flex items-center gap-2 p-1 rounded interactive-block"><span class="font-bold" style="color:var(--accent-glow)">Weapon: No comprado</span></li>
+                                        <li class="flex items-center gap-2 p-1 rounded interactive-block"><span class="font-bold" style="color:var(--accent-glow)">AFK: Comprado</span></li>
+                                        <li class="flex items-center gap-2 p-1 rounded interactive-block"><span class="font-bold" style="color:var(--accent-glow)">Night Mode: Comprado</span></li>
+                                        <li class="flex items-center gap-2 p-1 rounded interactive-block"><span class="font-bold" style="color:var(--accent-glow)">PowerUps: Comprado</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="status-frame">
+                        <div class="status-panel">
+                            <div class="flex justify-center gap-2 mb-4">
+                                <button class="tab-button" data-target="panel-general">[ GENERAL ]</button>
+                                <button class="tab-button" data-target="panel-ee">[ EASTEREGG ]</button>
+                                <button class="tab-button" data-target="panel-mv">[ MAPVOTE ]</button>
+                                <button class="tab-button" data-target="panel-bm">[ BONUSMAPS ]</button>
+                            </div>
+                            <div class="p-2">
+                                <div id="panel-general" class="tab-panel">
+                                    <h4 class="text-lg mb-2 text-center">// DESEMPEÑO GENERAL POR MODO</h4>
+                                    <table class="w-full text-sm text-left"><thead class="text-xs text-gray-400 uppercase"><tr class="border-b border-gray-700"><th class="p-2">Modo</th><th class="p-2 text-center">Kills</th><th class="p-2 text-center">Downs</th><th class="p-2 text-center">Headshots</th><th class="p-2 text-center">Revives</th></tr></thead><tbody class="divide-y divide-gray-800"><tr class="stat-row"><td class="p-2 font-semibold">EasterEgg</td><td class="p-2 text-center font-mono">17</td><td class="p-2 text-center font-mono">128</td><td class="p-2 text-center font-mono">0</td><td class="p-2 text-center font-mono">0</td></tr><tr class="stat-row"><td class="p-2 font-semibold">BonusMaps</td><td class="p-2 text-center font-mono">17</td><td class="p-2 text-center font-mono">128</td><td class="p-2 text-center font-mono">0</td><td class="p-2 text-center font-mono">0</td></tr><tr class="stat-row"><td class="p-2 font-semibold">MapVote</td><td class="p-2 text-center font-mono">17</td><td class="p-2 text-center font-mono">128</td><td class="p-2 text-center font-mono">0</td><td class="p-2 text-center font-mono">0</td></tr></tbody></table>
+                                </div>
+                                <div id="panel-ee" class="tab-panel"><table class="w-full text-sm text-left"><thead class="text-xs text-gray-400 uppercase"><tr class="border-b border-gray-700"><th class="p-2">Mapa</th><th class="p-2 text-center">K/D/H/R</th><th class="p-2 text-center">Ronda Máxima</th></tr></thead><tbody class="divide-y divide-gray-800"><tr class="stat-row"><td class="p-2 font-semibold flex items-center gap-3"><img src="https://static.wikia.nocookie.net/callofduty/images/7/71/Buried_menu_BOII.png/revision/latest" class="w-12 h-8 object-cover">Buried</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">-</td></tr><tr class="stat-row"><td class="p-2 font-semibold flex items-center gap-3"><img src="https://static.wikia.nocookie.net/callofduty/images/b/b2/Origins_Lobby_Icon_BO2.png/revision/latest" class="w-12 h-8 object-cover">Origins</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">32</td></tr><tr class="stat-row"><td class="p-2 font-semibold flex items-center gap-3"><img src="https://static.wikia.nocookie.net/callofduty/images/f/f9/TranZit_lobby_BOII.png/revision/latest" class="w-12 h-8 object-cover">Transit</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">1</td></tr><tr class="stat-row"><td class="p-2 font-semibold flex items-center gap-3"><img src="https://static.wikia.nocookie.net/callofduty/images/a/aa/Mob_of_the_Dead_menu_selection_BO2.png/revision/latest" class="w-12 h-8 object-cover">Mob</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">-</td></tr></tbody></table></div>
+                                <div id="panel-mv" class="tab-panel"><table class="w-full text-sm text-left"><thead class="text-xs text-gray-400 uppercase"><tr class="border-b border-gray-700"><th class="p-2">Mapa</th><th class="p-2 text-center">K/D/H/R</th><th class="p-2 text-center">Ronda Máxima</th></tr></thead><tbody class="divide-y divide-gray-800"><tr class="stat-row"><td class="p-2 font-semibold flex items-center gap-3"><img src="https://static.wikia.nocookie.net/callofduty/images/f/f9/TranZit_lobby_BOII.png/revision/latest" class="w-12 h-8 object-cover">Transit</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">-</td></tr><tr class="stat-row"><td class="p-2 font-semibold flex items-center gap-3"><img src="https://static.wikia.nocookie.net/callofduty/images/7/71/Buried_menu_BOII.png/revision/latest" class="w-12 h-8 object-cover">Buried</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">-</td></tr><tr class="stat-row"><td class="p-2 font-semibold flex items-center gap-3"><img src="https://static.wikia.nocookie.net/callofduty/images/a/aa/Mob_of_the_Dead_menu_selection_BO2.png/revision/latest" class="w-12 h-8 object-cover">Mob</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">-</td></tr><tr class="stat-row"><td class="p-2 font-semibold flex items-center gap-3"><img src="https://static.wikia.nocookie.net/callofduty/images/b/b2/Origins_Lobby_Icon_BO2.png/revision/latest" class="w-12 h-8 object-cover">Origins</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">-</td></tr><tr class="stat-row"><td class="p-2 font-semibold flex items-center gap-3"><img src="https://static.wikia.nocookie.net/callofduty/images/7/74/Nuketown_menu_selection_BO2.png/revision/latest" class="w-12 h-8 object-cover">Nuketown</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">-</td></tr><tr class="stat-row"><td class="p-2 font-semibold flex items-center gap-3"><img src="https://static.wikia.nocookie.net/callofduty/images/6/60/Die_Rise_menu_selection_BO2.png/revision/latest" class="w-12 h-8 object-cover">Dierise</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">-</td></tr></tbody></table></div>
+                                <div id="panel-bm" class="tab-panel"><table class="w-full text-sm text-left"><thead class="text-xs text-gray-400 uppercase"><tr class="border-b border-gray-700"><th class="p-2">Mapa</th><th class="p-2 text-center">K/D/H/R</th><th class="p-2 text-center">Ronda Máxima</th></tr></thead><tbody class="divide-y divide-gray-800"><tr class="stat-row"><td class="p-2 font-semibold">Docks</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">-</td></tr><tr class="stat-row"><td class="p-2 font-semibold">Cellblock</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">-</td></tr><tr class="stat-row"><td class="p-2 font-semibold">Cornfield</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">-</td></tr><tr class="stat-row"><td class="p-2 font-semibold">Crazyplace</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">-</td></tr><tr class="stat-row"><td class="p-2 font-semibold">Diner</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">-</td></tr><tr class="stat-row"><td class="p-2 font-semibold">House</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">-</td></tr><tr class="stat-row"><td class="p-2 font-semibold">Maze</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">-</td></tr><tr class="stat-row"><td class="p-2 font-semibold">Power</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">-</td></tr><tr class="stat-row"><td class="p-2 font-semibold">Showers</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">-</td></tr><tr class="stat-row"><td class="p-2 font-semibold">Trenches</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">-</td></tr><tr class="stat-row"><td class="p-2 font-semibold">Tunel</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">-</td></tr><tr class="stat-row"><td class="p-2 font-semibold">Town</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">-</td></tr><tr class="stat-row"><td class="p-2 font-semibold">Farm</td><td class="p-2 text-center font-mono">-/-/-/-</td><td class="p-2 text-center font-bold" style="color:var(--accent-glow)">-</td></tr></tbody></table></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const container = document.getElementById('main-container');
+                    const content = container.querySelector('.content-to-reveal');
+                    const overlay = document.createElement('div');
+                    overlay.id = 'particle-overlay';
+                    overlay.className = 'particle-overlay';
+                    container.prepend(overlay);
+
+                    const gridSize = 40; // You can adjust this for more/fewer particles
+                    overlay.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+                    overlay.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`;
+
+                    const particles = [];
+                    for (let i = 0; i < gridSize * gridSize; i++) {
+                        const particle = document.createElement('div');
+                        particle.className = 'particle';
+                        overlay.appendChild(particle);
+                        particles.push(particle);
+                    }
+
+                    // Shuffle particles for a random disappearance effect
+                    particles.sort(() => 0.5 - Math.random());
+                    
+                    const DURATION = 6000;
+                    const particleVanishDelay = DURATION / particles.length;
+
+                    particles.forEach((particle, i) => {
+                        setTimeout(() => {
+                            particle.classList.add('is-vanishing');
+                        }, i * particleVanishDelay);
+                    });
+
+                    // Make the content visible after the animation starts
+                    setTimeout(() => {
+                        content.style.opacity = '1';
+                    }, 100);
+
+                    // Remove overlay after animation is complete
+                    setTimeout(() => {
+                        overlay.remove();
+                    }, DURATION + 1000);
+
+                    const tabs = document.querySelectorAll('.tab-button');
+                    const panels = document.querySelectorAll('.tab-panel');
+
+                    tabs.forEach(tab => {
+                        tab.addEventListener('click', () => {
+                            tabs.forEach(t => t.classList.remove('active'));
+                            panels.forEach(p => p.classList.remove('active'));
+                            
+                            tab.classList.add('active');
+                            const targetPanel = document.getElementById(tab.dataset.target);
+                            if(targetPanel) {
+                                targetPanel.classList.add('active');
+                            }
+                        });
+                    });
+
+                    if (tabs.length > 0) {
+                        tabs[0].click();
+                    }
+                });
+            </script>
+        </body>
+        </html>
+
+        
