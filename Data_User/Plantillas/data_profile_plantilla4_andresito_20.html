@@ -1,0 +1,261 @@
+
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Terminal de Agente - andresito_20</title>
+            <script src="https://cdn.tailwindcss.com"></script>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Chakra+Petch:wght@500;700&display=swap" rel="stylesheet">
+            <style>
+                @keyframes flicker { 0%, 100% { opacity: 1; } 50% { opacity: 0.98; } }
+                @keyframes textGlitch { 0%, 12%, 100% { transform: none; } 10% { transform: translate(-2px, 2px); } 11% { transform: translate(2px, -2px); } }
+                @keyframes popIn {
+                    from { opacity: 0; transform: scale(0.95) translateY(10px); filter: blur(5px); }
+                    to { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+                }
+
+                body {
+                    font-family: 'Chakra Petch', sans-serif;
+                    background-color: #010101;
+                    color: #d4d4d4;
+                    background-image: linear-gradient(rgba(1,1,1,0.9), rgba(1,1,1,0.9)), url('https://www.transparenttextures.com/patterns/gun-metal.png');
+                    animation: flicker 0.2s infinite;
+                    overflow-x: hidden;
+                }
+                .container-wrapper {
+                    border: 2px solid #fd6f0050;
+                    padding: 8px;
+                    background: #0a0a0a;
+                    position: relative;
+                }
+                .container-wrapper::before, .container-wrapper::after {
+                    content: '';
+                    position: absolute;
+                    width: 30px;
+                    height: 30px;
+                    border-style: solid;
+                    border-color: #fd6f00;
+                }
+                .container-wrapper::before { top: -2px; left: -2px; border-width: 2px 0 0 2px; }
+                .container-wrapper::after { top: -2px; right: -2px; border-width: 2px 2px 0 0; }
+                .container-inner-wrapper::before, .container-inner-wrapper::after {
+                    content: '';
+                    position: absolute;
+                    width: 30px;
+                    height: 30px;
+                    border-style: solid;
+                    border-color: #fd6f00;
+                }
+                .container-inner-wrapper::before { bottom: -2px; left: -2px; border-width: 0 0 2px 2px; }
+                .container-inner-wrapper::after { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; }
+
+                .module {
+                    background: linear-gradient(145deg, rgba(20,20,30,0.4), rgba(10,10,20,0.4));
+                    border: 1px solid #fd6f0030;
+                    position: relative;
+                    padding: 1.5rem;
+                    opacity: 0;
+                    animation: popIn 0.7s ease-out forwards;
+                    transition: all 0.3s ease;
+                }
+                .module:hover {
+                    border-color: #fd6f0080;
+                    box-shadow: 0 0 15px #fd6f0030;
+                }
+                .module::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: repeating-linear-gradient(0deg, rgba(0,0,0,0) 0, rgba(253, 111, 0, 0.05) 2px, rgba(0,0,0,0) 4px);
+                    pointer-events: none;
+                }
+                h1, h2, h3, h4 {
+                    font-family: 'Orbitron', sans-serif;
+                    text-transform: uppercase;
+                    color: #fd6f00;
+                    text-shadow: 0 0 8px #fd6f00, 0 0 12px #ff0000;
+                }
+                .glitch-title { animation: textGlitch 4s linear infinite; }
+                
+                .tab-button {
+                    background-color: transparent;
+                    border: 1px solid #01579b;
+                    color: #81d4fa;
+                    padding: 0.5rem 1rem;
+                    clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+                    transition: all 0.2s;
+                }
+                .tab-button.active, .tab-button:hover {
+                    background-color: #0288d1;
+                    color: #ffffff;
+                    transform: translateY(-2px);
+                    box-shadow: 0 0 10px #0288d1;
+                }
+                .tab-panel { display: none; }
+                .tab-panel.active { display: block; animation: panelFadeIn 0.4s; }
+                @keyframes panelFadeIn { from { opacity: 0; } to { opacity: 1; } }
+                .stat-row {
+                    transition: background-color 0.2s ease, transform 0.2s ease;
+                }
+                .stat-row:hover {
+                    background-color: rgba(253, 111, 0, 0.1);
+                    transform: scale(1.02);
+                }
+            </style>
+        </head>
+        <body class="p-4 sm:p-6 md:p-8">
+            <div class="container-wrapper max-w-7xl mx-auto">
+            <div class="container-inner-wrapper p-4 md:p-8 space-y-8">
+                
+                    <header class="text-center p-4" style="opacity: 0; animation: popIn 0.7s ease-out forwards;">
+                        <h1 class="text-3xl md:text-5xl glitch-title">SISTEMA DE ARCHIVOS ZOMBIES</h1>
+                        <p class="text-sm" style="color:#fd6f00;">LITTLEGODS NETWORK - ACCESO RESTRINGIDO</p>
+                    </header>
+
+                    <section class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="module flex items-center gap-4 md:col-span-2" style="animation-delay: 0.1s;">
+                            <img src="https://cdn.discordapp.com/avatars/1306077704625455114/6a40fb53ed1ba6bf3f2a624bfc887e55.webp?size=100" alt="Avatar" class="w-20 h-20 border-2 border-orange-500/50 grayscale"/>
+                            <div>
+                                <p class="text-xs text-orange-400">// AGENTE</p>
+                                <h2 class="text-3xl">andresito_20</h2>
+                                <p>GUID: <span class="text-orange-300">1106781</span></p>
+                            </div>
+                        </div>
+                        <div class="module text-center flex flex-col justify-center" style="animation-delay: 0.2s;">
+                            <p class="text-sm">// RANGO</p>
+                            <p class="text-4xl font-bold text-orange-400">Leyenda</p>
+                        </div>
+                    </section>
+
+                    <section class="module" style="animation-delay: 0.3s;">
+                        <h3 class="text-xl border-b-2 border-orange-500/30 pb-2 mb-4">// REGISTRO DE COMBATE GLOBAL</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                            <div><p class="text-sm">KILLS</p><p class="text-4xl font-bold text-green-400">2253</p></div>
+                            <div><p class="text-sm">DOWNS</p><p class="text-4xl font-bold text-red-400">1266</p></div>
+                            <div><p class="text-sm">HEADSHOTS</p><p class="text-4xl font-bold">270</p></div>
+                            <div><p class="text-sm">REVIVES</p><p class="text-4xl font-bold">3</p></div>
+                        </div>
+                    </section>
+                    
+                    <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="module" style="animation-delay: 0.4s;">
+                            <h3 class="text-xl border-b-2 border-orange-500/30 pb-2 mb-4">// INVENTARIO Y PERFIL</h3>
+                            <ul class="space-y-2 text-lg">
+                                <li class="flex justify-between"><span>BANCO:</span> <span class="font-bold text-green-400">1190940</span></li>
+                                <li class="flex justify-between"><span>COINS:</span> <span class="font-bold text-yellow-400">192890</span></li>
+                                <li class="flex justify-between"><span>MANA:</span> <span class="font-bold text-purple-400">9971074</span></li>
+                                <li class="flex justify-between"><span>RONDA DE RANGO:</span> <span class="font-bold">60</span></li>
+                                <li class="flex justify-between"><span>ZOMBIS GUARDADOS:</span> <span class="font-bold">8</span></li>
+                            </ul>
+                        </div>
+                        <div class="module" style="animation-delay: 0.5s;">
+                            <h3 class="text-xl border-b-2 border-orange-500/30 pb-2 mb-4">// MEJORAS DE EQUIPO</h3>
+                            <ul class="space-y-2 text-lg">
+                                <li>SHIELD: <span class="font-bold">Comprado</span></li>
+                                <li>WEAPON: <span class="font-bold">Comprado</span></li>
+                                <li>AFK: <span class="font-bold">Comprado</span></li>
+                                <li>NIGHT MODE: <span class="font-bold">No comprado</span></li>
+                                <li>POWERUPS: <span class="font-bold">Comprado</span></li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section class="module" style="animation-delay: 0.6s;">
+                        <div class="flex justify-center gap-2 mb-4 border-b-2 border-orange-500/30 pb-4">
+                            <button class="tab-button" data-target="panel-ee">EASTEREGG</button>
+                            <button class="tab-button" data-target="panel-mv">MAPVOTE</button>
+                            <button class="tab-button" data-target="panel-bm">BONUSMAPS</button>
+                        </div>
+                        <div class="p-2">
+                            <div id="panel-ee" class="tab-panel">
+                                <h4 class="text-lg mb-2 text-center text-orange-400">// DATOS DE MISIÓN: EASTEREGG</h4>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-lg">
+                                        <thead class="border-b-2 border-orange-500/50 text-orange-300"><tr><th class="p-2 text-left">MAPA</th><th class="p-2 text-center">K/D/H/R</th><th class="p-2 text-center">RONDA MÁX.</th></tr></thead>
+                                        <tbody>
+                                            <tr class="stat-row border-b border-gray-800"><td class="p-2 font-bold">Buried</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">-</td></tr>
+                                            <tr class="stat-row border-b border-gray-800"><td class="p-2 font-bold">Origins</td><td class="p-2 text-center">14/103/0/0</td><td class="p-2 text-center text-yellow-400 font-bold">20</td></tr>
+                                            <tr class="stat-row border-b border-gray-800"><td class="p-2 font-bold">Transit</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">5</td></tr>
+                                            <tr class="stat-row"><td class="p-2 font-bold">Mob</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">-</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="panel-mv" class="tab-panel">
+                                <h4 class="text-lg mb-2 text-center text-orange-400">// DATOS DE MISIÓN: MAPVOTE</h4>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-lg">
+                                        <thead class="border-b-2 border-orange-500/50 text-orange-300"><tr><th class="p-2 text-left">MAPA</th><th class="p-2 text-center">K/D/H/R</th><th class="p-2 text-center">RONDA MÁX.</th></tr></thead>
+                                        <tbody>
+                                            <tr class="stat-row border-b border-gray-800"><td class="p-2 font-bold">Transit</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">-</td></tr>
+                                            <tr class="stat-row border-b border-gray-800"><td class="p-2 font-bold">Buried</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">-</td></tr>
+                                            <tr class="stat-row border-b border-gray-800"><td class="p-2 font-bold">Mob</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">-</td></tr>
+                                            <tr class="stat-row border-b border-gray-800"><td class="p-2 font-bold">Origins</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">-</td></tr>
+                                            <tr class="stat-row border-b border-gray-800"><td class="p-2 font-bold">Nuketown</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">-</td></tr>
+                                            <tr class="stat-row"><td class="p-2 font-bold">Dierise</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">-</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="panel-bm" class="tab-panel">
+                                <h4 class="text-lg mb-2 text-center text-orange-400">// DATOS DE MISIÓN: BONUSMAPS</h4>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-lg">
+                                        <thead class="border-b-2 border-orange-500/50 text-orange-300"><tr><th class="p-2 text-left">MAPA</th><th class="p-2 text-center">K/D/H/R</th><th class="p-2 text-center">RONDA MÁX.</th></tr></thead>
+                                        <tbody>
+                                            <tr class="stat-row border-b border-gray-800"><td class="p-2">Docks</td><td class="p-2 text-center">367/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">-</td></tr>
+                                            <tr class="stat-row border-b border-gray-800"><td class="p-2">Cellblock</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">-</td></tr>
+                                            <tr class="stat-row border-b border-gray-800"><td class="p-2">Cornfield</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">-</td></tr>
+                                            <tr class="stat-row border-b border-gray-800"><td class="p-2">Crazyplace</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">-</td></tr>
+                                            <tr class="stat-row border-b border-gray-800"><td class="p-2">Diner</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">-</td></tr>
+                                            <tr class="stat-row border-b border-gray-800"><td class="p-2">House</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">-</td></tr>
+                                            <tr class="stat-row border-b border-gray-800"><td class="p-2">Maze</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">-</td></tr>
+                                            <tr class="stat-row border-b border-gray-800"><td class="p-2">Power</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">-</td></tr>
+                                            <tr class="stat-row border-b border-gray-800"><td class="p-2">Showers</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">-</td></tr>
+                                            <tr class="stat-row border-b border-gray-800"><td class="p-2">Trenches</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">-</td></tr>
+                                            <tr class="stat-row border-b border-gray-800"><td class="p-2">Tunel</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">-</td></tr>
+                                            <tr class="stat-row border-b border-gray-800"><td class="p-2">Town</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">-</td></tr>
+                                            <tr class="stat-row"><td class="p-2">Farm</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center text-yellow-400 font-bold">-</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+            </div>
+            </div>
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const tabs = document.querySelectorAll('.tab-button');
+                    const panels = document.querySelectorAll('.tab-panel');
+
+                    tabs.forEach(tab => {
+                        tab.addEventListener('click', () => {
+                            tabs.forEach(t => t.classList.remove('active'));
+                            panels.forEach(p => p.classList.remove('active'));
+                            
+                            tab.classList.add('active');
+                            const targetPanel = document.getElementById(tab.dataset.target);
+                            if(targetPanel) {
+                                targetPanel.classList.add('active');
+                            }
+                        });
+                    });
+
+                    if (tabs.length > 0) {
+                        tabs[0].click();
+                    }
+                });
+            </script>
+        </body>
+        </html>
+
+        
