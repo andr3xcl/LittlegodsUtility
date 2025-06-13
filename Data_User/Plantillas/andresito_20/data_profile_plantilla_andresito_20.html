@@ -1,0 +1,235 @@
+
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Expediente de Agente - andresito_20</title>
+            <script src="https://cdn.tailwindcss.com"></script>
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
+            <style>
+                body {
+                    font-family: 'Courier Prime', monospace;
+                    background-color: #3d3b37;
+                    background-image: url('https://www.transparenttextures.com/patterns/crissxcross.png');
+                }
+                .paper {
+                    background-color: #f5eeda;
+                    color: #3a3a3a;
+                    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+                    background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+                }
+                .stamp {
+                    font-family: 'Special Elite', cursive;
+                    color: #b91c1c;
+                    border: 3px solid #b91c1c;
+                    padding: 0.25rem 0.5rem;
+                    transform: rotate(-5deg);
+                    font-size: 1.5rem;
+                    opacity: 0.8;
+                }
+                .typewriter-text {
+                    overflow: hidden;
+                    white-space: nowrap;
+                    animation: typing 2s steps(40, end);
+                }
+                @keyframes typing {
+                    from { width: 0 }
+                    to { width: 100% }
+                }
+                .fade-in {
+                    opacity: 0;
+                    animation: fadeIn 1s 0.5s ease-out forwards;
+                }
+                @keyframes fadeIn {
+                    to { opacity: 1; }
+                }
+                .section-divider {
+                    border-color: #c7bca1;
+                    border-style: dashed;
+                }
+                .tab-button {
+                    background-color: #e4d8b4;
+                    color: #786a49;
+                    clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
+                    padding: 0.5rem 2rem;
+                    transition: all 0.2s ease;
+                    font-weight: bold;
+                }
+                .tab-button.active {
+                    background-color: #3a3a3a;
+                    color: #f5eeda;
+                    transform: translateY(-5px);
+                }
+                .tab-panel {
+                    display: none;
+                }
+                .tab-panel.active {
+                    display: grid;
+                }
+                .table-dossier th {
+                    border-bottom: 2px solid #3a3a3a;
+                }
+                .table-dossier td {
+                    border-bottom: 1px solid #dcd1af;
+                }
+                .paperclip {
+                    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%2357534e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>');
+                    background-repeat: no-repeat;
+                    background-position: top right;
+                }
+            </style>
+        </head>
+        <body class="p-4 md:p-8">
+
+            <main class="paper max-w-7xl mx-auto p-6 md:p-12">
+                <header class="border-4 border-black p-4 mb-8 text-center fade-in">
+                    <div class="flex justify-between items-center">
+                        <span class="stamp">TOP SECRET</span>
+                        <h1 class="text-2xl md:text-4xl font-bold typewriter-text">EXPEDIENTE DE AGENTE</h1>
+                        <span class="stamp">LITTLEGODS</span>
+                    </div>
+                    <p class="text-xs mt-2">DIVISIÓN DE CONTENCIÓN DE AMENAZAS BIOLÓGICAS NO-MUERTAS</p>
+                </header>
+
+                <section class="mb-8 fade-in" style="animation-delay: 0.2s;">
+                    <div class="border-b-2 section-divider mb-4">
+                        <h2 class="text-2xl font-bold">SECCIÓN 1: IDENTIFICACIÓN</h2>
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-start gap-6 p-4 paperclip">
+                        <img src="https://cdn.discordapp.com/avatars/1306077704625455114/6a40fb53ed1ba6bf3f2a624bfc887e55.webp?size=100" alt="Foto del agente" class="w-28 h-28 border-2 border-black p-1 bg-white">
+                        <div class="w-full">
+                            <p><strong>NOMBRE EN CLAVE:</strong> andresito_20</p>
+                            <p><strong>NÚMERO DE SERIE (GUID):</strong> 1106781</p>
+                            <p><strong>CLASIFICACIÓN DE AMENAZA:</strong> Leyenda</p>
+                            <p><strong>RONDAS DE CAMPO REGISTRADAS:</strong> 60</p>
+                            <p><strong>ESPECÍMENES CONTENIDOS:</strong> 8</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-1 space-y-8">
+                        <section class="fade-in" style="animation-delay: 0.4s;">
+                            <div class="border-b-2 section-divider mb-4">
+                                <h2 class="text-2xl font-bold">SECCIÓN 2: RESUMEN</h2>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div><strong>KILLS TOTALES:</strong> <span class="text-green-800 font-bold">2253</span></div>
+                                <div><strong>DOWNS TOTALES:</strong> <span class="text-red-800 font-bold">1266</span></div>
+                                <div><strong>HEADSHOTS:</strong> <span class="font-bold">270</span></div>
+                                <div><strong>REVIVES:</strong> <span class="font-bold">3</span></div>
+                            </div>
+                        </section>
+
+                        <section class="fade-in" style="animation-delay: 0.5s;">
+                            <div class="border-b-2 section-divider mb-4">
+                                <h2 class="text-2xl font-bold">SECCIÓN 3: RECURSOS</h2>
+                            </div>
+                            <ul class="space-y-2 list-disc list-inside">
+                                <li><strong>BANCO (IN-GAME):</strong> $1190940</li>
+                                <li><strong>COINS (LITTLEGODS):</strong> 192890</li>
+                                <li><strong>RESERVAS DE MANA:</strong> 9971074</li>
+                                <li><strong>SCORE POSITIVO:</strong> <span class="text-green-800">1709595</span></li>
+                                <li><strong>SCORE NEGATIVO:</strong> <span class="text-red-800">1474155</span></li>
+                            </ul>
+                        </section>
+                        <section class="fade-in" style="animation-delay: 0.6s;">
+                            <div class="border-b-2 section-divider mb-4">
+                                <h2 class="text-2xl font-bold">SECCIÓN 4: EQUIPAMIENTO</h2>
+                            </div>
+                            <ul class="space-y-2 list-disc list-inside">
+                                <li><strong>SHIELD:</strong> Comprado</li>
+                                <li><strong>WEAPON:</strong> Comprado</li>
+                                <li><strong>MODO AFK:</strong> Comprado</li>
+                                <li><strong>NIGHT MODE:</strong> No comprado</li>
+                                <li><strong>POWERUPS:</strong> Comprado</li>
+                            </ul>
+                        </section>
+                    </div>
+
+                    <div class="lg:col-span-2">
+                        <section class="fade-in" style="animation-delay: 0.7s;">
+                            <div class="border-b-2 section-divider mb-4">
+                                <h2 class="text-2xl font-bold">SECCIÓN 5: ANÁLISIS DE CAMPO</h2>
+                            </div>
+
+                            <div class="flex justify-center gap-1 mb-4">
+                                <button class="tab-button" data-target="panel-ee">EASTEREGG</button>
+                                <button class="tab-button" data-target="panel-mv">MAPVOTE</button>
+                                <button class="tab-button" data-target="panel-bm">BONUSMAPS</button>
+                            </div>
+
+                            <div class="bg-white/50 p-4 border border-black/20">
+                                <div id="panel-ee" class="tab-panel space-y-4">
+                                    <table class="w-full text-sm table-dossier">
+                                        <thead><tr><th class="p-2 text-left">MAPA</th><th class="p-2">K</th><th class="p-2">D</th><th class="p-2">H</th><th class="p-2">R</th></tr></thead>
+                                        <tbody>
+                                            <tr><td class="p-2">Buried</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td></tr>
+                                            <tr><td class="p-2">Origins</td><td class="p-2 text-center">14</td><td class="p-2 text-center">103</td><td class="p-2 text-center">0</td><td class="p-2 text-center">0</td></tr>
+                                            <tr><td class="p-2">Transit</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td></tr>
+                                            <tr><td class="p-2">Mob</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td></tr>
+                                        </tbody>
+                                    </table>
+                                    <div><h4 class="font-bold">RONDAS MÁXIMAS:</h4><p>Buried: - | Origins: 20 | Transit: 5 | Mob: -</p></div>
+                                </div>
+                                <div id="panel-mv" class="tab-panel space-y-4">
+                                    <table class="w-full text-sm table-dossier">
+                                        <thead><tr><th class="p-2 text-left">MAPA</th><th class="p-2">K</th><th class="p-2">D</th><th class="p-2">H</th><th class="p-2">R</th></tr></thead>
+                                        <tbody>
+                                            <tr><td class="p-2">Transit</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td></tr>
+                                            <tr><td class="p-2">Buried</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td></tr>
+                                            <tr><td class="p-2">Mob</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td></tr>
+                                            <tr><td class="p-2">Origins</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td></tr>
+                                            <tr><td class="p-2">Nuketown</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td></tr>
+                                            <tr><td class="p-2">Dierise</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td></tr>
+                                        </tbody>
+                                    </table>
+                                    <div><h4 class="font-bold">RONDAS MÁXIMAS:</h4><p>Transit: - | Buried: - | Mob: - | Origins: - | Nuketown: - | Dierise: -</p></div>
+                                </div>
+                                <div id="panel-bm" class="tab-panel space-y-4">
+                                    <table class="w-full text-sm table-dossier">
+                                        <thead class="text-xs"><tr><th class="p-2 text-left">MAPA</th><th class="p-2 text-center">K</th><th class="p-2 text-center">D</th><th class="p-2 text-center">H</th><th class="p-2 text-center">R</th></tr></thead>
+                                        <tbody>
+                                            <tr><td class="p-2">Docks</td><td class="p-2 text-center">367</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td></tr>
+                                            <tr><td class="p-2">Cellblock</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td></tr>
+                                            <tr><td class="p-2">Cornfield</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td></tr>
+                                            <tr><td class="p-2">Town</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td></tr>
+                                            <tr><td class="p-2">Farm</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td></tr>
+                                            </tbody>
+                                    </table>
+                                    <div><h4 class="font-bold">RONDAS MÁXIMAS:</h4><p>Docks: - | Cellblock: - | Cornfield: - | Crazyplace: - | Diner: - | Maze: - | Power: - | Showers: - | Trenches: - | Tunel: - </p></div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </main>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const tabs = document.querySelectorAll('.tab-button');
+                    const panels = document.querySelectorAll('.tab-panel');
+
+                    tabs.forEach(tab => {
+                        tab.addEventListener('click', () => {
+                            tabs.forEach(t => t.classList.remove('active'));
+                            panels.forEach(p => p.classList.remove('active'));
+                            
+                            tab.classList.add('active');
+                            const targetPanel = document.getElementById(tab.dataset.target);
+                            if(targetPanel) {
+                                targetPanel.classList.add('active');
+                            }
+                        });
+                    });
+                    // Activate the first tab by default
+                    if (tabs.length > 0) {
+                        tabs[0].click();
+                    }
+                });
+            </script>
+        </body>
+        </html> 
