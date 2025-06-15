@@ -1,0 +1,243 @@
+
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Cyber-Stats - andresito_20</title>
+            <script src="https://cdn.tailwindcss.com"></script>
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+            <style>
+                @keyframes fadeIn {    
+                    from { opacity: 0; filter: blur(5px); transform: translateY(10px); }
+                    to { opacity: 1; filter: blur(0); transform: translateY(0); }
+                }
+                @keyframes text-flicker {
+                    0%, 100% { text-shadow: 0 0 5px var(--accent-primary), 0 0 10px var(--accent-primary); }
+                    50% { text-shadow: 0 0 8px var(--accent-primary), 0 0 15px var(--accent-primary); }
+                }
+                body {
+                    font-family: 'Share Tech Mono', monospace;
+                    background-color: #0a0a14;
+                    color: #d1d5db;
+                    background-image: linear-gradient(rgba(10,10,20,0.9), rgba(10,10,20,0.9)), url('https://www.transparenttextures.com/patterns/circuit-board.png');
+                }
+                .cyber-panel {
+                    background: linear-gradient(145deg, rgba(20, 25, 40, 0.7), rgba(10, 12, 20, 0.7));
+                    border: 1px solid var(--border-color);
+                    backdrop-filter: blur(5px);
+                    clip-path: polygon(0 10px, 10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px));
+                    opacity: 0;
+                    animation: fadeIn 0.8s ease-out forwards;
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                }
+                .cyber-panel:hover {
+                    transform: translateY(-10px);
+                    box-shadow: 0 0 30px var(--shadow-color);
+                }
+                h1, h2, h3, h4 {
+                    font-family: 'Orbitron', sans-serif;
+                    text-transform: uppercase;
+                }
+                .header-title {
+                    color: var(--accent-primary);
+                    animation: text-flicker 4s linear infinite;
+                }
+                .stat-value {
+                    font-size: 2.5rem;
+                    font-weight: 900;
+                    color: var(--accent-yellow);
+                }
+                .tab-button {
+                    background-color: transparent;
+                    color: var(--accent-cyan);
+                    border: 2px solid var(--accent-cyan);
+                    padding: 0.5rem 1rem;
+                    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+                    transition: all 0.3s ease;
+                }
+                .tab-button.active, .tab-button:hover {
+                    background-color: var(--accent-cyan);
+                    color: #0a0a14;
+                    transform: scale(1.05);
+                }
+                .tab-panel { display: none; }
+                .tab-panel.active { display: block; animation: panelFadeIn 0.5s; }
+                @keyframes panelFadeIn { from { opacity: 0; } to { opacity: 1; } }
+                .stat-row, .stat-list-item {
+                    transition: background-color 0.2s ease, transform 0.2s ease;
+                }
+                .stat-row:hover, .stat-list-item:hover {
+                    background-color: rgba(255, 0, 255, 0.1);
+                    transform: scale(1.02);
+                }
+                :root {
+                    --accent-primary: #ff00ff;
+                    --accent-secondary: #00ffff;
+                    --accent-cyan: #00ffff;
+                    --accent-yellow: #fcee0a;
+                    --accent-green: #00ff00;
+                    --accent-red: #ff3333;
+                    --border-color: rgba(0, 255, 255, 0.3);
+                    --shadow-color: rgba(255, 0, 255, 0.4);
+                }
+            </style>
+        </head>
+        <body class="p-4 md:p-8">
+            <div class="max-w-7xl mx-auto space-y-8">
+                
+                <header class="cyber-panel p-6 text-center" style="animation-delay: 0s;">
+                    <h1 class="text-4xl md:text-5xl header-title">&lt;LITTLEGODS DATA-STREAM&gt;</h1>
+                    <p class="text-sm" style="color: var(--accent-secondary);">ACCEDIENDO A REGISTROS DE AGENTE...</p>
+                </header>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 grid grid-cols-2 gap-8">
+                        <div class="cyber-panel p-6 col-span-2 flex items-center gap-6" style="animation-delay: 0.1s;">
+                            <img src="https://cdn.discordapp.com/avatars/1306077704625455114/6a40fb53ed1ba6bf3f2a624bfc887e55.webp?size=100" alt="Avatar" class="w-24 h-24 border-2" style="border-color: var(--accent-primary);"/>
+                            <div>
+                                <h2 class="text-3xl" style="color:var(--text-primary);">andresito_20</h2>
+                                <p>ID: 1106781</p>
+                                <p>CLASE: <span class="font-bold" style="color: var(--accent-primary);">Leyenda</span></p>
+                        </div>
+                        </div>
+                        <div class="cyber-panel p-6 text-center" style="animation-delay: 0.2s;">
+                            <h3 class="text-lg" style="color:var(--text-primary);">KILLS TOTALES</h3>
+                            <p class="stat-value">2286</p>
+                                    </div>
+                        <div class="cyber-panel p-6 text-center" style="animation-delay: 0.3s;">
+                            <h3 class="text-lg" style="color:var(--text-primary);">DOWNS TOTALES</h3>
+                            <p class="stat-value" style="color: var(--accent-primary);">1272</p>
+                                </div>
+                        <div class="cyber-panel p-6 text-center" style="animation-delay: 0.4s;">
+                            <h3 class="text-lg" style="color:var(--text-primary);">HEADSHOTS</h3>
+                            <p class="stat-value">279</p>
+                                    </div>
+                        <div class="cyber-panel p-6 text-center" style="animation-delay: 0.5s;">
+                            <h3 class="text-lg" style="color:var(--text-primary);">REVIVES</h3>
+                            <p class="stat-value">3</p>
+                                </div>
+                            </div>
+                    <div class="lg:col-span-1 space-y-8">
+                        <div class="cyber-panel p-6" style="animation-delay: 0.6s;">
+                            <h3 class="text-lg border-b-2 pb-2 mb-4" style="border-color: var(--border-color); color:var(--text-primary);">ECONOMÍA Y PERFIL</h3>
+                            <ul class="space-y-2">
+                                <li class="stat-list-item p-1 flex justify-between"><span>Banco:</span> <span class="font-bold" style="color: var(--accent-yellow);">$1153940</span></li>
+                                <li class="stat-list-item p-1 flex justify-between"><span>Coins:</span> <span class="font-bold">192890</span></li>
+                                <li class="stat-list-item p-1 flex justify-between"><span>Mana:</span> <span class="font-bold">9971074</span></li>
+                                <li class="stat-list-item p-1 flex justify-between"><span>Ronda de Rango:</span> <span class="font-bold">60</span></li>
+                                <li class="stat-list-item p-1 flex justify-between"><span>Score Ganado:</span> <span class="font-bold" style="color: var(--accent-green);">1748875</span></li>
+                                <li class="stat-list-item p-1 flex justify-between"><span>Score Perdido:</span> <span class="font-bold" style="color: var(--accent-red);">1491555</span></li>
+                                    </ul>
+                                </div>
+                        <div class="cyber-panel p-6" style="animation-delay: 0.7s;">
+                            <h3 class="text-lg border-b-2 pb-2 mb-4" style="border-color: var(--border-color); color:var(--text-primary);">EQUIPO Y MEJORAS</h3>
+                            <ul class="space-y-2">
+                                <li class="stat-list-item p-1"><span style="color: var(--accent-primary);">🛡️</span> Shield: Comprado</li>
+                                <li class="stat-list-item p-1"><span style="color: var(--accent-primary);">🔫</span> Weapon: Comprado</li>
+                                <li class="stat-list-item p-1"><span style="color: var(--accent-primary);">💤</span> AFK: Comprado</li>
+                                <li class="stat-list-item p-1"><span style="color: var(--accent-primary);">🌙</span> Night Mode: No comprado</li>
+                                <li class="stat-list-item p-1"><span style="color: var(--accent-primary);">💪</span> PowerUps: Comprado</li>
+                                    </ul>
+                                </div>
+                                </div>
+                            </div>
+
+                <section class="cyber-panel p-6" style="animation-delay: 0.8s;">
+                    <h3 class="text-xl text-center mb-4">&lt;DESEMPEÑO GENERAL POR MODO&gt;</h3>
+                    <table class="w-full text-sm text-center">
+                        <thead class="text-left border-b-2" style="border-color: var(--border-color);"><tr style="color: var(--accent-secondary);"><th class="p-2">MODO</th><th class="p-2 text-center">Kills</th><th class="p-2 text-center">Downs</th><th class="p-2 text-center">Headshots</th><th class="p-2 text-center">Revives</th></tr></thead>
+                        <tbody>
+                            <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">EasterEgg</td><td>762</td><td>424</td><td>93</td><td>1</td></tr>
+                            <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">BonusMaps</td><td>762</td><td>424</td><td>93</td><td>1</td></tr>
+                            <tr class="stat-row"><td class="p-2 font-bold">MapVote</td><td>762</td><td>424</td><td>93</td><td>1</td></tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="cyber-panel p-6" style="animation-delay: 0.9s;">
+                    <h3 class="text-xl text-center mb-4">&lt;REGISTRO DE MISIONES&gt;</h3>
+                    <div class="flex justify-center gap-4 mb-4">
+                        <button class="tab-button" data-target="panel-ee">EASTEREGG</button>
+                        <button class="tab-button" data-target="panel-mv">MAPVOTE</button>
+                        <button class="tab-button" data-target="panel-bm">BONUSMAPS</button>
+                    </div>
+                    <div class="bg-black/20 p-4">
+                        <div id="panel-ee" class="tab-panel">
+                            <table class="w-full text-sm">
+                                <thead class="text-left border-b-2" style="border-color: var(--border-color);"><tr style="color: var(--accent-secondary);"><th class="p-2">Mapa</th><th class="p-2 text-center">K/D/H/R</th><th class="p-2 text-center">Top Round</th></tr></thead>
+                                <tbody>
+                                    <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">Buried</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">-</td></tr>
+                                    <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">Origins</td><td class="p-2 text-center">25/105/3/0</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">20</td></tr>
+                                    <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">Transit</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">5</td></tr>
+                                    <tr class="stat-row"><td class="p-2 font-bold">Mob</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">-</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="panel-mv" class="tab-panel">
+                            <table class="w-full text-sm">
+                                <thead class="text-left border-b-2" style="border-color: var(--border-color);"><tr style="color: var(--accent-secondary);"><th class="p-2">Mapa</th><th class="p-2 text-center">K/D/H/R</th><th class="p-2 text-center">Top Round</th></tr></thead>
+                                <tbody>
+                                    <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">Transit</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">-</td></tr>
+                                    <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">Buried</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">-</td></tr>
+                                    <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">Mob</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">-</td></tr>
+                                    <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">Origins</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">-</td></tr>
+                                    <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">Nuketown</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">-</td></tr>
+                                    <tr class="stat-row"><td class="p-2 font-bold">Dierise</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">-</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="panel-bm" class="tab-panel">
+                            <table class="w-full text-sm">
+                                <thead class="text-left border-b-2" style="border-color: var(--border-color);"><tr style="color: var(--accent-secondary);"><th class="p-2">Mapa</th><th class="p-2 text-center">K/D/H/R</th><th class="p-2 text-center">Top Round</th></tr></thead>
+                                <tbody>
+                                    <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">Docks</td><td class="p-2 text-center">367/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">-</td></tr>
+                                    <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">Cellblock</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">-</td></tr>
+                                    <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">Cornfield</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">-</td></tr>
+                                    <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">Crazyplace</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">-</td></tr>
+                                    <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">Diner</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">-</td></tr>
+                                    <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">House</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">-</td></tr>
+                                    <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">Maze</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">-</td></tr>
+                                    <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">Power</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">-</td></tr>
+                                    <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">Showers</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">-</td></tr>
+                                    <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">Trenches</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">-</td></tr>
+                                    <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">Tunel</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">-</td></tr>
+                                    <tr class="stat-row border-b" style="border-color: var(--border-color);"><td class="p-2 font-bold">Town</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">-</td></tr>
+                                    <tr class="stat-row"><td class="p-2 font-bold">Farm</td><td class="p-2 text-center">-/-/-/-</td><td class="p-2 text-center font-bold" style="color: var(--accent-yellow);">-</td></tr>
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+                </section>
+
+            </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const tabs = document.querySelectorAll('.tab-button');
+                    const panels = document.querySelectorAll('.tab-panel');
+
+                    tabs.forEach(tab => {
+                        tab.addEventListener('click', () => {
+                            tabs.forEach(t => t.classList.remove('active'));
+                            panels.forEach(p => p.classList.remove('active'));
+                            
+                            tab.classList.add('active');
+                            const targetPanel = document.getElementById(tab.dataset.target);
+                            if(targetPanel) {
+                                targetPanel.classList.add('active');
+                            }
+                        });
+                    });
+
+                    if (tabs.length > 0) {
+                        tabs[0].click();
+                    }
+                });
+            </script>
+        </body>
+        </html>
+
+        
