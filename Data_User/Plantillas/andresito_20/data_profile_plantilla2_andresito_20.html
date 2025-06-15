@@ -145,11 +145,23 @@
                 
                 <section class="grid-item fade-in" style="animation-delay: 1s;">
                     <div class="flex border-b border-gray-700 mb-4">
+                        <button class="tab-button text-lg" data-target="panel-ge">GENERAL</button>
                         <button class="tab-button text-lg" data-target="panel-ee">EasterEgg</button>
                         <button class="tab-button text-lg" data-target="panel-mv">MapVote</button>
                         <button class="tab-button text-lg" data-target="panel-bm">BonusMaps</button>
                     </div>
-                    <div class="p-4">
+                        <div class="p-4">
+                        <div id="panel-ge" class="tab-panel">
+                                <h4 class="text-xl mb-2">Informe de Misión: General</h4>
+                                <table class="w-full text-sm">
+                                    <thead class="text-left border-b-2 border-gray-700"><tr class="text-gray-400"><th class="p-2">Servidores</th><th class="p-2 text-center">Kills</th><th class="p-2 text-center">Downs</th><th class="p-2 text-center">Headshots</th><th class="p-2 text-center">Revives</th><th class="p-2 text-center">Top Round</th></tr></thead>
+                                    <tbody>
+                                        <tr><td class="p-2">Servidor EasterEgg</td><td class="p-2 text-center">762</td><td class="p-2 text-center">424</td><td class="p-2 text-center">93</td><td class="p-2 text-center">1</td></tr>
+                                        <tr><td class="p-2">Servidor BonusMaps</td><td class="p-2 text-center">762</td><td class="p-2 text-center">424</td><td class="p-2 text-center">93</td><td class="p-2 text-center">1</td></tr>
+                                        <tr><td class="p-2">Servidor Mapvote</td><td class="p-2 text-center">762</td><td class="p-2 text-center">424</td><td class="p-2 text-center">93</td><td class="p-2 text-center">1</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         <div id="panel-ee" class="tab-panel">
                             <h4 class="text-xl mb-2">Informe de Misión: EasterEgg</h4>
                             <table class="w-full text-sm">
