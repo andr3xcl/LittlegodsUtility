@@ -1,0 +1,539 @@
+
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Conectado por el Destino - andresito_20</title>
+            <script src="https://cdn.tailwindcss.com"></script>
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&family=M+PLUS+Rounded+1c:wght@300;400;700&display=swap" rel="stylesheet">
+            <style>
+                /* --- Animations --- */
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                @keyframes pulseGlow {
+                    0%, 100% { box-shadow: 0 0 15px var(--accent-red-glow); filter: brightness(1); }
+                    50% { box-shadow: 0 0 25px var(--accent-red-glow); filter: brightness(1.2); }
+                }
+
+                /* --- Theme Variables --- */
+                :root, [data-theme='kataware_doki'] {
+                    --bg-image: url('https://wallpapercat.com/w/full/5/2/a/118439-3840x2160-desktop-4k-your-name-wallpaper-photo.jpg');
+                    --panel-bg: rgba(20, 25, 40, 0.65);
+                    --panel-blur: 16px;
+                    --border-color: rgba(137, 196, 244, 0.3);
+                    --border-glow: rgba(137, 196, 244, 0.5);
+                    --accent-red: #E63946;
+                    --accent-red-glow: rgba(230, 57, 70, 0.7);
+                    --accent-sunset: #ffbf00;
+                    --text-primary: #f0f8ff;
+                    --text-secondary: #bdc5d4;
+                    --shadow-color: rgba(10, 10, 20, 0.4);
+                    --theme-btn-bg-active: var(--accent-red);
+                }
+                
+                [data-theme='cielo_estrellado'] {
+                    --bg-image: url('https://cdn.wallpapersafari.com/17/61/0ecUaq.jpg');
+                    --panel-bg: rgba(15, 20, 35, 0.7);
+                    --border-glow: rgba(191, 219, 254, 0.5);
+                    --accent-red: #f43f5e;
+                    --accent-red-glow: rgba(244, 63, 94, 0.7);
+                    --accent-sunset: #67e8f9;
+                    --text-primary: #e0f2fe;
+                    --text-secondary: #bae6fd;
+                    --shadow-color: rgba(5, 5, 15, 0.5);
+                    --theme-btn-bg-active: #f43f5e;
+                }
+
+                [data-theme='cometa'] {
+                    --bg-image: url('https://images7.alphacoders.com/737/737400.jpg');
+                    --panel-bg: rgba(25, 25, 50, 0.7);
+                    --border-glow: rgba(0, 220, 255, 0.5);
+                    --accent-red: #ff6b6b;
+                    --accent-red-glow: rgba(255, 107, 107, 0.7);
+                    --accent-sunset: #ffa500;
+                    --text-primary: #e6f7ff;
+                    --text-secondary: #b0c4de;
+                    --shadow-color: rgba(10, 10, 20, 0.5);
+                    --theme-btn-bg-active: #ff6b6b;
+                }
+
+                [data-theme='lago_crepusculo'] {
+                    --bg-image: url('https://i.redd.it/a1zfipnlgqla1.jpg');
+                    --panel-bg: rgba(40, 30, 55, 0.7);
+                    --border-glow: rgba(255, 140, 90, 0.5);
+                    --accent-red: #ff8c61;
+                    --accent-red-glow: rgba(255, 140, 97, 0.7);
+                    --accent-sunset: #ff7f50;
+                    --text-primary: #fff0f5;
+                    --text-secondary: #e6e0ff;
+                    --shadow-color: rgba(20, 15, 25, 0.5);
+                    --theme-btn-bg-active: #ff8c61;
+                }
+                
+                /* --- Base Styles --- */
+                body {
+                    font-family: 'M PLUS Rounded 1c', sans-serif;
+                    font-weight: 300;
+                    background-image: var(--bg-image);
+                    background-size: cover;
+                    background-position: center center;
+                    background-attachment: fixed;
+                    color: var(--text-secondary);
+                    transition: background-image 0.5s ease-in-out;
+                }
+                #particle-canvas {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: -1;
+                    pointer-events: none;
+                }
+                h1, h2, h3, h4, .font-title {
+                    font-family: 'Yuji Syuku', serif;
+                    color: var(--text-primary);
+                }
+
+                /* --- Panel Styles --- */
+                .memory-fragment {
+                    background-color: var(--panel-bg);
+                    backdrop-filter: blur(16px);
+                    -webkit-backdrop-filter: blur(16px);
+                    position: relative;
+                    padding: 2rem;
+                    animation: fadeIn 1s ease-out backwards;
+                    box-shadow: 0 8px 32px var(--shadow-color);
+                    border-radius: 12px;
+                    border: 1px solid var(--border-color);
+                    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+                }
+                .memory-fragment:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 15px 40px var(--shadow-color), 0 0 20px var(--border-glow);
+                }
+
+                /* --- Header --- */
+                .profile-header {
+                    text-align: center;
+                    position: relative;
+                }
+                .profile-avatar-container {
+                    position: relative;
+                    width: 130px;
+                    height: 130px;
+                    margin: 0 auto 1.5rem;
+                }
+                .profile-avatar {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    border: 3px solid var(--accent-red);
+                    box-shadow: 0 0 25px var(--accent-red-glow);
+                    animation: pulseGlow 4s infinite alternate;
+                }
+                .player-name {
+                    font-size: 3.5rem;
+                    line-height: 1;
+                    margin-bottom: 0.5rem;
+                    text-shadow: 0 0 10px var(--accent-sunset);
+                }
+                
+                /* Music Button */
+                .music-toggle-btn {
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    background-color: rgba(0,0,0,0.2);
+                    border: 1px solid var(--border-color);
+                    color: var(--text-secondary);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                }
+                .music-toggle-btn:hover {
+                    color: var(--text-primary);
+                    border-color: var(--accent-red);
+                }
+                
+                /* --- Controls: Themes & Animations --- */
+                .controls-container {
+                    padding: 1rem;
+                    background-color: rgba(20, 25, 40, 0.3);
+                    border-radius: 8px;
+                }
+                .control-group {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 0.5rem 1rem;
+                }
+                .control-group:not(:last-child) {
+                    margin-bottom: 1rem;
+                }
+                .ctrl-button {
+                    font-family: 'Yuji Syuku', serif;
+                    text-transform: uppercase;
+                    font-size: 0.8rem;
+                    background-color: rgba(20, 25, 40, 0.5);
+                    border: 1px solid var(--border-color);
+                    color: var(--text-secondary);
+                    padding: 0.5rem 1rem;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                }
+                .ctrl-button:hover {
+                    transform: translateY(-2px);
+                    color: var(--text-primary);
+                    border-color: var(--theme-btn-bg-active);
+                }
+                .ctrl-button.active {
+                    background-color: var(--theme-btn-bg-active);
+                    color: #fff;
+                    border-color: var(--theme-btn-bg-active);
+                    box-shadow: 0 0 10px var(--theme-btn-bg-active);
+                }
+                
+                /* --- Stats Grid --- */
+                .stats-grid {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 1.5rem;
+                }
+                @media (min-width: 768px) {
+                    .stats-grid { grid-template-columns: repeat(4, 1fr); }
+                }
+                .stat-card {
+                    text-align: center;
+                    transition: transform 0.3s ease;
+                }
+                .stat-card:hover {
+                    transform: scale(1.05);
+                }
+                .stat-card h4 {
+                    font-family: 'M PLUS Rounded 1c', sans-serif;
+                    font-weight: 700;
+                    font-size: 0.9rem;
+                    color: var(--text-secondary);
+                    margin-bottom: 0.5rem;
+                }
+                .stat-card p {
+                    font-family: 'Yuji Syuku', serif;
+                    font-size: 3rem;
+                    line-height: 1;
+                    color: var(--text-primary);
+                    text-shadow: 0 0 8px var(--border-glow);
+                }
+                
+                /* --- Table Design --- */
+                .data-table { width: 100%; border-collapse: collapse; }
+                .data-table th, .data-table td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+                .data-table th { font-family: 'Yuji Syuku', serif; color: var(--text-primary); font-size: 1.1rem; }
+                .data-table tbody tr {
+                    transition: background-color 0.3s ease-out, transform 0.3s ease-out;
+                }
+                .data-table tbody tr:hover {
+                    background-color: rgba(137, 196, 244, 0.1);
+                    transform: scale(1.02);
+                }
+                .data-table .text-center { font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 700; }
+
+                /* --- Tab System --- */
+                .tab-bar { display: flex; justify-content: center; border-bottom: 1px solid var(--border-color); margin-bottom: 1.5rem; }
+                .tab-button { padding: 0.75rem 1.5rem; font-family: 'Yuji Syuku', serif; font-size: 1.1rem; color: var(--text-secondary); background-color: transparent; border: none; position: relative; cursor: pointer; transition: color 0.3s ease; }
+                .tab-button::after { content: ''; position: absolute; bottom: -1px; left: 50%; transform: translateX(-50%); width: 0; height: 2px; background: var(--accent-red); box-shadow: 0 0 8px var(--accent-red-glow); transition: width 0.3s ease-out; }
+                .tab-button.active, .tab-button:hover { color: var(--text-primary); }
+                .tab-button.active::after { width: 100%; }
+                .tab-panel { display: none; }
+                .tab-panel.active { display: block; }
+            </style>
+        </head>
+        <body class="p-4 sm:p-8" data-theme="kataware_doki">
+            <canvas id="particle-canvas"></canvas>
+            <div class="max-w-7xl mx-auto space-y-8">
+                
+                <header class="memory-fragment profile-header" style="animation-delay: 0.2s;">
+                    <button id="music-toggle" class="music-toggle-btn">
+                        <svg id="icon-music-on" class="w-6 h-6" style="display: none;" fill="currentColor" viewBox="0 0 20 20"><path d="M18 3a1 1 0 00-1.447-.894L4 6.44V4a1 1 0 00-2 0v12a1 1 0 002 0v-2.44l12.553 3.346A1 1 0 0018 17V3zM6 12.267V7.733L14 10l-8 2.267z"></path></svg>
+                        <svg id="icon-music-off" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    </button>
+                    <div class="profile-avatar-container">
+                        <div class="red-thread-accent"></div>
+                        <img src="https://cdn.discordapp.com/avatars/1306077704625455114/6a40fb53ed1ba6bf3f2a624bfc887e55.webp?size=128" alt="Avatar" class="profile-avatar"/>
+                    </div>
+                    <h1 class="player-name">andresito_20</h1>
+                    <p>ID: 1106781</p>
+                </header>
+
+                <div class="memory-fragment controls-container" style="animation-delay: 0.3s;">
+                    <div class="control-group" id="theme-switcher">
+                        <button class="ctrl-button theme-button" data-theme="kataware_doki">Atardecer</button>
+                        <button class="ctrl-button theme-button" data-theme="cielo_estrellado">Cielo Estrellado</button>
+                        <button class="ctrl-button theme-button" data-theme="cometa">El Cometa</button>
+                        <button class="ctrl-button theme-button" data-theme="lago_crepusculo">Crepúsculo</button>
+                    </div>
+                    <div class="control-group" id="animation-selector">
+                        <button class="ctrl-button anim-button" data-anim="stars">Estrellas Fugaces</button>
+                        <button class="ctrl-button anim-button" data-anim="constellations">Constelaciones</button>
+                    </div>
+                </div>
+                
+                <section class="memory-fragment p-8" style="animation-delay: 0.5s;">
+                    <div class="stats-grid">
+                        <div class="stat-card"><h4>Kills</h4><p class="font-title">2286</p></div>
+                        <div class="stat-card"><h4>Downs</h4><p class="font-title">1272</p></div>
+                        <div class="stat-card"><h4>Headshots</h4><p class="font-title">279</p></div>
+                        <div class="stat-card"><h4>Revives</h4><p class="font-title">3</p></div>
+                    </div>
+                </section>
+
+                <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="memory-fragment p-6" style="animation-delay: 0.6s;">
+                        <h3 class="text-2xl text-center mb-4">Registro del Viajero</h3>
+                        <ul class="space-y-3">
+                            <li class="flex justify-between"><span>Banco:</span> <span class="font-bold text-green-400">$1153940</span></li>
+                            <li class="flex justify-between"><span>Coins:</span> <span class="font-bold text-yellow-400">192890</span></li>
+                            <li class="flex justify-between"><span>Mana:</span> <span class="font-bold text-purple-400">9971074</span></li>
+                            <li class="flex justify-between"><span>Score Ganado:</span> <span class="font-bold text-green-400">1748875</span></li>
+                            <li class="flex justify-between"><span>Score Perdido:</span> <span class="font-bold text-red-400">1491555</span></li>
+                        </ul>
+                    </div>
+                    <div class="memory-fragment p-6" style="animation-delay: 0.7s;">
+                        <h3 class="text-2xl text-center mb-4">Estado Actual</h3>
+                        <ul class="space-y-3">
+                            <li class="flex justify-between"><span>Ronda de Rango:</span> <span class="font-bold" style="color: var(--accent-sunset);">60</span></li>
+                            <li class="flex justify-between"><span>Zombis Guardados:</span> <span class="font-bold" style="color: var(--accent-sunset);">8</span></li>
+                            <li class="flex justify-between"><span>Escudo:</span> <span>Comprado</span></li>
+                            <li class="flex justify-between"><span>Arma:</span> <span>Comprado</span></li>
+                            <li class="flex justify-between"><span>Modo AFK:</span> <span>Comprado</span></li>
+                        </ul>
+                    </div>
+                </section>
+                
+                <section class="memory-fragment p-6" style="animation-delay: 0.8s;">
+                    <div class="tab-bar">
+                        <button class="tab-button active" data-target="panel-general">General</button>
+                        <button class="tab-button" data-target="panel-ee">EasterEgg</button>
+                        <button class="tab-button" data-target="panel-mv">MapVote</button>
+                        <button class="tab-button" data-target="panel-bm">BonusMaps</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <div id="panel-general" class="tab-panel active">
+                            <table class="data-table">
+                                <thead><tr><th>Servidor</th><th class="text-center">Kills</th><th class="text-center">Downs</th><th class="text-center">Headshots</th><th class="text-center">Revives</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Servidor EasterEgg</td><td class="text-center">762</td><td class="text-center">424</td><td class="text-center">93</td><td class="text-center">1</td></tr>
+                                    <tr><td>Servidor BonusMaps</td><td class="text-center">762</td><td class="text-center">424</td><td class="text-center">93</td><td class="text-center">1</td></tr>
+                                    <tr><td>Servidor Mapvote</td><td class="text-center">762</td><td class="text-center">424</td><td class="text-center">93</td><td class="text-center">1</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="panel-ee" class="tab-panel">
+                            <table class="data-table">
+                                <thead><tr><th>Mapa</th><th class="text-center">Kills</th><th class="text-center">Downs</th><th class="text-center">Headshots</th><th class="text-center">Revives</th><th class="text-center">Top Round</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Buried</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                    <tr><td>Origins</td><td class="text-center">25</td><td class="text-center">105</td><td class="text-center">3</td><td class="text-center">0</td><td class="text-center">20</td></tr>
+                                    <tr><td>Transit</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">5</td></tr>
+                                    <tr><td>Mob</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="panel-mv" class="tab-panel">
+                            <table class="data-table">
+                                <thead><tr><th>Mapa</th><th class="text-center">Kills</th><th class="text-center">Downs</th><th class="text-center">Headshots</th><th class="text-center">Revives</th><th class="text-center">Top Round</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Transit</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                    <tr><td>Buried</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                    <tr><td>Mob</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                    <tr><td>Origins</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                    <tr><td>Nuketown</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                    <tr><td>Die Rise</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="panel-bm" class="tab-panel">
+                            <table class="data-table">
+                                <thead><tr><th>Mapa</th><th class="text-center">Kills</th><th class="text-center">Downs</th><th class="text-center">Headshots</th><th class="text-center">Revives</th><th class="text-center">Top Round</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Docks</td><td class="text-center">367</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                    <tr><td>Cellblock</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                    <tr><td>Cornfield</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                    <tr><td>Crazyplace</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                    <tr><td>Diner</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                    <tr><td>Maze</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                    <tr><td>Power</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                    <tr><td>Showers</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                    <tr><td>Trenches</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                    <tr><td>Tunel</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                    <tr><td>Town</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">none</td></tr>
+                                    <tr><td>Farm</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">-</td><td class="text-center">none</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+                
+            </div>
+
+            <audio id="background-music" loop></audio>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const canvas = document.getElementById('particle-canvas');
+                    const ctx = canvas.getContext('2d');
+                    let animationFrameId;
+                    let particles = [];
+                    let currentAnimation = 'stars';
+
+                    function resizeCanvas() {
+                        canvas.width = window.innerWidth;
+                        canvas.height = window.innerHeight;
+                    }
+                    window.addEventListener('resize', resizeCanvas);
+                    resizeCanvas();
+
+                    class Particle {
+                        constructor() { this.reset(); }
+                        reset() {
+                            this.x = Math.random() * canvas.width;
+                            this.y = Math.random() * canvas.height;
+                            this.size = Math.random() * 2 + 0.5;
+                            this.opacity = Math.random() * 0.5 + 0.2;
+                            this.speedX = (Math.random() - 0.5) * 0.5;
+                            this.speedY = - (Math.random() * 1 + 0.5); 
+                        }
+                        update() {
+                            this.x += this.speedX;
+                            this.y += this.speedY;
+                            if (this.y < 0) this.reset();
+                            if (this.x < 0 || this.x > canvas.width) this.reset();
+                        }
+                        draw() {
+                            ctx.beginPath();
+                            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                            ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                            ctx.fill();
+                        }
+                    }
+
+                    function handleParticles(count = 70) {
+                        particles = [];
+                        for(let i=0; i<count; i++) particles.push(new Particle());
+                    }
+
+                    function animate() {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        particles.forEach(p => { p.update(); p.draw(); });
+                        if(currentAnimation === 'constellations') {
+                            ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+                            for(let i=0; i<particles.length; i++) {
+                                for(let j=i; j<particles.length; j++) {
+                                    const dx = particles[i].x - particles[j].x;
+                                    const dy = particles[i].y - particles[j].y;
+                                    if(Math.sqrt(dx*dx + dy*dy) < 120) {
+                                        ctx.beginPath();
+                                        ctx.moveTo(particles[i].x, particles[i].y);
+                                        ctx.lineTo(particles[j].x, particles[j].y);
+                                        ctx.stroke();
+                                    }
+                                }
+                            }
+                        }
+                        animationFrameId = requestAnimationFrame(animate);
+                    }
+                    
+                    function startAnimation(animType) {
+                        cancelAnimationFrame(animationFrameId);
+                        currentAnimation = animType;
+                        handleParticles(animType === 'constellations' ? 100 : 70);
+                        animate();
+                    }
+
+                    const themeSwitcher = document.getElementById('theme-switcher');
+                    const animSelector = document.getElementById('animation-selector');
+                    const body = document.body;
+                    
+                    function applyTheme(theme) {
+                        body.setAttribute('data-theme', theme);
+                        localStorage.setItem('yourname_theme', theme);
+                        themeSwitcher.querySelectorAll('.theme-button').forEach(btn => btn.classList.toggle('active', btn.dataset.theme === theme));
+                    }
+                    function applyAnimation(anim) {
+                        localStorage.setItem('yourname_anim', anim);
+                        animSelector.querySelectorAll('.anim-button').forEach(btn => btn.classList.toggle('active', btn.dataset.anim === anim));
+                        startAnimation(anim);
+                    }
+                    themeSwitcher.addEventListener('click', (e) => {
+                        const button = e.target.closest('button');
+                        if(button && button.dataset.theme) applyTheme(button.dataset.theme);
+                    });
+                    animSelector.addEventListener('click', (e) => {
+                        const button = e.target.closest('button');
+                        if(button && button.dataset.anim) applyAnimation(button.dataset.anim);
+                    });
+
+                    const tabs = document.querySelectorAll('.tab-button');
+                    const panels = document.querySelectorAll('.tab-panel');
+                    tabs.forEach(tab => {
+                        tab.addEventListener('click', (e) => {
+                            tabs.forEach(t => t.classList.remove('active'));
+                            panels.forEach(p => p.classList.remove('active'));
+                            const button = e.currentTarget;
+                            button.classList.add('active');
+                            const targetPanel = document.getElementById(button.dataset.target);
+                            if (targetPanel) {
+                            targetPanel.classList.add('active');
+                            }
+                        });
+                    });
+
+                    const audio = document.getElementById('background-music');
+                    const musicToggle = document.getElementById('music-toggle');
+                    const iconOn = document.getElementById('icon-music-on');
+                    const iconOff = document.getElementById('icon-music-off');
+                    
+                    const musicTracks = [
+                        'https://github.com/andr3xcl/music-test-app/raw/main/Sparkle%20(Original%20Version).mp3',
+                        'https://github.com/andr3xcl/music-test-app/raw/main/Dream%20lantern.mp3'
+                    ];
+                    audio.src = musicTracks[Math.floor(Math.random() * musicTracks.length)];
+
+                    const toggleMusic = () => {
+                        if (audio.paused) {
+                            audio.play().catch(e => console.error("Audio playback error:", e));
+                            iconOn.style.display = 'block';
+                            iconOff.style.display = 'none';
+                        } else {
+                            audio.pause();
+                            iconOn.style.display = 'none';
+                            iconOff.style.display = 'block';
+                        }
+                    };
+                    musicToggle.addEventListener('click', toggleMusic);
+
+                    const savedTheme = localStorage.getItem('yourname_theme') || 'kataware_doki';
+                    const savedAnim = localStorage.getItem('yourname_anim') || 'stars';
+                    applyTheme(savedTheme);
+                    applyAnimation(savedAnim);
+                    if(tabs.length > 0) tabs[0].click();
+                });
+            </script>
+        </body>
+        </html>
+
+
+
+        
