@@ -34,6 +34,16 @@
             display: block;
             animation: fadeIn 0.5s ease-out;
         }
+        .calculation-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding-top 0.5s ease-in-out, padding-bottom 0.5s ease-in-out, border-top-width 0.3s ease-in-out;
+            background-color: #f9fafb;
+            border-top: 0px solid #e5e7eb;
+        }
+        .accordion-toggle {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -62,279 +72,127 @@
 
         <div class="bg-white rounded-xl shadow-md p-6 fade-in" style="animation-delay: 0.4s;">
             <div class="border-b border-gray-200 mb-6">
-                <nav class="-mb-px flex space-x-6">
+                <nav class="-mb-px flex space-x-6" id="main-tabs">
                     <button class="tab-button active py-4 px-1 text-sm font-medium" data-target="panel-existencias">Tarjeta de Existencias</button>
                     <button class="tab-button py-4 px-1 text-sm font-medium" data-target="panel-diario">Libro Diario</button>
                     <button class="tab-button py-4 px-1 text-sm font-medium" data-target="panel-mayor">Libro Mayor</button>
                 </nav>
             </div>
 
-            <!-- Panel Tarjeta de Existencias -->
             <div id="panel-existencias" class="tab-panel active">
                 <h2 class="text-2xl font-bold mb-4">Tarjeta de Existencias (Método FIFO)</h2>
                 <div class="overflow-x-auto">
                     <table class="min-w-full text-sm">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th class="p-3 text-left font-semibold">Fecha</th>
-                                <th class="p-3 text-left font-semibold">Detalle</th>
-                                <th class="p-3 text-right font-semibold">Entrada (U)</th>
-                                <th class="p-3 text-right font-semibold">C. Unit.</th>
-                                <th class="p-3 text-right font-semibold">Salida (U)</th>
-                                <th class="p-3 text-right font-semibold">C. Unit.</th>
-                                <th class="p-3 text-right font-semibold">Saldo (U)</th>
-                                <th class="p-3 text-right font-semibold">Saldo ($)</th>
+                                <th class="p-3 text-left font-semibold">Fecha</th><th class="p-3 text-left font-semibold">Detalle</th><th class="p-3 text-right font-semibold">Entrada (U)</th><th class="p-3 text-right font-semibold">C. Unit.</th><th class="p-3 text-right font-semibold">Salida (U)</th><th class="p-3 text-right font-semibold">C. Unit.</th><th class="p-3 text-right font-semibold">Saldo (U)</th><th class="p-3 text-right font-semibold">Saldo ($)</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
-                            <tr class="hover:bg-gray-50">
-                                <td class="p-3">--/--</td><td class="p-3">Inv. Inicial</td><td class="p-3 text-right">400</td><td class="p-3 text-right">$1.800</td><td class="p-3 text-right">-</td><td class="p-3 text-right">-</td><td class="p-3 text-right">400</td><td class="p-3 text-right">$720.000</td>
-                            </tr>
-                            <tr class="hover:bg-gray-50">
-                                <td class="p-3">04/06</td><td class="p-3">Compra</td><td class="p-3 text-right">2.000</td><td class="p-3 text-right">$1.700</td><td class="p-3 text-right">-</td><td class="p-3 text-right">-</td><td class="p-3 text-right">2.400</td><td class="p-3 text-right">$4.120.000</td>
-                            </tr>
-                             <tr class="hover:bg-gray-50">
-                                <td class="p-3">05/06</td><td class="p-3">Compra</td><td class="p-3 text-right">2.500</td><td class="p-3 text-right">$1.900</td><td class="p-3 text-right">-</td><td class="p-3 text-right">-</td><td class="p-3 text-right">4.900</td><td class="p-3 text-right">$8.870.000</td>
-                            </tr>
-                            <tr class="hover:bg-gray-50">
-                                <td class="p-3">08/06</td><td class="p-3">Venta</td><td class="p-3 text-right">-</td><td class="p-3 text-right">-</td><td class="p-3 text-right">1.500</td><td class="p-3 text-right">FIFO</td><td class="p-3 text-right">3.400</td><td class="p-3 text-right">$6.280.000</td>
-                            </tr>
-                            <tr class="hover:bg-gray-50">
-                                <td class="p-3">11/06</td><td class="p-3">Compra</td><td class="p-3 text-right">3.000</td><td class="p-3 text-right">$2.000</td><td class="p-3 text-right">-</td><td class="p-3 text-right">-</td><td class="p-3 text-right">6.400</td><td class="p-3 text-right">$12.280.000</td>
-                            </tr>
-                             <tr class="hover:bg-gray-50">
-                                <td class="p-3">15/06</td><td class="p-3">Dev. Compra</td><td class="p-3 text-right text-red-500">(500)</td><td class="p-3 text-right">$1.900</td><td class="p-3 text-right">-</td><td class="p-3 text-right">-</td><td class="p-3 text-right">5.900</td><td class="p-3 text-right">$11.330.000</td>
-                            </tr>
-                            <tr class="hover:bg-gray-50">
-                                <td class="p-3">20/06</td><td class="p-3">Compra</td><td class="p-3 text-right">3.500</td><td class="p-3 text-right">$2.100</td><td class="p-3 text-right">-</td><td class="p-3 text-right">-</td><td class="p-3 text-right">9.400</td><td class="p-3 text-right">$18.680.000</td>
-                            </tr>
-                            <tr class="hover:bg-gray-50">
-                                <td class="p-3">25/06</td><td class="p-3">Venta</td><td class="p-3 text-right">-</td><td class="p-3 text-right">-</td><td class="p-3 text-right">2.500</td><td class="p-3 text-right">FIFO</td><td class="p-3 text-right">6.900</td><td class="p-3 text-right">$14.110.000</td>
-                            </tr>
-                            <tr class="hover:bg-gray-50">
-                                <td class="p-3">27/06</td><td class="p-3">Dev. Venta</td><td class="p-3 text-right">100</td><td class="p-3 text-right">$1.900</td><td class="p-3 text-right">-</td><td class="p-3 text-right">-</td><td class="p-3 text-right">7.000</td><td class="p-3 text-right">$14.300.000</td>
-                            </tr>
-                            <tr class="hover:bg-gray-50">
-                                <td class="p-3">30/06</td><td class="p-3">Pérdida Inv.</td><td class="p-3 text-right">-</td><td class="p-3 text-right">-</td><td class="p-3 text-right text-red-500">350</td><td class="p-3 text-right">$1.900</td><td class="p-3 text-right font-bold">6.650</td><td class="p-3 text-right font-bold">$13.635.000</td>
-                            </tr>
+                            <tr class="hover:bg-gray-50"><td class="p-3">--/--</td><td class="p-3">Inv. Inicial</td><td class="p-3 text-right">400</td><td class="p-3 text-right">$1.800</td><td class="p-3 text-right">-</td><td class="p-3 text-right">-</td><td class="p-3 text-right">400</td><td class="p-3 text-right">$720.000</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="p-3">04/06</td><td class="p-3">Compra</td><td class="p-3 text-right">2.000</td><td class="p-3 text-right">$1.700</td><td class="p-3 text-right">-</td><td class="p-3 text-right">-</td><td class="p-3 text-right">2.400</td><td class="p-3 text-right">$4.120.000</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="p-3">05/06</td><td class="p-3">Compra</td><td class="p-3 text-right">2.500</td><td class="p-3 text-right">$1.900</td><td class="p-3 text-right">-</td><td class="p-3 text-right">-</td><td class="p-3 text-right">4.900</td><td class="p-3 text-right">$8.870.000</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="p-3">08/06</td><td class="p-3">Venta</td><td class="p-3 text-right">-</td><td class="p-3 text-right">-</td><td class="p-3 text-right">1.500</td><td class="p-3 text-right">FIFO</td><td class="p-3 text-right">3.400</td><td class="p-3 text-right">$6.280.000</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="p-3">11/06</td><td class="p-3">Compra</td><td class="p-3 text-right">3.000</td><td class="p-3 text-right">$2.000</td><td class="p-3 text-right">-</td><td class="p-3 text-right">-</td><td class="p-3 text-right">6.400</td><td class="p-3 text-right">$12.280.000</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="p-3">15/06</td><td class="p-3">Dev. Compra</td><td class="p-3 text-right text-red-500">(500)</td><td class="p-3 text-right">$1.900</td><td class="p-3 text-right">-</td><td class="p-3 text-right">-</td><td class="p-3 text-right">5.900</td><td class="p-3 text-right">$11.330.000</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="p-3">20/06</td><td class="p-3">Compra</td><td class="p-3 text-right">3.500</td><td class="p-3 text-right">$2.100</td><td class="p-3 text-right">-</td><td class="p-3 text-right">-</td><td class="p-3 text-right">9.400</td><td class="p-3 text-right">$18.680.000</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="p-3">25/06</td><td class="p-3">Venta</td><td class="p-3 text-right">-</td><td class="p-3 text-right">-</td><td class="p-3 text-right">2.500</td><td class="p-3 text-right">FIFO</td><td class="p-3 text-right">6.900</td><td class="p-3 text-right">$14.110.000</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="p-3">27/06</td><td class="p-3">Dev. Venta</td><td class="p-3 text-right">100</td><td class="p-3 text-right">$1.900</td><td class="p-3 text-right">-</td><td class="p-3 text-right">-</td><td class="p-3 text-right">7.000</td><td class="p-3 text-right">$14.300.000</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="p-3">30/06</td><td class="p-3">Pérdida Inv.</td><td class="p-3 text-right">-</td><td class="p-3 text-right">-</td><td class="p-3 text-right text-red-500">350</td><td class="p-3 text-right">$1.900</td><td class="p-3 text-right font-bold">6.650</td><td class="p-3 text-right font-bold">$13.635.000</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Panel Libro Diario -->
             <div id="panel-diario" class="tab-panel">
-                 <h2 class="text-2xl font-bold mb-4">Libro Diario</h2>
-                 <div class="space-y-6">
-                    <div class="border rounded-lg p-4">
-                        <p class="font-semibold mb-2">04/06/2020</p>
-                        <table class="w-full text-sm"><tbody>
-                            <tr><td class="py-1">Mercaderías</td><td class="py-1 text-right">$3.400.000</td><td class="py-1 text-right"></td></tr>
-                            <tr><td class="py-1">IVA Crédito Fiscal (19%)</td><td class="py-1 text-right">$646.000</td><td class="py-1 text-right"></td></tr>
-                            <tr><td class="py-1 pl-4">Proveedores</td><td class="py-1 text-right"></td><td class="py-1 text-right">$4.046.000</td></tr>
-                        </tbody></table>
+                 <h2 class="text-2xl font-bold mb-4">Libro Diario Interactivo</h2>
+                 <div class="space-y-4">
+                    <div class="border rounded-lg overflow-hidden accordion-item">
+                        <div class="accordion-toggle p-4 flex justify-between items-center hover:bg-gray-50"><p class="font-semibold">04/06/2020 - Compra</p><span class="text-xs text-blue-500">Ver Cálculo ▼</span></div>
+                        <div class="p-4 border-t"><table class="w-full text-sm"><tbody><tr><td class="py-1">Mercaderías</td><td class="py-1 text-right">$3.400.000</td><td></td></tr><tr><td class="py-1">IVA Crédito Fiscal</td><td class="py-1 text-right">$646.000</td><td></td></tr><tr><td class="py-1 pl-4">Proveedores</td><td></td><td class="py-1 text-right">$4.046.000</td></tr></tbody></table></div>
+                        <div class="calculation-details"><div class="p-4 text-sm"><p class="font-semibold">Cálculo:</p><p><strong>Mercadería (Debe):</strong> 2.000 u. * $1.700 = $3.400.000</p><p><strong>IVA C.F. (Debe):</strong> $3.400.000 * 19% = $646.000</p><p><strong>Proveedores (Haber):</strong> $3.400.000 + $646.000 = $4.046.000</p></div></div>
                     </div>
-                    <div class="border rounded-lg p-4">
-                        <p class="font-semibold mb-2">05/06/2020</p>
-                        <table class="w-full text-sm"><tbody>
-                            <tr><td class="py-1">Mercaderías</td><td class="py-1 text-right">$4.750.000</td><td class="py-1 text-right"></td></tr>
-                            <tr><td class="py-1">IVA Crédito Fiscal (19%)</td><td class="py-1 text-right">$902.500</td><td class="py-1 text-right"></td></tr>
-                            <tr><td class="py-1 pl-4">Proveedores</td><td class="py-1 text-right"></td><td class="py-1 text-right">$5.652.500</td></tr>
-                        </tbody></table>
+                    <div class="border rounded-lg overflow-hidden accordion-item">
+                        <div class="accordion-toggle p-4 flex justify-between items-center hover:bg-gray-50"><p class="font-semibold">05/06/2020 - Compra</p><span class="text-xs text-blue-500">Ver Cálculo ▼</span></div>
+                         <div class="p-4 border-t"><table class="w-full text-sm"><tbody><tr><td class="py-1">Mercaderías</td><td class="py-1 text-right">$4.750.000</td><td></td></tr><tr><td class="py-1">IVA Crédito Fiscal</td><td class="py-1 text-right">$902.500</td><td></td></tr><tr><td class="py-1 pl-4">Proveedores</td><td></td><td class="py-1 text-right">$5.652.500</td></tr></tbody></table></div>
+                        <div class="calculation-details"><div class="p-4 text-sm"><p class="font-semibold">Cálculo:</p><p><strong>Mercadería (Debe):</strong> 2.500 u. * $1.900 = $4.750.000</p><p><strong>IVA C.F. (Debe):</strong> $4.750.000 * 19% = $902.500</p><p><strong>Proveedores (Haber):</strong> $4.750.000 + $902.500 = $5.652.500</p></div></div>
                     </div>
-                    <div class="border rounded-lg p-4">
-                        <p class="font-semibold mb-2">08/06/2020</p>
-                        <table class="w-full text-sm"><tbody>
-                            <tr><td class="py-1">Clientes</td><td class="py-1 text-right">$7.497.000</td><td class="py-1 text-right"></td></tr>
-                            <tr><td class="py-1 pl-4">Ventas</td><td class="py-1 text-right"></td><td class="py-1 text-right">$6.300.000</td></tr>
-                            <tr><td class="py-1 pl-4">IVA Débito Fiscal</td><td class="py-1 text-right"></td><td class="py-1 text-right">$1.197.000</td></tr>
-                            <tr class="border-t mt-2 pt-2"><td class="py-1">Costo de Venta</td><td class="py-1 text-right">$2.590.000</td><td class="py-1 text-right"></td></tr>
-                            <tr><td class="py-1 pl-4">Mercaderías</td><td class="py-1 text-right"></td><td class="py-1 text-right">$2.590.000</td></tr>
-                        </tbody></table>
+                    <div class="border rounded-lg overflow-hidden accordion-item">
+                        <div class="accordion-toggle p-4 flex justify-between items-center hover:bg-gray-50"><p class="font-semibold">08/06/2020 - Venta</p><span class="text-xs text-blue-500">Ver Cálculo ▼</span></div>
+                        <div class="p-4 border-t"><table class="w-full text-sm"><tbody><tr><td class="py-1">Clientes</td><td class="py-1 text-right">$7.497.000</td><td></td></tr><tr><td class="py-1 pl-4">Ventas</td><td></td><td class="py-1 text-right">$6.300.000</td></tr><tr><td class="py-1 pl-4">IVA Débito Fiscal</td><td></td><td class="py-1 text-right">$1.197.000</td></tr><tr class="border-t"><td class="py-1 pt-2">Costo de Venta</td><td class="py-1 text-right pt-2">$2.590.000</td><td></td></tr><tr><td class="py-1 pl-4">Mercaderías</td><td></td><td class="py-1 text-right">$2.590.000</td></tr></tbody></table></div>
+                        <div class="calculation-details"><div class="p-4 text-sm"><p class="font-semibold">Venta:</p><p><strong>Venta Neta:</strong> ($4.998 / 1.19) * 1.500 u. = $6.300.000</p><p><strong>IVA D.F. (Haber):</strong> $6.300.000 * 19% = $1.197.000</p><p><strong>Total Clientes (Debe):</strong> $6.300.000 + $1.197.000 = $7.497.000</p><p class="font-semibold mt-2">Costo (FIFO):</p><p><strong>Costo Venta (Debe):</strong> (400 u. * $1.800) + (1.100 u. * $1.700) = $2.590.000</p></div></div>
                     </div>
-                    <div class="border rounded-lg p-4">
-                        <p class="font-semibold mb-2">11/06/2020</p>
-                        <table class="w-full text-sm"><tbody>
-                            <tr><td class="py-1">Mercaderías</td><td class="py-1 text-right">$6.000.000</td><td class="py-1 text-right"></td></tr>
-                            <tr><td class="py-1">IVA Crédito Fiscal (19%)</td><td class="py-1 text-right">$1.140.000</td><td class="py-1 text-right"></td></tr>
-                            <tr><td class="py-1 pl-4">Proveedores</td><td class="py-1 text-right"></td><td class="py-1 text-right">$7.140.000</td></tr>
-                        </tbody></table>
+                     <div class="border rounded-lg overflow-hidden accordion-item">
+                        <div class="accordion-toggle p-4 flex justify-between items-center hover:bg-gray-50"><p class="font-semibold">11/06/2020 - Compra</p><span class="text-xs text-blue-500">Ver Cálculo ▼</span></div>
+                        <div class="p-4 border-t"><table class="w-full text-sm"><tbody><tr><td class="py-1">Mercaderías</td><td class="py-1 text-right">$6.000.000</td><td></td></tr><tr><td class="py-1">IVA Crédito Fiscal</td><td class="py-1 text-right">$1.140.000</td><td></td></tr><tr><td class="py-1 pl-4">Proveedores</td><td></td><td class="py-1 text-right">$7.140.000</td></tr></tbody></table></div>
+                        <div class="calculation-details"><div class="p-4 text-sm"><p class="font-semibold">Cálculo:</p><p><strong>Mercadería (Debe):</strong> 3.000 u. * $2.000 = $6.000.000</p><p><strong>IVA C.F. (Debe):</strong> $6.000.000 * 19% = $1.140.000</p><p><strong>Proveedores (Haber):</strong> $6.000.000 + $1.140.000 = $7.140.000</p></div></div>
                     </div>
-                    <div class="border rounded-lg p-4">
-                        <p class="font-semibold mb-2">15/06/2020</p>
-                        <table class="w-full text-sm"><tbody>
-                            <tr><td class="py-1">Proveedores</td><td class="py-1 text-right">$1.130.500</td><td class="py-1 text-right"></td></tr>
-                            <tr><td class="py-1 pl-4">Mercaderías</td><td class="py-1 text-right"></td><td class="py-1 text-right">$950.000</td></tr>
-                            <tr><td class="py-1 pl-4">IVA Crédito Fiscal</td><td class="py-1 text-right"></td><td class="py-1 text-right">$180.500</td></tr>
-                        </tbody></table>
+                     <div class="border rounded-lg overflow-hidden accordion-item">
+                        <div class="accordion-toggle p-4 flex justify-between items-center hover:bg-gray-50"><p class="font-semibold">15/06/2020 - Devolución de Compra</p><span class="text-xs text-blue-500">Ver Cálculo ▼</span></div>
+                        <div class="p-4 border-t"><table class="w-full text-sm"><tbody><tr><td class="py-1">Proveedores</td><td class="py-1 text-right">$1.130.500</td><td></td></tr><tr><td class="py-1 pl-4">Mercaderías</td><td></td><td class="py-1 text-right">$950.000</td></tr><tr><td class="py-1 pl-4">IVA Crédito Fiscal</td><td></td><td class="py-1 text-right">$180.500</td></tr></tbody></table></div>
+                        <div class="calculation-details"><div class="p-4 text-sm"><p class="font-semibold">Cálculo:</p><p><strong>Mercadería (Haber):</strong> 500 u. * $1.900 = $950.000</p><p><strong>IVA C.F. (Haber):</strong> $950.000 * 19% = $180.500</p><p><strong>Proveedores (Debe):</strong> $950.000 + $180.500 = $1.130.500</p></div></div>
                     </div>
-                    <div class="border rounded-lg p-4">
-                        <p class="font-semibold mb-2">20/06/2020</p>
-                        <table class="w-full text-sm"><tbody>
-                            <tr><td class="py-1">Mercaderías</td><td class="py-1 text-right">$7.350.000</td><td class="py-1 text-right"></td></tr>
-                            <tr><td class="py-1">IVA Crédito Fiscal (19%)</td><td class="py-1 text-right">$1.396.500</td><td class="py-1 text-right"></td></tr>
-                            <tr><td class="py-1 pl-4">Proveedores</td><td class="py-1 text-right"></td><td class="py-1 text-right">$8.746.500</td></tr>
-                        </tbody></table>
+                    <div class="border rounded-lg overflow-hidden accordion-item">
+                        <div class="accordion-toggle p-4 flex justify-between items-center hover:bg-gray-50"><p class="font-semibold">20/06/2020 - Compra</p><span class="text-xs text-blue-500">Ver Cálculo ▼</span></div>
+                        <div class="p-4 border-t"><table class="w-full text-sm"><tbody><tr><td class="py-1">Mercaderías</td><td class="py-1 text-right">$7.350.000</td><td></td></tr><tr><td class="py-1">IVA Crédito Fiscal</td><td class="py-1 text-right">$1.396.500</td><td></td></tr><tr><td class="py-1 pl-4">Proveedores</td><td></td><td class="py-1 text-right">$8.746.500</td></tr></tbody></table></div>
+                        <div class="calculation-details"><div class="p-4 text-sm"><p class="font-semibold">Cálculo:</p><p><strong>Mercadería:</strong> 3.500 u. * $2.100 = $7.350.000</p><p><strong>IVA C.F.:</strong> $7.350.000 * 19% = $1.396.500</p><p><strong>Proveedores:</strong> $7.350.000 + $1.396.500 = $8.746.500</p></div></div>
                     </div>
-                     <div class="border rounded-lg p-4">
-                        <p class="font-semibold mb-2">25/06/2020</p>
-                        <table class="w-full text-sm"><tbody>
-                            <tr><td class="py-1">Clientes</td><td class="py-1 text-right">$11.900.000</td><td class="py-1 text-right"></td></tr>
-                            <tr><td class="py-1 pl-4">Ventas</td><td class="py-1 text-right"></td><td class="py-1 text-right">$10.000.000</td></tr>
-                            <tr><td class="py-1 pl-4">IVA Débito Fiscal</td><td class="py-1 text-right"></td><td class="py-1 text-right">$1.900.000</td></tr>
-                            <tr class="border-t mt-2 pt-2"><td class="py-1">Costo de Venta</td><td class="py-1 text-right">$4.570.000</td><td class="py-1 text-right"></td></tr>
-                            <tr><td class="py-1 pl-4">Mercaderías</td><td class="py-1 text-right"></td><td class="py-1 text-right">$4.570.000</td></tr>
-                        </tbody></table>
+                    <div class="border rounded-lg overflow-hidden accordion-item">
+                        <div class="accordion-toggle p-4 flex justify-between items-center hover:bg-gray-50"><p class="font-semibold">25/06/2020 - Venta</p><span class="text-xs text-blue-500">Ver Cálculo ▼</span></div>
+                        <div class="p-4 border-t"><table class="w-full text-sm"><tbody><tr><td class="py-1">Clientes</td><td class="py-1 text-right">$11.900.000</td><td></td></tr><tr><td class="py-1 pl-4">Ventas</td><td></td><td class="py-1 text-right">$10.000.000</td></tr><tr><td class="py-1 pl-4">IVA Débito Fiscal</td><td></td><td class="py-1 text-right">$1.900.000</td></tr><tr class="border-t"><td class="py-1 pt-2">Costo de Venta</td><td class="py-1 text-right pt-2">$4.570.000</td><td></td></tr><tr><td class="py-1 pl-4">Mercaderías</td><td></td><td class="py-1 text-right">$4.570.000</td></tr></tbody></table></div>
+                        <div class="calculation-details"><div class="p-4 text-sm"><p class="font-semibold">Venta:</p><p><strong>Venta Neta:</strong> 2.500 u. * $4.000 = $10.000.000</p><p><strong>IVA D.F.:</strong> $10.000.000 * 19% = $1.900.000</p><p><strong>Total Clientes:</strong> $10.000.000 + $1.900.000 = $11.900.000</p><p class="font-semibold mt-2">Costo (FIFO):</p><p><strong>Costo Venta:</strong> (900 u. * $1.700) + (1.600 u. * $1.900) = $4.570.000</p></div></div>
                     </div>
-                    <div class="border rounded-lg p-4">
-                        <p class="font-semibold mb-2">27/06/2020</p>
-                        <table class="w-full text-sm"><tbody>
-                            <tr><td class="py-1">Devolución de Ventas</td><td class="py-1 text-right">$400.000</td><td class="py-1 text-right"></td></tr>
-                            <tr><td class="py-1">IVA Débito Fiscal</td><td class="py-1 text-right">$76.000</td><td class="py-1 text-right"></td></tr>
-                            <tr><td class="py-1 pl-4">Clientes</td><td class="py-1 text-right"></td><td class="py-1 text-right">$476.000</td></tr>
-                            <tr class="border-t mt-2 pt-2"><td class="py-1">Mercaderías</td><td class="py-1 text-right">$190.000</td><td class="py-1 text-right"></td></tr>
-                            <tr><td class="py-1 pl-4">Costo de Venta</td><td class="py-1 text-right"></td><td class="py-1 text-right">$190.000</td></tr>
-                        </tbody></table>
+                    <div class="border rounded-lg overflow-hidden accordion-item">
+                        <div class="accordion-toggle p-4 flex justify-between items-center hover:bg-gray-50"><p class="font-semibold">27/06/2020 - Devolución de Venta</p><span class="text-xs text-blue-500">Ver Cálculo ▼</span></div>
+                        <div class="p-4 border-t"><table class="w-full text-sm"><tbody><tr><td class="py-1">Devolución de Ventas</td><td class="py-1 text-right">$400.000</td><td></td></tr><tr><td class="py-1">IVA Débito Fiscal</td><td class="py-1 text-right">$76.000</td><td></td></tr><tr><td class="py-1 pl-4">Clientes</td><td></td><td class="py-1 text-right">$476.000</td></tr><tr class="border-t"><td class="py-1 pt-2">Mercaderías</td><td class="py-1 text-right pt-2">$190.000</td><td></td></tr><tr><td class="py-1 pl-4">Costo de Venta</td><td></td><td class="py-1 text-right">$190.000</td></tr></tbody></table></div>
+                        <div class="calculation-details"><div class="p-4 text-sm"><p class="font-semibold">Reverso de Venta:</p><p><strong>Dev. Venta (Debe):</strong> 100 u. * $4.000 = $400.000</p><p><strong>IVA D.F. (Debe):</strong> $400.000 * 19% = $76.000</p><p><strong>Clientes (Haber):</strong> $400.000 + $76.000 = $476.000</p><p class="font-semibold mt-2">Reverso de Costo:</p><p><strong>Mercadería (Debe):</strong> 100 u. * $1.900 (costo FIFO de la venta original) = $190.000</p></div></div>
                     </div>
-                     <div class="border rounded-lg p-4">
-                        <p class="font-semibold mb-2">30/06/2020</p>
-                        <table class="w-full text-sm"><tbody>
-                            <tr><td class="py-1">Pérdida por Deterioro</td><td class="py-1 text-right">$665.000</td><td class="py-1 text-right"></td></tr>
-                            <tr><td class="py-1 pl-4">Mercaderías</td><td class="py-1 text-right"></td><td class="py-1 text-right">$665.000</td></tr>
-                        </tbody></table>
+                     <div class="border rounded-lg overflow-hidden accordion-item">
+                        <div class="accordion-toggle p-4 flex justify-between items-center hover:bg-gray-50"><p class="font-semibold">30/06/2020 - Pérdida de Inventario</p><span class="text-xs text-blue-500">Ver Cálculo ▼</span></div>
+                        <div class="p-4 border-t"><table class="w-full text-sm"><tbody><tr><td class="py-1">Pérdida por Deterioro</td><td class="py-1 text-right">$665.000</td><td></td></tr><tr><td class="py-1 pl-4">Mercaderías</td><td></td><td class="py-1 text-right">$665.000</td></tr></tbody></table></div>
+                        <div class="calculation-details"><div class="p-4 text-sm"><p class="font-semibold">Cálculo:</p><p><strong>Unidades Perdidas:</strong> 7.000 (saldo libros) - 6.650 (conteo físico) = 350 u.</p><p><strong>Costo Pérdida (FIFO):</strong> 350 u. * $1.900 (costo lote más antiguo) = $665.000</p></div></div>
                     </div>
                  </div>
             </div>
 
-            <!-- Panel Libro Mayor -->
             <div id="panel-mayor" class="tab-panel">
-                 <h2 class="text-2xl font-bold mb-4">Libro Mayor (Cuentas T)</h2>
+                <h2 class="text-2xl font-bold mb-4">Libro Mayor (Cuentas T)</h2>
                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    
-                    <div class="border rounded-lg p-4">
+                    <div class="border rounded-lg p-4 bg-white">
                         <h4 class="font-semibold text-center mb-2 border-b pb-2">Mercaderías</h4>
-                        <div class="grid grid-cols-2 gap-4 text-sm">
-                            <div class="text-left">
-                                <p>$720.000</p><p>$3.400.000</p><p>$4.750.000</p><p>$6.000.000</p><p>$7.350.000</p><p>$190.000</p>
-                                <p class="font-bold border-t mt-2 pt-2">$22.410.000</p>
-                            </div>
-                            <div class="text-right border-l pl-4">
-                                 <p>$2.590.000</p><p>$950.000</p><p>$4.570.000</p><p>$665.000</p><p class="text-white">.</p><p class="text-white">.</p>
-                                 <p class="font-bold border-t mt-2 pt-2">$8.775.000</p>
-                            </div>
-                        </div>
-                        <p class="text-center font-bold mt-2 bg-gray-100 p-2 rounded">Saldo Deudor: $13.635.000</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm"><div class="text-left"><p>$720.000</p><p>$3.400.000</p><p>$4.750.000</p><p>$6.000.000</p><p>$7.350.000</p><p>$190.000</p><p class="font-bold border-t mt-2 pt-2">$22.410.000</p></div><div class="text-right border-l pl-4"><p>$2.590.000</p><p>$950.000</p><p>$4.570.000</p><p>$665.000</p><p class="font-bold border-t mt-2 pt-2">$8.775.000</p></div></div><p class="text-center font-bold mt-2 bg-gray-100 p-2 rounded">Saldo Deudor: $13.635.000</p>
                     </div>
-
-                    <div class="border rounded-lg p-4">
+                     <div class="border rounded-lg p-4 bg-white">
                         <h4 class="font-semibold text-center mb-2 border-b pb-2">Costo de Venta</h4>
-                        <div class="grid grid-cols-2 gap-4 text-sm">
-                             <div class="text-left">
-                                <p>$2.590.000</p><p>$4.570.000</p>
-                                <p class="font-bold border-t mt-2 pt-2">$7.160.000</p>
-                            </div>
-                             <div class="text-right border-l pl-4">
-                                <p>$190.000</p><p class="text-white">.</p>
-                                 <p class="font-bold border-t mt-2 pt-2">$190.000</p>
-                            </div>
-                        </div>
-                         <p class="text-center font-bold mt-2 bg-gray-100 p-2 rounded">Saldo Deudor: $6.970.000</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm"><div class="text-left"><p>$2.590.000</p><p>$4.570.000</p><p class="font-bold border-t mt-2 pt-2">$7.160.000</p></div><div class="text-right border-l pl-4"><p>$190.000</p><p class="font-bold border-t mt-2 pt-2">$190.000</p></div></div><p class="text-center font-bold mt-2 bg-gray-100 p-2 rounded">Saldo Deudor: $6.970.000</p>
                     </div>
-
-                     <div class="border rounded-lg p-4">
-                        <h4 class="font-semibold text-center mb-2 border-b pb-2">IVA Crédito Fiscal</h4>
-                        <div class="grid grid-cols-2 gap-4 text-sm">
-                             <div class="text-left">
-                                <p>$646.000</p><p>$902.500</p><p>$1.140.000</p><p>$1.396.500</p>
-                                <p class="font-bold border-t mt-2 pt-2">$4.085.000</p>
-                            </div>
-                             <div class="text-right border-l pl-4">
-                                <p>$180.500</p><p class="text-white">.</p><p class="text-white">.</p><p class="text-white">.</p>
-                                 <p class="font-bold border-t mt-2 pt-2">$180.500</p>
-                            </div>
-                        </div>
-                         <p class="text-center font-bold mt-2 bg-gray-100 p-2 rounded">Saldo Deudor: $3.904.500</p>
-                    </div>
-                     <div class="border rounded-lg p-4">
+                    <div class="border rounded-lg p-4 bg-white">
                         <h4 class="font-semibold text-center mb-2 border-b pb-2">Ventas</h4>
-                        <div class="grid grid-cols-2 gap-4 text-sm">
-                            <div class="text-left"><p class="font-bold border-t mt-2 pt-2">$0</p></div>
-                             <div class="text-right border-l pl-4">
-                                 <p>$6.300.000</p><p>$10.000.000</p>
-                                 <p class="font-bold border-t mt-2 pt-2">$16.300.000</p>
-                            </div>
-                        </div>
-                         <p class="text-center font-bold mt-2 bg-gray-100 p-2 rounded">Saldo Acreedor: $16.300.000</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm"><div class="text-left"><p class="font-bold border-t mt-2 pt-2">$0</p></div><div class="text-right border-l pl-4"><p>$6.300.000</p><p>$10.000.000</p><p class="font-bold border-t mt-2 pt-2">$16.300.000</p></div></div><p class="text-center font-bold mt-2 bg-gray-100 p-2 rounded">Saldo Acreedor: $16.300.000</p>
                     </div>
-                     <div class="border rounded-lg p-4">
+                     <div class="border rounded-lg p-4 bg-white">
+                        <h4 class="font-semibold text-center mb-2 border-b pb-2">IVA Crédito Fiscal</h4>
+                        <div class="grid grid-cols-2 gap-4 text-sm"><div class="text-left"><p>$646.000</p><p>$902.500</p><p>$1.140.000</p><p>$1.396.500</p><p class="font-bold border-t mt-2 pt-2">$4.085.000</p></div><div class="text-right border-l pl-4"><p>$180.500</p><p class="font-bold border-t mt-2 pt-2">$180.500</p></div></div><p class="text-center font-bold mt-2 bg-gray-100 p-2 rounded">Saldo Deudor: $3.904.500</p>
+                    </div>
+                    <div class="border rounded-lg p-4 bg-white">
                         <h4 class="font-semibold text-center mb-2 border-b pb-2">IVA Débito Fiscal</h4>
-                        <div class="grid grid-cols-2 gap-4 text-sm">
-                             <div class="text-left">
-                                <p>$76.000</p>
-                                <p class="font-bold border-t mt-2 pt-2">$76.000</p>
-                            </div>
-                             <div class="text-right border-l pl-4">
-                                 <p>$1.197.000</p><p>$1.900.000</p>
-                                 <p class="font-bold border-t mt-2 pt-2">$3.097.000</p>
-                            </div>
-                        </div>
-                         <p class="text-center font-bold mt-2 bg-gray-100 p-2 rounded">Saldo Acreedor: $3.021.000</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm"><div class="text-left"><p>$76.000</p><p class="font-bold border-t mt-2 pt-2">$76.000</p></div><div class="text-right border-l pl-4"><p>$1.197.000</p><p>$1.900.000</p><p class="font-bold border-t mt-2 pt-2">$3.097.000</p></div></div><p class="text-center font-bold mt-2 bg-gray-100 p-2 rounded">Saldo Acreedor: $3.021.000</p>
                     </div>
-                    <div class="border rounded-lg p-4">
+                     <div class="border rounded-lg p-4 bg-white">
                         <h4 class="font-semibold text-center mb-2 border-b pb-2">Clientes</h4>
-                        <div class="grid grid-cols-2 gap-4 text-sm">
-                             <div class="text-left">
-                                <p>$7.497.000</p><p>$11.900.000</p>
-                                <p class="font-bold border-t mt-2 pt-2">$19.397.000</p>
-                            </div>
-                             <div class="text-right border-l pl-4">
-                                <p>$476.000</p><p class="text-white">.</p>
-                                 <p class="font-bold border-t mt-2 pt-2">$476.000</p>
-                            </div>
-                        </div>
-                         <p class="text-center font-bold mt-2 bg-gray-100 p-2 rounded">Saldo Deudor: $18.921.000</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm"><div class="text-left"><p>$7.497.000</p><p>$11.900.000</p><p class="font-bold border-t mt-2 pt-2">$19.397.000</p></div><div class="text-right border-l pl-4"><p>$476.000</p><p class="font-bold border-t mt-2 pt-2">$476.000</p></div></div><p class="text-center font-bold mt-2 bg-gray-100 p-2 rounded">Saldo Deudor: $18.921.000</p>
                     </div>
-                     <div class="border rounded-lg p-4">
+                     <div class="border rounded-lg p-4 bg-white">
                         <h4 class="font-semibold text-center mb-2 border-b pb-2">Proveedores</h4>
-                        <div class="grid grid-cols-2 gap-4 text-sm">
-                             <div class="text-left">
-                                <p>$1.130.500</p>
-                                <p class="font-bold border-t mt-2 pt-2">$1.130.500</p>
-                            </div>
-                             <div class="text-right border-l pl-4">
-                                 <p>$4.046.000</p><p>$5.652.500</p><p>$7.140.000</p><p>$8.746.500</p>
-                                 <p class="font-bold border-t mt-2 pt-2">$25.585.000</p>
-                            </div>
-                        </div>
-                         <p class="text-center font-bold mt-2 bg-gray-100 p-2 rounded">Saldo Acreedor: $24.454.500</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm"><div class="text-left"><p>$1.130.500</p><p class="font-bold border-t mt-2 pt-2">$1.130.500</p></div><div class="text-right border-l pl-4"><p>$4.046.000</p><p>$5.652.500</p><p>$7.140.000</p><p>$8.746.500</p><p class="font-bold border-t mt-2 pt-2">$25.585.000</p></div></div><p class="text-center font-bold mt-2 bg-gray-100 p-2 rounded">Saldo Acreedor: $24.454.500</p>
                     </div>
-                    <div class="border rounded-lg p-4">
+                    <div class="border rounded-lg p-4 bg-white">
                         <h4 class="font-semibold text-center mb-2 border-b pb-2">Devolución de Ventas</h4>
-                        <div class="grid grid-cols-2 gap-4 text-sm">
-                             <div class="text-left">
-                                <p>$400.000</p>
-                                <p class="font-bold border-t mt-2 pt-2">$400.000</p>
-                            </div>
-                             <div class="text-right border-l pl-4">
-                                 <p class="text-white">.</p>
-                                 <p class="font-bold border-t mt-2 pt-2">$0</p>
-                            </div>
-                        </div>
-                         <p class="text-center font-bold mt-2 bg-gray-100 p-2 rounded">Saldo Deudor: $400.000</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm"><div class="text-left"><p>$400.000</p><p class="font-bold border-t mt-2 pt-2">$400.000</p></div><div class="text-right border-l pl-4"><p class="font-bold border-t mt-2 pt-2">$0</p></div></div><p class="text-center font-bold mt-2 bg-gray-100 p-2 rounded">Saldo Deudor: $400.000</p>
                     </div>
-                     <div class="border rounded-lg p-4">
+                     <div class="border rounded-lg p-4 bg-white">
                         <h4 class="font-semibold text-center mb-2 border-b pb-2">Pérdida por Deterioro</h4>
-                        <div class="grid grid-cols-2 gap-4 text-sm">
-                             <div class="text-left">
-                                <p>$665.000</p>
-                                <p class="font-bold border-t mt-2 pt-2">$665.000</p>
-                            </div>
-                             <div class="text-right border-l pl-4">
-                                <p class="text-white">.</p>
-                                <p class="font-bold border-t mt-2 pt-2">$0</p>
-                            </div>
-                        </div>
-                         <p class="text-center font-bold mt-2 bg-gray-100 p-2 rounded">Saldo Deudor: $665.000</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm"><div class="text-left"><p>$665.000</p><p class="font-bold border-t mt-2 pt-2">$665.000</p></div><div class="text-right border-l pl-4"><p class="font-bold border-t mt-2 pt-2">$0</p></div></div><p class="text-center font-bold mt-2 bg-gray-100 p-2 rounded">Saldo Deudor: $665.000</p>
                     </div>
                  </div>
             </div>
@@ -342,25 +200,40 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const tabs = document.querySelectorAll('.tab-button');
-            const panels = document.querySelectorAll('.tab-panel');
+            document.getElementById('main-tabs').addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON') {
+                    document.querySelectorAll('#main-tabs .tab-button').forEach(btn => btn.classList.remove('active'));
+                    e.target.classList.add('active');
 
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    tabs.forEach(t => t.classList.remove('active'));
-                    panels.forEach(p => p.classList.remove('active'));
-                    
-                    tab.classList.add('active');
-                    const targetPanel = document.getElementById(tab.dataset.target);
-                    if(targetPanel) {
+                    document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+                    const targetPanel = document.getElementById(e.target.dataset.target);
+                    if (targetPanel) {
                         targetPanel.classList.add('active');
+                    }
+                }
+            });
+
+            document.querySelectorAll('.accordion-toggle').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const accordionItem = e.currentTarget.parentElement;
+                    const details = accordionItem.querySelector('.calculation-details');
+                    const toggleSpan = e.currentTarget.querySelector('span');
+
+                    if (details.style.maxHeight && details.style.maxHeight !== "0px") {
+                        details.style.maxHeight = null;
+                        details.style.paddingTop = '0px';
+                        details.style.paddingBottom = '0px';
+                         details.style.borderTopWidth = '0px';
+                        toggleSpan.innerHTML = "Ver Cálculo ▼";
+                    } else {
+                        details.style.maxHeight = details.scrollHeight + "px";
+                        details.style.paddingTop = '1rem';
+                        details.style.paddingBottom = '1rem';
+                         details.style.borderTopWidth = '1px';
+                        toggleSpan.innerHTML = "Ocultar Cálculo ▲";
                     }
                 });
             });
-
-            if (tabs.length > 0) {
-                tabs[0].click();
-            }
         });
     </script>
 </body>
