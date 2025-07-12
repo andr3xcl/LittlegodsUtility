@@ -84,6 +84,7 @@
                             <div><label for="cornersStyle" class="block text-sm font-medium text-gray-700">Estilo de Esquinas</label><select id="cornersStyle" class="w-full p-2 border rounded-lg"><option value="square">Cuadrado</option><option value="dot">Punto</option><option value="extra-rounded">Extra Redondeado</option></select></div>
                             <div class="col-span-2 flex items-center gap-2 pt-2"><input type="checkbox" id="gradientToggle" class="h-4 w-4 rounded"><label for="gradientToggle" class="text-sm font-medium text-gray-700">Usar Gradiente</label></div>
                             <div id="gradientOptions" class="hidden col-span-2 grid grid-cols-2 gap-4"><div><label for="gradientColor1" class="block text-sm font-medium">Color 1</label><input type="color" id="gradientColor1" value="#ff0000" class="w-full h-10 p-1 border rounded-lg"></div><div><label for="gradientColor2" class="block text-sm font-medium">Color 2</label><input type="color" id="gradientColor2" value="#0000ff" class="w-full h-10 p-1 border rounded-lg"></div></div>
+                            <div class="col-span-2 flex items-center gap-2 pt-2"><input type="checkbox" id="circularLogo" class="h-4 w-4 rounded"><label for="circularLogo" class="text-sm font-medium text-gray-700">logo</label></div>
                         </div>
                     </div>
                 </div>
@@ -129,7 +130,7 @@
             const backgroundColorInput = document.getElementById('backgroundColor');
             const dotsStyleSelect = document.getElementById('dotsStyle');
             const cornersStyleSelect = document.getElementById('cornersStyle');
-            
+            const circularLogoCheckbox = document.getElementById('circularLogo');
             const gradientToggle = document.getElementById('gradientToggle');
             const gradientOptions = document.getElementById('gradientOptions');
             const gradientColor1 = document.getElementById('gradientColor1');
@@ -230,7 +231,25 @@
             
             const processImageToCircle = (imageUrl) => new Promise(async(r,j)=>{try{const e=await fetch(imageUrl,{cache:"no-cache"});if(!e.ok)throw new Error("La respuesta de la red no fue correcta.");const t=await e.blob(),o=URL.createObjectURL(t),a=new Image;a.onload=()=>{const e=document.createElement("canvas"),n=e.getContext("2d"),i=Math.min(a.width,a.height);e.width=i,e.height=i,n.beginPath(),n.arc(i/2,i/2,i/2,0,2*Math.PI,!0),n.closePath(),n.clip();const d=i/Math.min(a.width,a.height),s=e.width/2-a.width/2*d,c=e.height/2-a.height/2*d;n.drawImage(a,s,c,a.width*d,a.height*d),URL.revokeObjectURL(o),r(e.toDataURL("image/png"))},a.onerror=()=>{URL.revokeObjectURL(o),j(new Error("No se pudo cargar la imagen desde el blob."))},a.src=o}catch(l){j(l)}});
 
-            
+            const handleLogoChange = async () => {
+                errorMessage.textContent = '';
+                if (!originalLogoSource) {
+                    processedLogoUrl = null;
+                } else if (circularLogoCheckbox.checked) {
+                    try {
+                        logoFileName.textContent = 'Procesando...';
+                        processedLogoUrl = await processImageToCircle(originalLogoSource);
+                        logoFileName.textContent = logoUploadInput.files[0]?.name || 'Logo desde URL cargado.';
+                    } catch (error) {
+                        errorMessage.textContent = 'Error al procesar. Se usará la imagen original.';
+                        processedLogoUrl = originalLogoSource;
+                    }
+                } else {
+                    processedLogoUrl = originalLogoSource;
+                }
+                renderQRCodePreview(); 
+                updateButtonsState();
+            };
 
             dataTypeButtons.forEach(button => {
                 button.addEventListener('click', () => {
@@ -262,7 +281,7 @@
                 handleLogoChange();
             });
             
-           
+            circularLogoCheckbox.addEventListener('change', handleLogoChange);
 
             gradientToggle.addEventListener('change', () => {
                 const isChecked = gradientToggle.checked;
